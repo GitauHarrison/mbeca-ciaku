@@ -1,0 +1,3 @@
+# See Your Money
+
+Good financial habits are the foundation of a successful life. But what is a good financial habit? It's a question of personal preference, not a set of rules. However, a lot of successful people recommend that you do a few things every day as far as money goes. The thing is, being alive EXPENSIVE. Expensive is the right word. It comes from the term EXPENSE. As long as you are alive, you are going to be spending money. So let us start there, with the expense of living.
