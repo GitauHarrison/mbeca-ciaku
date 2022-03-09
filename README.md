@@ -5,18 +5,18 @@ Beca (pronounced as 'besha') means "money" and Ciaku (pronounced as 'shiaku') me
 ![Beca Ciaku](/app/static/images/beca_ciaku.gif)
 
 ## Table of Contents
-[1. Overview](#overview)
-[2. Budget](#budget)
-[3. Expenses](#expenses)
-[4. Income](#income)
-[5. Assets](#assests)
-[6. Liabilities](#liabilities)
-[7. Income Statement](#income-statement)
-[8. Features](#features)
-[9. Tools Used](#tools-used)
-[10. Deployed Application](#deployed-application)
-[11. Contributors](#contributors)
-[12. Testing The App Locally](#testing-the-application-locally)
+- [Overview](#overview)
+- [Budget](#budget)
+- [Expenses](#expenses)
+- [Income](#income)
+- [Assets](#assests)
+- [Liabilities](#liabilities)
+- [Income Statement](#income-statement)
+- [Features](#features)
+- [Tools Used](#tools-used)
+- [Deployed Application](#deployed-application)
+- [Contributors](#contributors)
+- [Testing The App Locally](#testing-the-application-locally)
 
 ## Overview
 
