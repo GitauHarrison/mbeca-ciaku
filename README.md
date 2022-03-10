@@ -44,7 +44,7 @@ Your income can come from multiple sources, say salary from your day-time job, b
 
 ## Assets
 
-An asset is something that puts money in your pocket, passively. You don't have to be actively involved in generating that income. It definitely takes time to build an asset. Time, being of essense here, plays a key role in helping you put money that extra coin in your pocket. It is strongly advised that you learn how to create an asset as fast as you can. When you do, the assets column in your income statement should be alive with options and bright green in color.
+An asset is something that puts money in your pocket, passively. You don't have to be actively involved in generating that income. It definitely takes time to build an asset. Time, being of essense here, plays a key role in helping you put that extra coin in your pocket. It is strongly advised that you learn how to create an asset as fast as you can. When you do, the assets column in your income statement should be alive with options and bright green in color.
 
 Examples of assets can be dividends from your SACCO and bank savings, stock investments or even a business you run. All these income sources need to be recorded as your assets, preferably on a monthly basis, once you have them.
 
