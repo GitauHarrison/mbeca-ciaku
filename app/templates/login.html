@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_context%}
+    <div class="row">
+        <h1 class="text-center">Login</h1>
+        <div class="col-md-4"><!-- Empty column --></div>
+        <div class="col-md-4">
+            {{ wtf.quick_form(form) }}
+            <p>
+                New here? <a href="{{ url_for('register') }}">Register now</a>.
+            </p>
+        </div>
+        <div class="col-md-4"><!-- Empty column --></div>
+    </div>
+
+{% endblock %}
