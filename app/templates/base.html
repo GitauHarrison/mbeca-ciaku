@@ -40,6 +40,18 @@
 <!-- Contents of all our pages will go here -->
 {% block content %}
     <div class="container">
+
+        <!-- Flash message -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <!-- End of flash message -->
         {% block app_context %}{% endblock %}
     </div>
 {% endblock %}
