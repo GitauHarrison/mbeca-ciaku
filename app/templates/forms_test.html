@@ -23,9 +23,8 @@
             <div id="budget" class="tab-pane fade in active">
                 <div class="row">
                     <div class="col-sm-3">
-                        <div class="text-center">
-                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addBudgetItem">Add Budget Item</button>
-                        </div>
+                        <h3>Budget Items</h3>
+                        {{ wtf.quick_form(budget_form) }}
                         <hr>
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -44,28 +43,10 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Add Budget Item Modal -->
-                    <div class="modal fade" id="addBudgetItem" tabindex="-1" role="dialog" aria-labelledby="addBudgetItemLabel">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="addBudgetItemLabel">Add Budget Item</h4>
-                                </div>
-                                <div class="modal-body">
-                                    {{ wtf.quick_form(budget_form) }}
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 
                     <div class="col-sm-3">
-                        <div class="text-center">
-                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addSalarySource">Add Income Source</button>
-                        </div>
+                        <h3>Income Sources</h3>
+                        {{ wtf.quick_form(income_form) }}
                         <hr>
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -83,29 +64,12 @@
                                 </ul>
                             </div>
                         </div>
-
-                        <!-- Add Income Source Modal -->
-                        <div class="modal fade" id="addSalarySource" tabindex="-1" role="dialog" aria-labelledby="addSalarySourceLabel">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="addSalarySourceLabel">Add Income Source</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        {{ wtf.quick_form(income_form) }}
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
+
+                        
                     <div class="col-sm-3">
-                        <div class="text-center">
-                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addAssetItem">Add Asset Item</button>
-                        </div>
+                        <h3>Asset Items</h3>
+                        {{ wtf.quick_form(asset_form) }}
                         <hr>
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -123,29 +87,11 @@
                                 </ul>
                             </div>
                         </div>
-
-                        <!-- Add Asset Item Modal -->
-                        <div class="modal fade" id="addAssetItem" tabindex="-1" role="dialog" aria-labelledby="addAssetItemLabel">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="addAssetItemLabel">Add Asset Item</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        {{ wtf.quick_form(asset_form) }}
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
+
                     <div class="col-sm-3">
-                        <div class="text-center">
-                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addLiabilityItem">Add Liability Item</button>
-                        </div>
+                        <h3>Liability Items</h3>
+                        {{ wtf.quick_form(liability_form) }}
                         <hr>
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -164,23 +110,6 @@
                             </div>
                         </div>
 
-                        <!-- Add Liability Item Modal -->
-                        <div class="modal fade" id="addLiabilityItem" tabindex="-1" role="dialog" aria-labelledby="addLiabilityItemLabel">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="addLiabilityItemLabel">Add Liability Item</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        {{ wtf.quick_form(liability_form) }}
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

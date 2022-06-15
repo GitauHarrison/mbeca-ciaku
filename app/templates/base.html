@@ -31,7 +31,9 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">            
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
-                    <li><a href="{{ url_for('update') }}">Update</a></li>    
+                    <li><a href="{{ url_for('update') }}">Update</a></li> 
+                    <li><a href="{{ url_for('update') }}">Update</a></li> 
+                    <li><a href="#">Need Help?</a></li>    
                     <li><a href="{{ url_for('logout') }}">Logout</a></li>
                 {% else %}
                     <li><a href=" {{ url_for('login') }} ">Login</a></li>
