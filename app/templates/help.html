@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block app_context %}
+<div class="row text-center">
+    <div class="col-md-12">
+        <h1>How To Use The App!</h1>
+    </div>  
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <h3>Monthly Budget</h3>
+        <ul>
+            <li>Press the button "Add Budget Item"</li>
+            <li>Enter the "date", "name" and "amount" of the budget item</li>
+            <li>It is recommended that you provide a very desciptive name in the "Name" field. Ex. Home rent, Tsavo rent</li>
+            <li>Press "Add" to update your budget list</li>
+            <li>You will see your budget displayed once the data is submitted</li>
+        </ul>        
+    </div>
+    <div class="col-md-6">
+        <img class="img-fluid" style="max-width: 100%; height:auto;" src="{{ url_for('static', filename='images/help_budget_tab.gif') }}" alt="Budget" class="img-responsive">
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-md-6">
+        <h3>Income</h3>
+        <ul>
+            <li>Press the button "Income" tab</li>
+            <li>Press the button "Add Amount of Income"</li>
+            <li>Enter the "date", "name" and "amount" of the source of income</li>
+            <li>It is recommended that you provide a very desciptive name in the "Name" field. Ex. MOH Salary, Safaricom Bonus</li>
+            <li>Provide a "description" to help explain the source of income</li>
+            <li>Press "Add" to update your expense list</li>
+            <li>You will see the details of your sources of income displayed once the data is submitted</li>
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <img class="img-fluid" style="max-width: 100%; height:auto;" src="{{ url_for('static', filename='images/help_expenses_tab.gif') }}" alt="Expense" class="img-responsive">
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-md-6">
+        <h3>Expense</h3>
+        <ul>
+            <li>Press the button "Expense" tab</li>
+            <li>Press the button "Add Expense"</li>
+            <li>Enter the "date", "name" and "amount" of the expense</li>
+            <li>It is recommended that you provide a very desciptive name in the "Name" field. Ex. Food, Rent, Transport</li>
+            <li>Provide a "description" to help explain the expense</li>
+            <li>Press "Add" to update your expense list</li>
+            <li>You will see the details of your expenses displayed once the data is submitted</li>
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <img class="img-fluid" style="max-width: 100%; height:auto;" src="{{ url_for('static', filename='images/help_income_tab.gif') }}" alt="Expense" class="img-responsive">
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-md-6">
+        <h3>Assets</h3>
+        <ul>
+            <li>Press the button "Assets" tab</li>
+            <li>Press the button "Add Asset"</li>
+            <li>Enter the "date", "name" and "amount" of the assets</li>
+            <li>It is recommended that you provide a very desciptive name in the "Name" field. Ex. Home rent, Tsavo rent</li>
+            <li>Press "Add" to update your assets list</li>
+            <li>You will see your assets displayed once the data is submitted</li>
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <img class="img-fluid" style="max-width: 100%; height:auto;" src="{{ url_for('static', filename='images/help_assets_tab.gif') }}" alt="Budget" class="img-responsive">
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-md-6">
+        <h3>Liabilities</h3>
+        <ul>
+            <li>Press the button "Liabilities" tab</li>
+            <li>Press the button "Add Liability"</li>
+            <li>Enter the "date", "name" and "amount" of the liability</li>
+            <li>It is recommended that you provide a very desciptive name in the "Name" field. Ex. Home rent, Tsavo rent</li>
+            <li>Press "Add" to update your liabilities list</li>
+            <li>You will see your liabilities displayed once the data is submitted</li>
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <img class="img-fluid" style="max-width: 100%; height:auto;" src="{{ url_for('static', filename='images/help_liabilities_tab.gif') }}" alt="Budget" class="img-responsive">
+    </div>
+{% endblock %}

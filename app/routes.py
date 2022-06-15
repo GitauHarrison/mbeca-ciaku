@@ -7,11 +7,27 @@ from app.models import User, BudgetItem, Expenses, \
 from flask_login import current_user, login_user, logout_user, login_required
 
 
+# The two functions below allow us to specify what forms
+# are to be submitted in a post request
+def validate_on_submit(self):
+    return self.is_submitted() and self.validate()
+
+
+def is_submitted(self):
+    return self.form.is_submitted()
+
+
 @app.route('/')
 @app.route('/index')
 @login_required
 def index():
     return render_template('index.html', title='Index')
+
+
+@app.route('/help')
+@login_required
+def help():
+    return render_template('help.html', title='Help')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -50,14 +66,6 @@ def logout():
     return redirect(url_for('login'))
 
 
-def validate_on_submit(self):
-    return self.is_submitted() and self.validate()
-
-
-def is_submitted(self):
-    return self.form.is_submitted()
-
-
 @app.route('/update', methods=['GET', 'POST'])
 @login_required
 def update():
@@ -74,7 +82,7 @@ def update():
         db.session.add(budget_item)
         db.session.commit()
         flash(budget_item.name + ' has been added to your budget items')
-        return redirect(url_for('update'))
+        return redirect(url_for('update', anchor='budget'))
     budget_items = user.budget_items.all()
 
     # Get all asset items for current user
@@ -88,7 +96,7 @@ def update():
         db.session.add(asset_item)
         db.session.commit()
         flash(asset_item.name + ' has been added to your assets')
-        return redirect(url_for('update'))
+        return redirect(url_for('update', anchor='assets'))
     assets = user.assets.all()
 
     # Get all liability items for current user
@@ -102,7 +110,7 @@ def update():
         db.session.add(liability_item)
         db.session.commit()
         flash(liability_item.name + ' has been added to your liabilities')
-        return redirect(url_for('update'))
+        return redirect(url_for('update', anchor='liabilities'))
     liabilities = user.liabilities.all()
 
     # Update current user's income
@@ -174,7 +182,7 @@ def actual_expense_delete(id):
     db.session.delete(actual_expense)
     db.session.commit()
     flash(actual_expense.name + ' has been deleted from your expenses')
-    return redirect(url_for('update', anchor='income'))
+    return redirect(url_for('update', anchor='expenses'))
 
 
 @app.route('/delete/asset-<int:id>')
@@ -201,4 +209,4 @@ def actual_income_delete(id):
     db.session.delete(actual_income)
     db.session.commit()
     flash(str(actual_income.amount) + ' has been deleted from actual income')
-    return redirect(url_for('update', anchor='actual-income'))
+    return redirect(url_for('update', anchor='income-sources'))
