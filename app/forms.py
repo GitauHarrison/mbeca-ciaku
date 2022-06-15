@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, \
+    SelectField, IntegerField, TextAreaField, DateField, DateTimeField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 
 
@@ -21,20 +22,52 @@ class LoginForm(FlaskForm):
 
 
 class BudgetItemForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()])
+    date = DateField('Date', format='%Y-%m-%d', validators=[DataRequired()])
+    name = StringField(
+        'Name',
+        validators=[DataRequired()],
+        render_kw={'placeholder': 'Ex. Food, Fare, etc.'})
+    amount = IntegerField('Amount', validators=[DataRequired()])
     budget = SubmitField('Add')
 
 
-class IncomeSourceForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()])
-    income = SubmitField('Add')
-
-
-class AssetItemForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()])
+class AssetForm(FlaskForm):
+    date = DateField('Date', format='%Y-%m-%d', validators=[DataRequired()])
+    name = StringField(
+        'Name',
+        validators=[DataRequired()],
+        render_kw={'placeholder': 'Ex. Salon, Suguta Apartments, etc.'})
+    amount = IntegerField('Amount', validators=[DataRequired()])
     asset = SubmitField('Add')
 
 
-class LiabilityItemForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()])
+class LiabilityForm(FlaskForm):
+    date = DateField('Date', format='%Y-%m-%d', validators=[DataRequired()])
+    name = StringField(
+        'Name',
+        validators=[DataRequired()],
+        render_kw={'placeholder': 'Ex. Credit Card, Toyota Rav4, etc.'})
+    amount = IntegerField('Amount', validators=[DataRequired()])
     liability = SubmitField('Add')
+
+
+class ActualIncomeForm(FlaskForm):
+    date = DateField('Date', validators=[DataRequired()])
+    name = StringField(
+        'Name',
+        validators=[DataRequired()],
+        render_kw={'placeholder': 'Ex. Safaricom Salary, Sacco dividends, etc.'})
+    amount = IntegerField('Amount', validators=[DataRequired()])
+    description = TextAreaField('Description', validators=[DataRequired()])
+    actual_income = SubmitField('Add')
+
+
+class ActualExpenseForm(FlaskForm):
+    date = DateField('Date', validators=[DataRequired()])
+    name = StringField(
+        'Name',
+        validators=[DataRequired()],
+        render_kw={'placeholder': 'Ex. Food, Fare, etc.'})
+    amount = IntegerField('Amount', validators=[DataRequired()])
+    description = TextAreaField('Description', validators=[DataRequired()])
+    actual_expense = SubmitField('Add')

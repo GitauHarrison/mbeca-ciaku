@@ -1,6 +1,7 @@
 from app import db, login
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from datetime import datetime
 
 
 @login.user_loader
@@ -16,12 +17,12 @@ class User(UserMixin, db.Model):
 
     budget_items = db.relationship(
         'BudgetItem', backref='user', lazy='dynamic')
-    income_sources = db.relationship(
-        'IncomeSource', backref='user', lazy='dynamic')
-    asset_items = db.relationship(
-        'AssetItem', backref='user', lazy='dynamic')
-    liability_item = db.relationship(
-        'LiabilityItem', backref='user', lazy='dynamic')
+    expenses = db.relationship(
+        'Expenses', backref='user', lazy='dynamic')
+    assets = db.relationship(
+        'Asset', backref='user', lazy='dynamic')
+    liabilities = db.relationship(
+        'Liability', backref='user', lazy='dynamic')
 
     def __repr__(self):
         return f'User: {self.username}'
@@ -35,35 +36,56 @@ class User(UserMixin, db.Model):
 
 class BudgetItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.String(64), index=True)
     name = db.Column(db.String(64), index=True, unique=True)
+    amount = db.Column(db.Integer, index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
         return f'BudgetItem: {self.name}'
 
 
-class IncomeSource(db.Model):
+class Expenses(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), index=True, unique=True)
+    name = db.Column(db.String(64), index=True)
+    date = db.Column(db.String(64), index=True)
+    amount = db.Column(db.Integer, index=True)
+    description = db.Column(db.String(64), index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return f'IncomeSource: {self.name}'
+        return f'ActualIncome: {self.name}: {self.amount}'
 
 
-class AssetItem(db.Model):
+class Asset(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.String(64), index=True)
     name = db.Column(db.String(64), index=True, unique=True)
+    amount = db.Column(db.Integer, index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return f'AssetItem: {self.name}'
+        return f'Asset: {self.name}'
 
 
-class LiabilityItem(db.Model):
+class Liability(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.String(64), index=True)
     name = db.Column(db.String(64), index=True, unique=True)
+    amount = db.Column(db.Integer, index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return f'LiabilityItem: {self.name}'
+        return f'Liability: {self.name}'
+
+
+class ActualIncome(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), index=True)
+    date = db.Column(db.String(64), index=True)
+    amount = db.Column(db.Integer, index=True)
+    description = db.Column(db.String(64), index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __repr__(self):
+        return f'ActualIncome: {self.name}: {self.amount}'

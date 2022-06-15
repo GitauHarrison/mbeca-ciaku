@@ -1,9 +1,9 @@
 from app import app, db
 from flask import render_template, flash, redirect, url_for
 from app.forms import LoginForm, RegistrationForm, BudgetItemForm, \
-    IncomeSourceForm, AssetItemForm, LiabilityItemForm
-from app.models import User, BudgetItem, IncomeSource, \
-    AssetItem, LiabilityItem
+    AssetForm, LiabilityForm, ActualIncomeForm, ActualExpenseForm
+from app.models import User, BudgetItem, Expenses, \
+    Asset, Liability, ActualIncome
 from flask_login import current_user, login_user, logout_user, login_required
 
 
@@ -38,7 +38,7 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('Congratulations, you are now a registered user!'
+        flash('Congratulations, you are now a registered user! '
               'Login to continue')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
@@ -61,60 +61,102 @@ def is_submitted(self):
 @app.route('/update', methods=['GET', 'POST'])
 @login_required
 def update():
+    user = User.query.filter_by(username=current_user.username).first()
+
     # Get all budget items for current user
     budget_form = BudgetItemForm()
     if budget_form.validate_on_submit() and budget_form.budget.data:
         budget_item = BudgetItem(
-            name=budget_form.name.data, user_id=current_user.id)
+            date=budget_form.date.data,
+            name=budget_form.name.data,
+            amount=budget_form.amount.data,
+            user_id=current_user.id)
         db.session.add(budget_item)
         db.session.commit()
         flash(budget_item.name + ' has been added to your budget items')
-        return redirect(url_for('update', anchor='budget'))
-    budget_items = BudgetItem.query.filter_by(user_id=current_user.id)
-
-    # Get all income sources for current user
-    income_form = IncomeSourceForm()
-    if income_form.validate_on_submit() and income_form.income.data:
-        income_source = IncomeSource(
-            name=income_form.name.data, user_id=current_user.id)
-        db.session.add(income_source)
-        db.session.commit()
-        flash(income_source.name + ' has been added to your income sources')
-        return redirect(url_for('update', anchor='budget'))
-    income_sources = IncomeSource.query.filter_by(user_id=current_user.id)
+        return redirect(url_for('update'))
+    budget_items = user.budget_items.all()
 
     # Get all asset items for current user
-    asset_form = AssetItemForm()
+    asset_form = AssetForm()
     if asset_form.validate_on_submit() and asset_form.asset.data:
-        asset_item = AssetItem(
-            name=asset_form.name.data, user_id=current_user.id)
+        asset_item = Asset(
+            date=asset_form.date.data,
+            name=asset_form.name.data,
+            amount=asset_form.amount.data,
+            user_id=current_user.id)
         db.session.add(asset_item)
         db.session.commit()
-        flash(asset_item.name + ' has been added to your asset items')
-        return redirect(url_for('update', anchor='assets'))
-    asset_items = AssetItem.query.filter_by(user_id=current_user.id)
+        flash(asset_item.name + ' has been added to your assets')
+        return redirect(url_for('update'))
+    assets = user.assets.all()
 
     # Get all liability items for current user
-    liability_form = LiabilityItemForm()
+    liability_form = LiabilityForm()
     if liability_form.validate_on_submit() and liability_form.liability.data:
-        liability_item = LiabilityItem(
-            name=liability_form.name.data, user_id=current_user.id)
+        liability_item = Liability(
+            date=liability_form.date.data,
+            name=liability_form.name.data,
+            amount=liability_form.amount.data,
+            user_id=current_user.id)
         db.session.add(liability_item)
         db.session.commit()
-        flash(liability_item.name + ' has been added to your liability items')
-        return redirect(url_for('update', anchor='liabilities'))
-    liability_items = LiabilityItem.query.filter_by(user_id=current_user.id)
+        flash(liability_item.name + ' has been added to your liabilities')
+        return redirect(url_for('update'))
+    liabilities = user.liabilities.all()
+
+    # Update current user's income
+    actual_income_form = ActualIncomeForm()
+    if actual_income_form.validate_on_submit() \
+            and actual_income_form.actual_income.data:
+        actual_income = ActualIncome(
+            name=actual_income_form.name.data,
+            date=actual_income_form.date.data,
+            amount=actual_income_form.amount.data,
+            description=actual_income_form.description.data,
+            user_id=current_user.id)
+        db.session.add(actual_income)
+        db.session.commit()
+        flash(str(actual_income.amount) + ' has been added to your income')
+        return redirect(url_for('update', anchor='income-sources'))
+    actual_incomes = ActualIncome.query.filter_by(
+        user_id=current_user.id).all()
+    date = [actual_income.date.split('-') for actual_income in actual_incomes]
+    print(date)
+    year = [int(date[i][0]) for i in range(len(date))]
+    month = [int(date[i][1]) for i in range(len(date))]
+    day = [int(date[i][2]) for i in range(len(date))]
+    print('Year:month:day', year, month, day)
+
+    # Update current user's expenses
+    expense_form = ActualExpenseForm()  # same income form
+    if expense_form.validate_on_submit() \
+            and expense_form.actual_expense.data:
+        actual_expense = Expenses(
+            name=expense_form.name.data,
+            date=expense_form.date.data,
+            amount=expense_form.amount.data,
+            description=expense_form.description.data,
+            user_id=current_user.id)
+        db.session.add(actual_expense)
+        db.session.commit()
+        flash(str(actual_expense.amount) + ' has been added to your expenses')
+        return redirect(url_for('update', anchor='expenses'))
+    actual_expenses = user.expenses.all()
+
     return render_template(
             'update.html',
-            title='Update',
+            title='Update Items',
             budget_form=budget_form,
             budget_items=budget_items,
-            income_form=income_form,
-            income_sources=income_sources,
+            expense_form=expense_form,
+            actual_expenses=actual_expenses,
             asset_form=asset_form,
-            asset_items=asset_items,
+            assets=assets,
             liability_form=liability_form,
-            liability_items=liability_items)
+            liabilities=liabilities,
+            actual_income_form=actual_income_form,
+            actual_incomes=actual_incomes,)
 
 
 @app.route('/delete/budget-item-<int:id>')
@@ -127,27 +169,36 @@ def budget_item_delete(id):
 
 
 @app.route('/delete/income-source-<int:id>')
-def income_source_delete(id):
-    income_source = IncomeSource.query.get_or_404(id)
-    db.session.delete(income_source)
+def actual_expense_delete(id):
+    actual_expense = Expenses.query.get_or_404(id)
+    db.session.delete(actual_expense)
     db.session.commit()
-    flash(income_source.name + ' has been deleted from income sources')
+    flash(actual_expense.name + ' has been deleted from your expenses')
     return redirect(url_for('update', anchor='income'))
 
 
-@app.route('/delete/asset-item-<int:id>')
-def asset_item_delete(id):
-    asset_item = AssetItem.query.get_or_404(id)
-    db.session.delete(asset_item)
+@app.route('/delete/asset-<int:id>')
+def asset_delete(id):
+    asset = Asset.query.get_or_404(id)
+    db.session.delete(asset)
     db.session.commit()
-    flash(asset_item.name + ' has been deleted from asset items')
+    flash(asset.name + ' has been deleted from asset items')
     return redirect(url_for('update', anchor='assets'))
 
 
-@app.route('/delete/liability-item-<int:id>')
-def liability_item_delete(id):
-    liability_item = LiabilityItem.query.get_or_404(id)
-    db.session.delete(liability_item)
+@app.route('/delete/liability-<int:id>')
+def liability_delete(id):
+    liability = Liability.query.get_or_404(id)
+    db.session.delete(liability)
     db.session.commit()
-    flash(liability_item.name + ' has been deleted from liability items')
+    flash(liability.name + ' has been deleted from liability items')
     return redirect(url_for('update', anchor='liabilities'))
+
+
+@app.route('/delete/actual-income-<int:id>')
+def actual_income_delete(id):
+    actual_income = ActualIncome.query.get_or_404(id)
+    db.session.delete(actual_income)
+    db.session.commit()
+    flash(str(actual_income.amount) + ' has been deleted from actual income')
+    return redirect(url_for('update', anchor='actual-income'))

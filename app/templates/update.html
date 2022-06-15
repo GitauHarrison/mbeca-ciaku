@@ -11,7 +11,7 @@
     <div class="col-md-12">
         <ul class="nav nav-tabs nav-justified">
             <li class="active"><a data-toggle="tab" href="#budget">Budget Items</a></li>
-            <li><a data-toggle="tab" href="#income">Income</a></li>
+            <li><a data-toggle="tab" href="#income-sources">Income</a></li>
             <li><a data-toggle="tab" href="#expenses">Expenses</a></li>
             <li><a data-toggle="tab" href="#assets">Assests</a></li>
             <li><a data-toggle="tab" href="#liabilities">Liabilities</a></li>
@@ -22,158 +22,55 @@
             <br>
             <div id="budget" class="tab-pane fade in active">
                 <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-sm-12">
                         <div class="text-center">
                             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addBudgetItem">Add Budget Item</button>
                         </div>
                         <hr>
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Budget Items</h3>
+                                <h3 class="panel-title">Your Monthly Budget</h3>
                             </div>
                             <div class="panel-body">
                                 <ul class="list-group">
-                                    {% for budget_item in budget_items %}
-                                        <li style="margin-left: 20px;">
-                                            {{ budget_item.name }} | 
-                                            <a href="{{ url_for('budget_item_delete', id=budget_item.id) }}">Delete</a>
-                                            <hr>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Add Budget Item Modal -->
-                    <div class="modal fade" id="addBudgetItem" tabindex="-1" role="dialog" aria-labelledby="addBudgetItemLabel">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="addBudgetItemLabel">Add Budget Item</h4>
-                                </div>
-                                <div class="modal-body">
-                                    {{ wtf.quick_form(budget_form) }}
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="col-sm-3">
-                        <div class="text-center">
-                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addSalarySource">Add Income Source</button>
-                        </div>
-                        <hr>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Income Sources</h3>
-                            </div>
-                            <div class="panel-body">
-                                <ul class="list-group">
-                                    {% for income_source in income_sources %}
-                                        <li style="margin-left: 20px;">
-                                            {{ income_source.name }} | 
-                                            <a href="{{ url_for('income_source_delete', id=income_source.id) }}">Delete</a>
-                                            <hr>
-                                        </li>
-                                    {% endfor %}
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Budget Item</th>
+                                                        <th>Amount</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for budget_item in budget_items %}
+                                                        <tr>
+                                                            <td>{{ budget_item.name }}</td>
+                                                            <td>{{ budget_item.amount }}</td>
+                                                            <td>
+                                                                <a href="{{ url_for('budget_item_delete', id=budget_item.id) }}" class="btn btn-danger btn-xs">Delete</a>
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </ul>
                             </div>
                         </div>
 
-                        <!-- Add Income Source Modal -->
-                        <div class="modal fade" id="addSalarySource" tabindex="-1" role="dialog" aria-labelledby="addSalarySourceLabel">
+                        <!-- Add Budget Item Modal -->
+                        <div class="modal fade" id="addBudgetItem" tabindex="-1" role="dialog" aria-labelledby="addBudgetItemLabel">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="addSalarySourceLabel">Add Income Source</h4>
+                                        <h4 class="modal-title" id="addBudgetItemLabel">Add Budget Item</h4>
                                     </div>
                                     <div class="modal-body">
-                                        {{ wtf.quick_form(income_form) }}
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="text-center">
-                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addAssetItem">Add Asset Item</button>
-                        </div>
-                        <hr>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Asset Items</h3>
-                            </div>
-                            <div class="panel-body">
-                                <ul class="list-group">
-                                    {% for asset_item in asset_items %}
-                                        <li style="margin-left: 20px;">
-                                            {{ asset_item.name }} | 
-                                            <a href="{{ url_for('asset_item_delete', id=asset_item.id) }}">Delete</a>
-                                            <hr>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- Add Asset Item Modal -->
-                        <div class="modal fade" id="addAssetItem" tabindex="-1" role="dialog" aria-labelledby="addAssetItemLabel">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="addAssetItemLabel">Add Asset Item</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        {{ wtf.quick_form(asset_form) }}
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="text-center">
-                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addLiabilityItem">Add Liability Item</button>
-                        </div>
-                        <hr>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Liability Items</h3>
-                            </div>
-                            <div class="panel-body">
-                                <ul class="list-group">
-                                    {% for liability_item in liability_items %}
-                                        <li style="margin-left: 20px;">
-                                            {{ liability_item.name }} | 
-                                            <a href="{{ url_for('liability_item_delete', id=liability_item.id) }}">Delete</a>
-                                            <hr>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- Add Liability Item Modal -->
-                        <div class="modal fade" id="addLiabilityItem" tabindex="-1" role="dialog" aria-labelledby="addLiabilityItemLabel">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="addLiabilityItemLabel">Add Liability Item</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        {{ wtf.quick_form(liability_form) }}
+                                        {{ wtf.quick_form(budget_form) }}
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -187,30 +84,254 @@
             <!-- END OF BUDGET AND EXPENSES TAB -->
 
             <!-- INCOME TAB -->
-            <div id="income" class="tab-pane fade">
-                <h2>Income</h2>
-                <div class="row"></div>
+            <div id="income-sources" class="tab-pane fade">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addIncomeSource">Add Amount of Income</button>
+                        </div>
+                        <hr>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Income Sources</h3>
+                            </div>
+                            <div class="panel-body">
+                                <ul class="list-group">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Item</th>
+                                                <th>Date</th>
+                                                <th>Amount</th>
+                                                <th>Description</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for actual_income in actual_incomes %}
+                                                <tr>
+                                                    <td>{{ actual_income.name }}</td>
+                                                    <td>{{ actual_income.date }}</td>
+                                                    <td>{{ actual_income.amount }}</td>
+                                                    <td>{{ actual_income.description }}</td>
+                                                    <td>
+                                                        <a class="label label-danger" href="{{ url_for('actual_income_delete', id=actual_income.id) }}">Delete</a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Add Income Source Modal -->
+                        <div class="modal fade" id="addIncomeSource" tabindex="-1" role="dialog" aria-labelledby="addIncomeSourceLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="addIncomeSourceLabel">Add Amount of Income</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        {{ wtf.quick_form(actual_income_form) }}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- END OF INCOME TAB -->
 
             <!-- EXPENSES TAB -->
             <div id="expenses" class="tab-pane fade">
-                <h2>Expenses</h2>
-                <div class="row"></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addExpense">Add Expense</button>
+                        </div>
+                        <hr>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Expenses</h3>
+                            </div>
+                            <div class="panel-body">
+                                <ul class="list-group">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Item</th>
+                                                <th>Date</th>
+                                                <th>Amount</th>
+                                                <th>Description</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for actual_expense in actual_expenses %}
+                                                <tr>
+                                                    <td>{{ actual_expense.name }}</td>
+                                                    <td>{{ actual_expense.date }}</td>
+                                                    <td>{{ actual_expense.amount }}</td>
+                                                    <td>{{ actual_expense.description }}</td>
+                                                    <td>
+                                                        <a class="label label-danger" href="{{ url_for('actual_expense_delete', id=actual_expense.id) }}">Delete</a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Add Expense Modal -->
+                        <div class="modal fade" id="addExpense" tabindex="-1" role="dialog" aria-labelledby="addExpenseLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="addExpenseLabel">Add Expense</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        {{ wtf.quick_form(expense_form) }}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- END OF EXPENSES TAB -->
 
             <!-- ASSETS TAB -->
             <div id="assets" class="tab-pane fade">
-                <h2>Assets</h2>
-                <div class="row"></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addAsset">Add Asset</button>
+                        </div>
+                        <hr>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Assets</h3>
+                            </div>
+                            <div class="panel-body">
+                                <ul class="list-group">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Item</th>
+                                                <th>Date</th>
+                                                <th>Amount</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for actual_asset in assets %}
+                                                <tr>
+                                                    <td>{{ actual_asset.name }}</td>
+                                                    <td>{{ actual_asset.date }}</td>
+                                                    <td>{{ actual_asset.amount }}</td>
+                                                    <td>
+                                                        <a class="label label-danger" href="{{ url_for('asset_delete', id=actual_asset.id) }}">Delete</a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Add Asset Modal -->
+                        <div class="modal fade" id="addAsset" tabindex="-1" role="dialog" aria-labelledby="addAssetLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="addAssetLabel">Add Asset</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        {{ wtf.quick_form(asset_form) }}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- END OF ASSETS TAB -->
 
             <!-- LIABILITIES TAB -->
-            <div id="liabilites" class="tab-pane fade">
-                <h2>Liabilites</h2>
-                <div class="row"></div>
+            <div id="liabilities" class="tab-pane fade">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addLiability">Add Liability</button>
+                        </div>
+                        <hr>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Liabilities</h3>
+                            </div>
+                            <div class="panel-body">
+                                <ul class="list-group">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Item</th>
+                                                <th>Date</th>
+                                                <th>Amount</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for actual_liability in liabilities %}
+                                                <tr>
+                                                    <td>{{ actual_liability.name }}</td>
+                                                    <td>{{ actual_liability.date }}</td>
+                                                    <td>{{ actual_liability.amount }}</td>
+                                                    <td>
+                                                        <a class="label label-danger" href="{{ url_for('liability_delete', id=actual_liability.id) }}">Delete</a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Add Liability Modal -->
+                        <div class="modal fade" id="addLiability" tabindex="-1" role="dialog" aria-labelledby="addLiabilityLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="addLiabilityLabel">Add Liability</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        {{ wtf.quick_form(liability_form) }}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- END OF LIABILITIES TAB -->
         </div>
