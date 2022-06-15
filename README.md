@@ -1,6 +1,6 @@
-# Beca Ciaku
+# Mbeca Ciaku
 
-Beca (pronounced as 'besha') means "money" and Ciaku (pronounced as 'shiaku') means "mine" in Kikuyu, one of the venacular languages in Kenya. Put together, you get "My money". This project is aimed at helping a user to visualize his money.
+Mbeca (pronounced as 'besha') means "money" and Ciaku (pronounced as 'shiaku') means "mine" in Kikuyu, one of the venacular languages in Kenya. Put together, you get "My money". This project is aimed at helping a user to visualize his money.
 
 ![Beca Ciaku](/app/static/images/beca_ciaku.gif)
 
@@ -20,7 +20,7 @@ Beca (pronounced as 'besha') means "money" and Ciaku (pronounced as 'shiaku') me
 
 ## Overview
 
-Good financial habits are the foundation of a successful life. But what is a good financial habit? It's a question of personal preference, not a set of rules. However, a lot of successful people recommend that you do a few things every day as far as money goes. The thing is, being alive is EXPENSIVE. Expensive is the right word here. It comes from the term EXPENSE. As long as you are alive, you are going to be spending something, mostly money. So let us start there, with the expense of living.
+Good financial habits are the foundation of a successful life. But what is a good financial habit? It's a question of personal preference, not a set of rules. However, a lot of successful people recommend that you do a few things every day as far as money goes. The thing is, being alive is EXPENSIVE. Expensive is the mighty word here. It comes from the term EXPENSE. As long as you are alive, you are going to be spending something, mostly money. So let us start there, with the expense of living.
 
 ## Budget
 
