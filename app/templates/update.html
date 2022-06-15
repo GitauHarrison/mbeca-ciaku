@@ -33,30 +33,28 @@
                             </div>
                             <div class="panel-body">
                                 <ul class="list-group">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <table class="table table-striped">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Budget Item</th>
-                                                        <th>Amount</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {% for budget_item in budget_items %}
-                                                        <tr>
-                                                            <td>{{ budget_item.name }}</td>
-                                                            <td>{{ budget_item.amount }}</td>
-                                                            <td>
-                                                                <a href="{{ url_for('budget_item_delete', id=budget_item.id) }}" class="btn btn-danger btn-xs">Delete</a>
-                                                            </td>
-                                                        </tr>
-                                                    {% endfor %}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Budget Item</th>
+                                                <th>Date</th>
+                                                <th>Amount</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for budget_item in budget_items %}
+                                                <tr>
+                                                    <td>{{ budget_item.name }}</td>
+                                                    <td>{{ budget_item.date }}</td>
+                                                    <td>{{ budget_item.amount }}</td>
+                                                    <td>
+                                                        <a href="{{ url_for('budget_item_delete', id=budget_item.id) }}" class="btn btn-danger btn-xs">Delete</a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
                                 </ul>
                             </div>
                         </div>

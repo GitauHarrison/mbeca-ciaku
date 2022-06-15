@@ -23,6 +23,8 @@ class User(UserMixin, db.Model):
         'Asset', backref='user', lazy='dynamic')
     liabilities = db.relationship(
         'Liability', backref='user', lazy='dynamic')
+    actual_incomes = db.relationship(
+        'ActualIncome', backref='user', lazy='dynamic')
 
     def __repr__(self):
         return f'User: {self.username}'

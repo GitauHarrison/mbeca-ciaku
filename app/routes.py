@@ -127,8 +127,7 @@ def update():
         db.session.commit()
         flash(str(actual_income.amount) + ' has been added to your income')
         return redirect(url_for('update', anchor='income-sources'))
-    actual_incomes = ActualIncome.query.filter_by(
-        user_id=current_user.id).all()
+    actual_incomes = user.actual_incomes.all()
     date = [actual_income.date.split('-') for actual_income in actual_incomes]
     print(date)
     year = [int(date[i][0]) for i in range(len(date))]
