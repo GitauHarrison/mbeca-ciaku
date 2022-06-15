@@ -1,3 +1,4 @@
+from crypt import methods
 from app import app, db
 from flask import render_template, flash, redirect, url_for
 from app.forms import LoginForm, RegistrationForm
@@ -46,3 +47,8 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+
+@app.route('/update', methods=['GET', 'POST'])
+def update():
+    return render_template('update.html', title='Update')
