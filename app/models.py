@@ -39,12 +39,12 @@ class User(UserMixin, db.Model):
 class BudgetItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.String(64), index=True)
-    name = db.Column(db.String(64), index=True, unique=True)
+    name = db.Column(db.String(64), index=True)
     amount = db.Column(db.Integer, index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return f'BudgetItem: {self.name}'
+        return f'BudgetItem: {self.name}, {self.amount}, {self.date}'
 
 
 class Expenses(db.Model):
@@ -62,7 +62,7 @@ class Expenses(db.Model):
 class Asset(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.String(64), index=True)
-    name = db.Column(db.String(64), index=True, unique=True)
+    name = db.Column(db.String(64), index=True)
     amount = db.Column(db.Integer, index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
@@ -73,7 +73,7 @@ class Asset(db.Model):
 class Liability(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.String(64), index=True)
-    name = db.Column(db.String(64), index=True, unique=True)
+    name = db.Column(db.String(64), index=True)
     amount = db.Column(db.Integer, index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
