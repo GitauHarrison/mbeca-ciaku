@@ -66,5 +66,7 @@
 {% block scripts %}
     {{  super() }}
     {{ moment.include_moment() }}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {% block app_scripts %}{% endblock %}
     
 {% endblock %}

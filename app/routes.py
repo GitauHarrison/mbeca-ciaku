@@ -17,6 +17,51 @@ def is_submitted(self):
     return self.form.is_submitted()
 
 
+def budget_data():
+    user = User.query.filter_by(username=current_user.username).first()
+    budget = user.budget_items.all()
+
+    # Get individual items from the budget
+    budget_item = [item.name for item in budget]
+    amount = [item.amount for item in budget]
+    budget_date = [item.date for item in budget]
+
+    # Get months from the budget dates
+    date = [budget_date.date.split('-') for budget_date in budget]
+
+    # Get month number from date
+    month = [int(date[i][1]) for i in range(len(date))]
+    # Replace month numbers with names
+    month_names = ['January', 'February', 'March', 'April', 'May', 'June',
+                     'July', 'August', 'September', 'October', 'November', 'December']
+    month_names_in_budget = [month_names[int(month[i]) - 1] for i in range(len(month))]
+
+    # Create lists needed by ChartJS:
+    # month_names: month in list should not be repeated
+    # budget_item: list of budget items in database
+    # budget_amount: list of amounts for each budget item
+
+    new_month = [] # number of month in list, not repeated
+    new_month_name = [] # month name in list, not repeated
+    budget_amount = [] # amount of each budget item
+
+    for i in range(len(month)):
+        # find if month in list
+        if month[i] in new_month:
+            # if month in list, find index of month
+            index = new_month.index(month[i])
+            # add amount to index
+            budget_amount[index] += amount[i]
+        else:
+            # if month not in list, add month to list
+            new_month.append(month[i])
+            # add amount to list
+            budget_amount.append(amount[i])
+            # find month name
+            new_month_name.append(month_names[month[i] - 1])
+
+    return new_month_name, budget_item, budget_amount
+
 @app.route('/')
 @app.route('/index')
 @login_required
@@ -85,6 +130,15 @@ def update():
         return redirect(url_for('update', anchor='budget'))
     budget_items = user.budget_items.all()
 
+    # Get current user's budget
+    months = budget_data()[0]
+    all_budget_items = budget_data()[1]
+    budget_amount = budget_data()[2]
+
+    # Get item number
+    item_number = [i for i in range(len(all_budget_items))]
+    print(item_number)
+
     # Get all asset items for current user
     asset_form = AssetForm()
     if asset_form.validate_on_submit() and asset_form.asset.data:
@@ -129,7 +183,7 @@ def update():
         return redirect(url_for('update', anchor='income-sources'))
     actual_incomes = user.actual_incomes.all()
     date = [actual_income.date.split('-') for actual_income in actual_incomes]
-    print(date)
+    #print(date)
     year = [int(date[i][0]) for i in range(len(date))]
     month = [int(date[i][1]) for i in range(len(date))]
     day = [int(date[i][2]) for i in range(len(date))]
@@ -163,7 +217,13 @@ def update():
             liability_form=liability_form,
             liabilities=liabilities,
             actual_income_form=actual_income_form,
-            actual_incomes=actual_incomes,)
+            actual_incomes=actual_incomes,
+
+            # Budget data
+            months=months,
+            all_budget_items=all_budget_items,
+            budget_amount=budget_amount,
+            )
 
 
 @app.route('/delete/budget-item-<int:id>')
