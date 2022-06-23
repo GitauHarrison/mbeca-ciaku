@@ -377,17 +377,13 @@
         type: 'line',
         data: {
             labels: [{% for month in months %}"{{ month }}",{% endfor %}],
-            datasets: [
-               
-                    {
-                        label: "Rent",
-                        data: [{% for amount in budge_amount %}{{ amount }},{% endfor %}],
-                        backgroundColor: ['rgba(255, 99, 132, 0.2)'],
-                        borderColor: ['rgba(255,99,132,1)'],
-                        borderWidth: 1
-                    }
-                
-            ]
+            datasets: [{
+                label: "2022 Budget",
+                data: [{% for amount in budget_amount %}{{ amount }},{% endfor %}],
+                backgroundColor: ['rgba(255, 99, 132, 0.2)'],
+                borderColor: ['rgba(255,99,132,1)'],
+                borderWidth: 1
+            }]
         },
     });
 

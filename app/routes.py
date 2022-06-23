@@ -27,10 +27,10 @@ def budget_data():
     budget_date = [item.date for item in budget]
 
     # Get months from the budget dates
-    date = [budget_date.date.split('-') for budget_date in budget]
+    date = sorted([budget_date.date.split('-') for budget_date in budget])
 
     # Get month number from date
-    month = [int(date[i][1]) for i in range(len(date))]
+    month = sorted([int(date[i][1]) for i in range(len(date))])
     # Replace month numbers with names
     month_names = ['January', 'February', 'March', 'April', 'May', 'June',
                      'July', 'August', 'September', 'October', 'November', 'December']
@@ -44,23 +44,20 @@ def budget_data():
     new_month = [] # number of month in list, not repeated
     new_month_name = [] # month name in list, not repeated
     budget_amount = [] # amount of each budget item
+    new_items = [] # list of budget items, not repeated
 
+    # Get amount in each month
     for i in range(len(month)):
-        # find if month in list
         if month[i] in new_month:
-            # if month in list, find index of month
             index = new_month.index(month[i])
-            # add amount to index
             budget_amount[index] += amount[i]
         else:
-            # if month not in list, add month to list
             new_month.append(month[i])
-            # add amount to list
             budget_amount.append(amount[i])
-            # find month name
-            new_month_name.append(month_names[month[i] - 1])
+            new_month_name.append(month_names_in_budget[i])
+            new_items.append(budget_item[i])
 
-    return new_month_name, budget_item, budget_amount
+    return new_month_name, budget_item, budget_amount, new_month
 
 @app.route('/')
 @app.route('/index')
@@ -134,10 +131,12 @@ def update():
     months = budget_data()[0]
     all_budget_items = budget_data()[1]
     budget_amount = budget_data()[2]
+    new_month = budget_data()[3]
 
-    # Get item number
-    item_number = [i for i in range(len(all_budget_items))]
-    print(item_number)
+    # print("Months:", months)
+    # print("New Month:", new_month)
+    # print("Budget items:", all_budget_items)
+    # print("Budget amounts:", budget_amount)
 
     # Get all asset items for current user
     asset_form = AssetForm()
