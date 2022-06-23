@@ -47,8 +47,5 @@ class UserModelTestCase(unittest.TestCase):
         self.assertFalse(u.budget_items.count(), [])
 
 
-
-
-
 if __name__ == '__main__':
     unittest.main(verbosity=2)
