@@ -33,7 +33,7 @@
                             </div>
                             <div class="panel-body">
                                 <ul class="list-group">
-                                    <table class="table table-striped">
+                                    <table id="data" class="table table-striped">
                                         <thead>
                                             <tr>
                                                 <th>Budget Item</th>
@@ -372,6 +372,7 @@
     $(document).ready(function() {
         $('#tabs').tab();
     });
+    // ChartJS
     var ctx = document.getElementById("budget-chart-canvas").getContext("2d");
     var myChart = new Chart(ctx, {
         type: 'line',
@@ -402,5 +403,11 @@
         },
     });
 
+</script>
+<script>
+    // DataTablesJS
+    $(document).ready(function() {
+        $('#data').DataTable();
+    });
 </script>
 {% endblock %}

@@ -4,6 +4,7 @@
 {% block head %}
     {{  super() }}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.css">
 {% endblock %}
 
 <!-- The title of our application is defined here -->
@@ -66,7 +67,15 @@
 {% block scripts %}
     {{  super() }}
     {{ moment.include_moment() }}
+    <!-- ChartJS -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- DatatableJS -->
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+
+    <!-- Custom scripts -->
     {% block app_scripts %}{% endblock %}
     
 {% endblock %}
