@@ -5,8 +5,9 @@ from app.forms import LoginForm, RegistrationForm, BudgetItemForm, \
 from app.models import User, BudgetItem, Expenses, \
     Asset, Liability, ActualIncome
 from flask_login import current_user, login_user, logout_user, login_required
-from app.income_data import income_data
-from app.budget_data import budget_data
+from app.data_income import income_data
+from app.data_budget import budget_data
+from app.data_assets import assets_data
 
 
 # The two functions below allow us to specify what forms
@@ -120,6 +121,17 @@ def update():
         return redirect(url_for('update', anchor='assets'))
     assets = user.assets.all()
 
+    # Get current user's assets
+    assets_months = assets_data()[0]
+    all_assets = assets_data()[1]
+    assets_amount = assets_data()[2]
+    new_asset_month = assets_data()[3]
+
+    print("Assets months:", assets_months)
+    print("New asset month:", new_asset_month)
+    print("Assets:", all_assets)
+    print("Assets amounts:", assets_amount)
+
     # ==========================================================
     # USER LIABILITY
     # ==========================================================
@@ -187,16 +199,15 @@ def update():
             'update.html',
             title='Update Items',
             budget_form=budget_form,
-            budget_items=budget_items,
             expense_form=expense_form,
             actual_expenses=actual_expenses,
             asset_form=asset_form,
-            assets=assets,
             liability_form=liability_form,
             liabilities=liabilities,
             actual_income_form=actual_income_form,
 
             # Budget data
+            budget_items=budget_items,
             months=months,
             all_budget_items=all_budget_items,
             budget_amount=budget_amount,
@@ -207,6 +218,12 @@ def update():
             income_items=income_items,
             income_amounts=income_amounts,
             income_month_names=income_month_names,
+
+            # Assets data
+            assets=assets,
+            assets_months=assets_months,
+            all_assets=all_assets,
+            assets_amount=assets_amount,
             )
 
 
