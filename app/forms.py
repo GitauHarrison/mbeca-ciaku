@@ -58,7 +58,6 @@ class ActualIncomeForm(FlaskForm):
         validators=[DataRequired()],
         render_kw={'placeholder': 'Ex. Safaricom Salary, Sacco dividends, etc.'})
     amount = IntegerField('Amount', validators=[DataRequired()])
-    description = TextAreaField('Description', validators=[DataRequired()])
     actual_income = SubmitField('Add')
 
 
@@ -69,5 +68,4 @@ class ActualExpenseForm(FlaskForm):
         validators=[DataRequired()],
         render_kw={'placeholder': 'Ex. Food, Fare, etc.'})
     amount = IntegerField('Amount', validators=[DataRequired()])
-    description = TextAreaField('Description', validators=[DataRequired()])
     actual_expense = SubmitField('Add')

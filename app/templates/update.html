@@ -33,7 +33,7 @@
                             </div>
                             <div class="panel-body">
                                 <ul class="list-group">
-                                    <table id="data" class="table table-striped">
+                                    <table id="budget-data" class="table table-striped">
                                         <thead>
                                             <tr>
                                                 <th>Budget Item</th>
@@ -110,25 +110,23 @@
                             </div>
                             <div class="panel-body">
                                 <ul class="list-group">
-                                    <table class="table table-striped">
+                                    <table id="income-data" class="table table-striped">
                                         <thead>
                                             <tr>
                                                 <th>Item</th>
                                                 <th>Date</th>
                                                 <th>Amount</th>
-                                                <th>Description</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {% for actual_income in actual_incomes %}
+                                            {% for item in actual_incomes %}
                                                 <tr>
-                                                    <td>{{ actual_income.name }}</td>
-                                                    <td>{{ actual_income.date }}</td>
-                                                    <td>{{ actual_income.amount }}</td>
-                                                    <td>{{ actual_income.description }}</td>
+                                                    <td>{{ item.name }}</td>
+                                                    <td>{{ item.date }}</td>
+                                                    <td>{{ item.amount }}</td>
                                                     <td>
-                                                        <a class="label label-danger" href="{{ url_for('actual_income_delete', id=actual_income.id) }}">Delete</a>
+                                                        <a href="{{ url_for('actual_income_delete', id=item.id) }}" class="btn btn-danger btn-xs">Delete</a>
                                                     </td>
                                                 </tr>
                                             {% endfor %}
@@ -162,7 +160,7 @@
                     <div class="col-sm-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Budget Data Chart</h3>
+                                <h3 class="panel-title">Actual Incomes Data Chart</h3>
                             </div>
                             <div class="panel-body">
                                 <div id="budget-chart">
@@ -372,7 +370,7 @@
     $(document).ready(function() {
         $('#tabs').tab();
     });
-    // ChartJS
+    // Budget chart
     var ctx = document.getElementById("budget-chart-canvas").getContext("2d");
     var myChart = new Chart(ctx, {
         type: 'line',
@@ -388,14 +386,15 @@
         },
     });
 
+    // Actual incomes chart
     var ctx = document.getElementById("income-chart-canvas").getContext("2d");
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: [{% for month in budget_months %}"{{ month }}",{% endfor %}],
+            labels: [{% for month in income_months %}"{{ month }}",{% endfor %}],
             datasets: [{
-                label: ['Budget Items'],
-                data: [{% for budget_item in budge_items %}{{ budget_item }},{% endfor %}],
+                label: ['2022 Income'],
+                data: [{% for amount in income_amounts %}{{ amount }},{% endfor %}],
                 backgroundColor: ['rgba(255, 99, 132, 0.2)'],
                 borderColor: ['rgba(255,99,132,1)'],
                 borderWidth: 1
@@ -407,7 +406,8 @@
 <script>
     // DataTablesJS
     $(document).ready(function() {
-        $('#data').DataTable();
+        $('#budget-data').DataTable();
+        $('#income-data').DataTable();
     });
 </script>
 {% endblock %}

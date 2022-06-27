@@ -52,7 +52,6 @@ class Expenses(db.Model):
     name = db.Column(db.String(64), index=True)
     date = db.Column(db.String(64), index=True)
     amount = db.Column(db.Integer, index=True)
-    description = db.Column(db.String(64), index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
@@ -86,7 +85,6 @@ class ActualIncome(db.Model):
     name = db.Column(db.String(64), index=True)
     date = db.Column(db.String(64), index=True)
     amount = db.Column(db.Integer, index=True)
-    description = db.Column(db.String(64), index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):

@@ -24,7 +24,6 @@ def budget_data():
     # Get individual items from the budget
     budget_item = [item.name for item in budget]
     amount = [item.amount for item in budget]
-    budget_date = [item.date for item in budget]
 
     # Get months from the budget dates
     date = sorted([budget_date.date.split('-') for budget_date in budget])
@@ -58,6 +57,48 @@ def budget_data():
             new_items.append(budget_item[i])
 
     return new_month_name, budget_item, budget_amount, new_month
+
+
+def income_data():
+    user = User.query.filter_by(username=current_user.username).first()
+    income = user.actual_incomes.all()
+
+    # Get individual items from a user's actual incomes
+    income_item = [item.name for item in income]
+    amount = [item.amount for item in income]
+
+    # Get months from the actual incomes dates
+    date = sorted([income_date.date.split('-') for income_date in income])
+
+    # Get month number from date
+    month = sorted([int(date[i][1]) for i in range(len(date))])
+    # Replace month numbers with names
+    month_names = ['January', 'February', 'March', 'April', 'May', 'June',
+                     'July', 'August', 'September', 'October', 'November', 'December']
+    month_names_in_income = [month_names[int(month[i]) - 1] for i in range(len(month))]
+
+    # Create lists needed by ChartJS:
+    # month_names: month in list should not be repeated
+    # income_item: list of income items in database
+    # income_amount: list of amounts for each income item
+
+    new_month = [] # number of month in list, not repeated
+    new_month_name = [] # month name in list, not repeated
+    income_amount = [] # amount of each income item
+    new_items = [] # list of income items, not repeated
+
+    # Get amount in each month
+    for i in range(len(month)):
+        if month[i] in new_month:
+            index = new_month.index(month[i])
+            income_amount[index] += amount[i]
+        else:
+            new_month.append(month[i])
+            income_amount.append(amount[i])
+            new_month_name.append(month_names_in_income[i])
+            new_items.append(income_item[i])
+
+    return new_month_name, new_items, income_amount, new_month
 
 @app.route('/')
 @app.route('/index')
@@ -113,6 +154,10 @@ def logout():
 def update():
     user = User.query.filter_by(username=current_user.username).first()
 
+    # ==========================================================
+    # USER BUDGET
+    # ==========================================================
+
     # Get all budget items for current user
     budget_form = BudgetItemForm()
     if budget_form.validate_on_submit() and budget_form.budget.data:
@@ -138,6 +183,10 @@ def update():
     # print("Budget items:", all_budget_items)
     # print("Budget amounts:", budget_amount)
 
+    # ==========================================================
+    # USER ASSETS
+    # ==========================================================
+
     # Get all asset items for current user
     asset_form = AssetForm()
     if asset_form.validate_on_submit() and asset_form.asset.data:
@@ -151,6 +200,10 @@ def update():
         flash(asset_item.name + ' has been added to your assets')
         return redirect(url_for('update', anchor='assets'))
     assets = user.assets.all()
+
+    # ==========================================================
+    # USER LIABILITY
+    # ==========================================================
 
     # Get all liability items for current user
     liability_form = LiabilityForm()
@@ -166,6 +219,10 @@ def update():
         return redirect(url_for('update', anchor='liabilities'))
     liabilities = user.liabilities.all()
 
+    # ==========================================================
+    # USER INCOME
+    # ==========================================================
+
     # Update current user's income
     actual_income_form = ActualIncomeForm()
     if actual_income_form.validate_on_submit() \
@@ -174,19 +231,22 @@ def update():
             name=actual_income_form.name.data,
             date=actual_income_form.date.data,
             amount=actual_income_form.amount.data,
-            description=actual_income_form.description.data,
             user_id=current_user.id)
         db.session.add(actual_income)
         db.session.commit()
         flash(str(actual_income.amount) + ' has been added to your income')
         return redirect(url_for('update', anchor='income-sources'))
     actual_incomes = user.actual_incomes.all()
-    date = [actual_income.date.split('-') for actual_income in actual_incomes]
-    #print(date)
-    year = [int(date[i][0]) for i in range(len(date))]
-    month = [int(date[i][1]) for i in range(len(date))]
-    day = [int(date[i][2]) for i in range(len(date))]
-    print('Year:month:day', year, month, day)
+
+    # Get current user's incomes
+    income_months = income_data()[0]
+    income_items = income_data()[1]
+    income_amounts = income_data()[2]
+    income_month_names = income_data()[3]
+
+    # ==========================================================
+    # USER EXPENSES
+    # ==========================================================
 
     # Update current user's expenses
     expense_form = ActualExpenseForm()  # same income form
@@ -216,12 +276,18 @@ def update():
             liability_form=liability_form,
             liabilities=liabilities,
             actual_income_form=actual_income_form,
-            actual_incomes=actual_incomes,
 
             # Budget data
             months=months,
             all_budget_items=all_budget_items,
             budget_amount=budget_amount,
+
+            # Income data
+            actual_incomes=actual_incomes,
+            income_months=income_months,
+            income_items=income_items,
+            income_amounts=income_amounts,
+            income_month_names=income_month_names,
             )
 
 
