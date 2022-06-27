@@ -187,25 +187,23 @@
                             </div>
                             <div class="panel-body">
                                 <ul class="list-group">
-                                    <table class="table table-striped">
+                                    <table id="expenses-data" class="table table-striped">
                                         <thead>
                                             <tr>
                                                 <th>Item</th>
                                                 <th>Date</th>
                                                 <th>Amount</th>
-                                                <th>Description</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {% for actual_expense in actual_expenses %}
+                                            {% for expense in actual_expenses %}
                                                 <tr>
-                                                    <td>{{ actual_expense.name }}</td>
-                                                    <td>{{ actual_expense.date }}</td>
-                                                    <td>{{ actual_expense.amount }}</td>
-                                                    <td>{{ actual_expense.description }}</td>
+                                                    <td>{{ expense.name }}</td>
+                                                    <td>{{ expense.date }}</td>
+                                                    <td>{{ expense.amount }}</td>
                                                     <td>
-                                                        <a class="label label-danger" href="{{ url_for('actual_expense_delete', id=actual_expense.id) }}">Delete</a>
+                                                        <a class="label label-danger" href="{{ url_for('actual_expense_delete', id=expense.id) }}">Delete</a>
                                                     </td>
                                                 </tr>
                                             {% endfor %}
@@ -229,6 +227,21 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Income data chart -->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Actual Incomes Data Chart</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div id="budget-chart">
+                                    <canvas id="expenses-chart-canvas" width="400" height="200"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -328,7 +341,7 @@
                             </div>
                             <div class="panel-body">
                                 <ul class="list-group">
-                                    <table class="table table-striped">
+                                    <table id="liabilities-data" class="table table-striped">
                                         <thead>
                                             <tr>
                                                 <th>Item</th>
@@ -368,6 +381,21 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Assets data chart -->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Actual Assets Data Chart</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div id="budget-chart">
+                                    <canvas id="liabilities-chart-canvas" width="400" height="200"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -425,7 +453,39 @@
             labels: [{% for month in assets_months %}"{{ month }}",{% endfor %}],
             datasets: [{
                 label: ['2022 Assets'],
-                data: [{% for amount in assets_amount %}{{ amount }},{% endfor %}],
+                data: [{% for amount in assets_amounts %}{{ amount }},{% endfor %}],
+                backgroundColor: ['rgba(255, 99, 132, 0.2)'],
+                borderColor: ['rgba(255,99,132,1)'],
+                borderWidth: 1
+            }]
+        },
+    });
+
+    // Expenses chart
+    var ctx = document.getElementById("expenses-chart-canvas").getContext("2d");
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [{% for month in expense_months %}"{{ month }}",{% endfor %}],
+            datasets: [{
+                label: ['2022 Expenses'],
+                data: [{% for amount in expense_amounts %}{{ amount }},{% endfor %}],
+                backgroundColor: ['rgba(255, 99, 132, 0.2)'],
+                borderColor: ['rgba(255,99,132,1)'],
+                borderWidth: 1
+            }]
+        },
+    });
+
+    // Liabilities chart
+    var ctx = document.getElementById("liabilities-chart-canvas").getContext("2d");
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [{% for month in liabilities_months %}"{{ month }}",{% endfor %}],
+            datasets: [{
+                label: ['2022 Liabilities'],
+                data: [{% for amount in liabilities_amounts %}{{ amount }},{% endfor %}],
                 backgroundColor: ['rgba(255, 99, 132, 0.2)'],
                 borderColor: ['rgba(255,99,132,1)'],
                 borderWidth: 1
@@ -440,6 +500,8 @@
         $('#budget-data').DataTable();
         $('#income-data').DataTable();
         $('#assets-data').DataTable();
+        $('#expenses-data').DataTable();
+        $('#liabilities-data').DataTable();
     });
 </script>
 {% endblock %}

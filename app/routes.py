@@ -8,6 +8,8 @@ from flask_login import current_user, login_user, logout_user, login_required
 from app.data_income import income_data
 from app.data_budget import budget_data
 from app.data_assets import assets_data
+from app.data_expense import expenses_data
+from app.data_liabilities import liabilities_data
 
 
 # The two functions below allow us to specify what forms
@@ -96,7 +98,6 @@ def update():
     months = budget_data()[0]
     all_budget_items = budget_data()[1]
     budget_amount = budget_data()[2]
-    new_month = budget_data()[3]
 
     # print("Months:", months)
     # print("New Month:", new_month)
@@ -124,13 +125,7 @@ def update():
     # Get current user's assets
     assets_months = assets_data()[0]
     all_assets = assets_data()[1]
-    assets_amount = assets_data()[2]
-    new_asset_month = assets_data()[3]
-
-    print("Assets months:", assets_months)
-    print("New asset month:", new_asset_month)
-    print("Assets:", all_assets)
-    print("Assets amounts:", assets_amount)
+    assets_amounts = assets_data()[2]
 
     # ==========================================================
     # USER LIABILITY
@@ -149,6 +144,11 @@ def update():
         flash(liability_item.name + ' has been added to your liabilities')
         return redirect(url_for('update', anchor='liabilities'))
     liabilities = user.liabilities.all()
+
+    # Get current user's liabilities
+    liabilities_months = liabilities_data()[0]
+    all_liabilities = liabilities_data()[1]
+    liabilities_amounts = liabilities_data()[2]
 
     # ==========================================================
     # USER INCOME
@@ -173,7 +173,6 @@ def update():
     income_months = income_data()[0]
     income_items = income_data()[1]
     income_amounts = income_data()[2]
-    income_month_names = income_data()[3]
 
     # ==========================================================
     # USER EXPENSES
@@ -187,7 +186,6 @@ def update():
             name=expense_form.name.data,
             date=expense_form.date.data,
             amount=expense_form.amount.data,
-            description=expense_form.description.data,
             user_id=current_user.id)
         db.session.add(actual_expense)
         db.session.commit()
@@ -195,35 +193,49 @@ def update():
         return redirect(url_for('update', anchor='expenses'))
     actual_expenses = user.expenses.all()
 
+    # Get current user's expenses
+    expense_months = expenses_data()[0]
+    expense_items = expenses_data()[1]
+    expense_amounts = expenses_data()[2]
+
     return render_template(
             'update.html',
             title='Update Items',
-            budget_form=budget_form,
-            expense_form=expense_form,
-            actual_expenses=actual_expenses,
-            asset_form=asset_form,
-            liability_form=liability_form,
-            liabilities=liabilities,
-            actual_income_form=actual_income_form,
 
             # Budget data
+            budget_form=budget_form,
             budget_items=budget_items,
             months=months,
             all_budget_items=all_budget_items,
             budget_amount=budget_amount,
 
             # Income data
+            actual_income_form=actual_income_form,
             actual_incomes=actual_incomes,
             income_months=income_months,
             income_items=income_items,
             income_amounts=income_amounts,
-            income_month_names=income_month_names,
 
             # Assets data
+            asset_form=asset_form,
             assets=assets,
             assets_months=assets_months,
             all_assets=all_assets,
-            assets_amount=assets_amount,
+            assets_amounts=assets_amounts,
+
+            # Expenses data
+            expense_form=expense_form,
+            actual_expenses=actual_expenses,
+            expense_months=expense_months,
+            expense_items=expense_items,
+            expense_amounts=expense_amounts,
+
+            # Liabilities data
+            liability_form=liability_form,
+            liabilities=liabilities,
+            liabilities_months=liabilities_months,
+            all_liabilities=all_liabilities,
+            liabilities_amounts=liabilities_amounts,
             )
 
 
