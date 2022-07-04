@@ -26,7 +26,7 @@ def is_submitted(self):
 @app.route('/index')
 @login_required
 def index():
-    return render_template('index.html', title='Index')
+    return render_template('index.html', title='Income Statement')
 
 
 @app.route('/help')
@@ -92,17 +92,8 @@ def update():
         db.session.commit()
         flash(budget_item.name + ' has been added to your budget items')
         return redirect(url_for('update', anchor='budget'))
-    budget_items = user.budget_items.all()
 
-    # Get current user's budget
-    months = budget_data()[0]
-    all_budget_items = budget_data()[1]
-    budget_amount = budget_data()[2]
-
-    # print("Months:", months)
-    # print("New Month:", new_month)
-    # print("Budget items:", all_budget_items)
-    # print("Budget amounts:", budget_amount)
+    user_budget_data = budget_data()
 
     # ==========================================================
     # USER ASSETS
@@ -204,10 +195,7 @@ def update():
 
             # Budget data
             budget_form=budget_form,
-            budget_items=budget_items,
-            months=months,
-            all_budget_items=all_budget_items,
-            budget_amount=budget_amount,
+            user_budget_data=user_budget_data,
 
             # Income data
             actual_income_form=actual_income_form,
@@ -275,7 +263,7 @@ def liability_delete(id):
     return redirect(url_for('update', anchor='liabilities'))
 
 
-@app.route('/delete/actual-income-<int:id>')
+@app.route('/delete/income-<int:id>')
 def actual_income_delete(id):
     actual_income = ActualIncome.query.get_or_404(id)
     db.session.delete(actual_income)
