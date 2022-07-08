@@ -418,14 +418,25 @@
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: [{% for month in months %}"{{ month }}",{% endfor %}],
-            datasets: [{
-                label: "2022 Budget",
-                data: [{% for amount in budget_amount %}{{ amount }},{% endfor %}],
-                backgroundColor: ['rgba(255, 99, 132, 0.2)'],
-                borderColor: ['rgba(255,99,132,1)'],
-                borderWidth: 1
-            }]
+            labels: [
+                {% for year in user_budget_data[0]%}
+                    {% for month in user_budget_data[0][year] %}
+                        "{{ month }}",
+                    {% endfor %}
+                {% endfor %}
+            ],
+            datasets: [
+                {% for rep in range(reps) %}
+                    {
+                        label: "Year {{ budget_years[rep] }}",
+                        data: {{ budget_amounts[rep] }},
+                        borderColor: "{{ colors[rep] }}",
+                        backgroundColor: "{{ colors[rep] }}",
+                        fill: false,
+                        borderWidth: 1
+                    },
+                {% endfor %}
+            ]
         },
     });
 

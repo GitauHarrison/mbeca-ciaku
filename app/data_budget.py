@@ -1,8 +1,9 @@
-from app.models import User
 from flask_login import current_user
+from app.models import User
 
 def budget_data():
-    """
+    """User budget data
+
     Find the budget data for the current user. This includes:
         - Years in budget
         - Months in budget
@@ -38,7 +39,6 @@ def budget_data():
 
     # Sorted expenditure years
     sorted_non_repetitive_expenditure_years = sorted(non_repetitive_expenditure_years)
-
     # Sum of amounts in each year
     expenditure_in_a_year = {}
     expenditure_amounts_in_each_year = []
@@ -54,7 +54,6 @@ def budget_data():
         # Add the year and amount spent in that year to the dictionary
         expenditure_in_a_year[year] = expenditure_amounts_in_each_year[
             sorted_non_repetitive_expenditure_years.index(year)]
-
 
     # Get dictionary of the months and amounts in each year
     months_in_year = {}
@@ -84,7 +83,4 @@ def budget_data():
         for i in range(len(sorted_non_repetitive_expenditure_years)):
             if sorted_non_repetitive_expenditure_years[i] == year:
                 sorted_non_repetitive_expenditure_years[i] = non_repetitive_months_in_year.keys()
-    print(months_in_year)
-    print(amounts_in_year)
-    print(expenditure_in_a_year)
     return months_in_year, amounts_in_year, expenditure_in_a_year
