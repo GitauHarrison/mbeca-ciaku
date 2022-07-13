@@ -80,7 +80,7 @@
                 </div>
                 <!-- Budget data chart -->
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-md-9">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Budget Data Chart</h3>
@@ -88,6 +88,19 @@
                             <div class="panel-body">
                                 <div id="budget-chart">
                                     <canvas id="budget-chart-canvas" width="400" height="200"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Download Budget Data</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div>
+                                    Want to download your budget data? 
+                                    <a href=" {{ url_for('download_budget_data') }} ">Click here</a>.
                                 </div>
                             </div>
                         </div>
