@@ -3,6 +3,7 @@ from app.data_budget import budget_data
 from app.models import User
 from flask import session
 from app import app
+from datetime import datetime
 
 
 def download_budget_pdf(user):
@@ -69,10 +70,6 @@ def download_budget_pdf(user):
         for month, amount in zip(months_in_year[year], amounts_in_year[year]):
             total_amount_spent_in_each_month[month] = \
                 total_amount_spent_in_each_month.get(month, 0) + amount
-    print("Months in year:",months_in_year)
-    print("Amounts in year:",amounts_in_year['2020'][0])
-    print("Items in year:",items_in_year)
-    print("Total:", expenditure_in_a_year['2022'])
 
     # Create a PDF
     pdf = PDF()
@@ -84,12 +81,12 @@ def download_budget_pdf(user):
 
     # Colors, line width and bold font
     pdf.set_font('Arial', '', 12)
-    pdf.cell(35, 5, 'Client Name: ', 0, 0, 'L')
-    pdf.cell(35, 5, user.username, 0, 1, 'L')
-    pdf.cell(35, 5, 'Client Email: ', 0, 0, 'L')
-    pdf.cell(35, 5, user.email, 0, 1, 'L')
-    pdf.cell(35, 5, 'Request Date: ', 0, 1, 'L')
-    pdf.cell(35, 5, '', 0, 1, 'L')
+    pdf.cell(35, 7, 'Client Name: ', 0, 0, 'L')
+    pdf.cell(35, 7, user.username, 0, 1, 'L')
+    pdf.cell(35, 7, 'Client Email: ', 0, 0, 'L')
+    pdf.cell(35, 7, user.email, 0, 1, 'L')
+    pdf.cell(35, 7, 'Request Date: ', 0, 0, 'L')
+    pdf.cell(35, 7, str(datetime.now().strftime("%Y/%m/%d %H:%M:%S")), 0, 1, 'L')
     pdf.ln(10)
     pdf.set_font('Arial', 'B', 16)
     pdf.set_text_color(81, 50, 82)
@@ -132,7 +129,7 @@ class PDF(FPDF):
         # Move to the right
         self.cell(50)
         # Title
-        self.cell(50, 10, 'Mbeca Ciaku'.upper(), 0, 0, 'C')
+        self.cell(50, 10, 'Mbeca Ciaku'.upper(), 0, 0, 'C', link='http://www.fpdf.org')
         # Line break
         self.ln(20)
 
