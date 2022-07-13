@@ -1,6 +1,8 @@
 from fpdf import FPDF
+from app.data_budget import budget_data
 from app.models import User
 from flask import session
+from app import app
 
 
 def download_budget_pdf(user):
@@ -9,16 +11,20 @@ def download_budget_pdf(user):
 
     # Split dates into lists of year, month, day
     dates = [budget_date.date.split('-') for budget_date in budget]
+    pdf_date = [budget_date.date for budget_date in budget]
 
     # Get a list of the amounts spent throughout the budget years
     amounts = [budget_date.amount for budget_date in budget]
+    pdf_amount = [budget_date.amount for budget_date in budget]
 
     # Get a list of the budget items in the budget years
     items = [budget_date.name for budget_date in budget]
 
     # Month numbers will be replaced with month names
-    month_names = ['January', 'February', 'March', 'April', 'May', 'June',
-                'July', 'August', 'September', 'October', 'November', 'December']
+    month_names = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+        ]
 
     # Get expenditure years
     expenditure_years = [date[0] for date in dates]
@@ -77,6 +83,12 @@ def download_budget_pdf(user):
             if sorted_non_repetitive_expenditure_years[i] == year:
                 sorted_non_repetitive_expenditure_years[i] = non_repetitive_months_in_year.keys()
 
+    print("Months in year:",months_in_year)
+    print("Amounts in year:",amounts_in_year)
+    # for amount in amounts_in_year['2020']:
+    #     print(amount)
+    print("Items in year:",items_in_year)
+    print("Total:", expenditure_in_a_year['2020'])
 
     # Create a PDF
     pdf = PDF()
@@ -91,31 +103,42 @@ def download_budget_pdf(user):
     # self.set_draw_color(255, 255, 255)
     # self.set_line_width(1)
     # Header
-    pdf.cell(50, 10, 'Item', 0, 1, 'C')
-    pdf.cell(50, 10, 'Date', 0, 1, 'C')
+    pdf.cell(50, 10, 'Item', 1, 0, 'C')
+    pdf.cell(50, 10, 'Date', 1, 0, 'C')
     pdf.cell(50, 10, 'Amount', 1, 1, 'C')
         # Table body
     pdf.set_font('Arial', '', 12)
     pdf.set_text_color(0, 0, 0)
-        # Table data
+    # Table data
     for year in months_in_year.keys():
         if session['year'] == year:
-            for item in items_in_year[year].keys():
-                pdf.cell(50, 10, item, 0, 1, 'C')
-            for date in amounts_in_year[year].keys():
-                pdf.cell(50, 10, date, 0, 1, 'C')
-            for amount in amounts_in_year[year].values():
-                pdf.cell(50, 10, amount, 1, 1, 'C')
+            # check if item is in items list
+            for item in items_in_year[year]:
+                print("Items in year:", items_in_year[year])
+                if item in items:
+                    print("Item index:",items.index(item))
+                    pdf.cell(50, 10, item, 1, 0, 'C')
+                    pdf.cell(50, 10, pdf_date[items.index(item)], 1, 1, 'C')
+                    #pdf.cell(50, 10, amounts_in_year[year][items_in_year[year].index(item)], 1, 1, 'C')
+    #                 #pdf.cell(50, 10, months_in_year[year][items_in_year[year].index(item)], 1, 0, 'C')
+    #                 #pdf.cell(50, 10, amounts_in_year[year][items_in_year[year].index(item)], 1, 1, 'C')
+    #             else:
+    #                 pdf.cell(50, 10, '', 1, 0, 'C')
+    #                 pdf.cell(50, 10, months_in_year[year][items_in_year[year].index(item)], 1, 0, 'C')
+    #                 pdf.cell(50, 10, '', 1, 1, 'C')
+    #         # for item in items_in_year[year]:
+    #         #     pdf.cell(50, 10, item, 1, 0, 'C')
+    #         # for month in months_in_year[year]:
+    #         #     pdf.cell(50, 10, month, 1, 0, 'C')
+    #         # for amount in amounts_in_year[year]:
+    #         #     pdf.cell(50, 10, amount, 1, 1, 'C')
     # Total
     pdf.set_font('Times', 'B', 16)
-    pdf.cell(50, 10, 'Total', 0, 1, 'C')
-    for year in months_in_year.keys():
-        if session['year'] == year:
-            pdf.cell(50, 10, expenditure_in_a_year[year], 0, 1, 'C')
+    pdf.cell(100, 10, 'Total', 1, 0, 'C')
     if session['year'] in months_in_year.keys():
+        pdf.cell(50, 10, str(expenditure_in_a_year[session['year']]), 1, 1, 'C')
         pdf.output(
-            'app/static/files/budget_data'
-            '{{ user_budget_data[3][session\'year\'] }}.pdf', 'F')
+            app.config['PDF_FOLDER'] + 'budget_data' + session["year"] + '.pdf', 'F')
 
 
 
