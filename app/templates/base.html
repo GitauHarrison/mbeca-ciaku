@@ -3,6 +3,8 @@
 <!-- Link all style files here -->
 {% block head %}
     {{  super() }}
+    <!-- Add icon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/money.png') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.css">
 {% endblock %}

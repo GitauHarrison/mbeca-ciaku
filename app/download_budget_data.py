@@ -76,12 +76,21 @@ def download_budget_pdf(user):
 
     # Create a PDF
     pdf = PDF()
+    pdf.set_left_margin(28)
     pdf.alias_nb_pages()
     pdf.add_page()
 
     # --- table showing budget items and amounts spent in each year ---
 
     # Colors, line width and bold font
+    pdf.set_font('Arial', '', 12)
+    pdf.cell(35, 5, 'Client Name: ', 0, 0, 'L')
+    pdf.cell(35, 5, user.username, 0, 1, 'L')
+    pdf.cell(35, 5, 'Client Email: ', 0, 0, 'L')
+    pdf.cell(35, 5, user.email, 0, 1, 'L')
+    pdf.cell(35, 5, 'Request Date: ', 0, 1, 'L')
+    pdf.cell(35, 5, '', 0, 1, 'L')
+    pdf.ln(10)
     pdf.set_font('Arial', 'B', 16)
     pdf.set_text_color(81, 50, 82)
     pdf.set_draw_color(128)
@@ -117,11 +126,11 @@ def download_budget_pdf(user):
 class PDF(FPDF):
     def header(self):
         # Logo
-        self.image('app/static/images/dreadlocks.jpg', 80, 8, 10, link='http://www.fpdf.org')
+        self.image('app/static/images/money.png', 73, 8, 12, link='http://www.fpdf.org')
         # Arial bold 15
         self.set_font('Arial', 'B', 15)
         # Move to the right
-        self.cell(80)
+        self.cell(50)
         # Title
         self.cell(50, 10, 'Mbeca Ciaku'.upper(), 0, 0, 'C')
         # Line break
