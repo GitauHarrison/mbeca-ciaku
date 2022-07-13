@@ -1,3 +1,4 @@
+from random import choices
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, \
     SelectField, IntegerField, TextAreaField, DateField, DateTimeField
@@ -69,3 +70,8 @@ class ActualExpenseForm(FlaskForm):
         render_kw={'placeholder': 'Ex. Food, Fare, etc.'})
     amount = IntegerField('Amount', validators=[DataRequired()])
     actual_expense = SubmitField('Add')
+
+
+class DownloadDataForm(FlaskForm):
+    year = SelectField('', choices=[])
+    download_data = SubmitField('Download')
