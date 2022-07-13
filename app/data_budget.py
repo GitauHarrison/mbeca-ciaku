@@ -1,7 +1,4 @@
-from flask_login import current_user
-from app.models import User
-
-def budget_data():
+def budget_data(user):
     """User budget data
 
     Find the budget data for the current user. This includes:
@@ -17,7 +14,6 @@ def budget_data():
         - The Y axis will be the sum of expenses in each month
         - The label will be the year of the budget
     """
-    user = User.query.filter_by(username=current_user.username).first()
     budget = user.budget_items.all()
 
     # Split dates into lists of year, month, day
@@ -25,6 +21,9 @@ def budget_data():
 
     # Get a list of the amounts spent throughout the budget years
     amounts = [budget_date.amount for budget_date in budget]
+
+    # Get a list of the budget items in the budget years
+    items = [budget_date.name for budget_date in budget]
 
     # Month numbers will be replaced with month names
     month_names = ['January', 'February', 'March', 'April', 'May', 'June',
@@ -58,16 +57,19 @@ def budget_data():
     # Get dictionary of the months and amounts in each year
     months_in_year = {}
     amounts_in_year = {}
+    items_in_year = {}
     total_amount_spent_in_each_month = {}
     for year in sorted_non_repetitive_expenditure_years:
         months_in_year[year] = []
         amounts_in_year[year] = []
-        for date, amount in zip(dates, amounts):
+        items_in_year[year] = []
+        for date, amount, item in zip(dates, amounts, items):
             if date[0] == year:
                 # Get the expenditure in each month
                 # The months are converted to month names
                 months_in_year[year].append(month_names[int(date[1]) - 1])
                 amounts_in_year[year].append(amount)
+                items_in_year[year].append(item)
         # Total amount spent in each month in each year
         for month, amount in zip(months_in_year[year], amounts_in_year[year]):
             total_amount_spent_in_each_month[month] = \
@@ -83,4 +85,4 @@ def budget_data():
         for i in range(len(sorted_non_repetitive_expenditure_years)):
             if sorted_non_repetitive_expenditure_years[i] == year:
                 sorted_non_repetitive_expenditure_years[i] = non_repetitive_months_in_year.keys()
-    return months_in_year, amounts_in_year, expenditure_in_a_year
+    return months_in_year, amounts_in_year, items_in_year, expenditure_in_a_year
