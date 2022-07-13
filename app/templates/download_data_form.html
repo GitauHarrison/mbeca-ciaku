@@ -11,7 +11,25 @@
                 </div>
                 <div class="panel-body">
                     <div>
+                        <a data-toggle="modal" data-target="#samplePDF" href="#">See sample pdf for download</a>
                         {{ wtf.quick_form(download_budget_form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Sample PDF Modal -->
+        <div class="modal fade" id="samplePDF" tabindex="-1" role="dialog" aria-labelledby="samplePDFLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="samplePDFLabel">Sample PDF for Download</h4>
+                    </div>
+                    <div class="modal-body">
+                        <img class="img-fluid" style="max-width: 100%; height:auto" src="{{ url_for('static', filename='images/sample_download.png') }}" alt="Sample Download PDF">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
