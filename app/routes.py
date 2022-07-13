@@ -1,15 +1,22 @@
+from crypt import methods
 from app import app, db
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, session,\
+    abort
 from app.forms import LoginForm, RegistrationForm, BudgetItemForm, \
-    AssetForm, LiabilityForm, ActualIncomeForm, ActualExpenseForm
-from app.models import User, BudgetItem, Expenses, \
-    Asset, Liability, ActualIncome
-from flask_login import current_user, login_user, logout_user, login_required
+    AssetForm, LiabilityForm, ActualIncomeForm, ActualExpenseForm, \
+    DownloadDataForm
+from app.models import User, BudgetItem, Expenses, Asset, Liability,\
+    ActualIncome
+from flask_login import current_user, login_user, logout_user, \
+    login_required
 from app.data_income import income_data
 from app.data_budget import budget_data
+from app.download_budget_data import download_budget_pdf
 from app.data_assets import assets_data
 from app.data_expense import expenses_data
 from app.data_liabilities import liabilities_data
+from app.encrypt_pdf import encrypt_pdf
+import os
 
 
 # The two functions below allow us to specify what forms
@@ -71,6 +78,8 @@ def logout():
     return redirect(url_for('login'))
 
 
+# ==================== GET USER DATA FUNCTIONS ====================
+
 @app.route('/update', methods=['GET', 'POST'])
 @login_required
 def update():
@@ -92,8 +101,15 @@ def update():
         db.session.commit()
         flash(budget_item.name + ' has been added to your budget items')
         return redirect(url_for('update', anchor='budget'))
+    budget_items = user.budget_items.all()
+    user_budget_data = budget_data(user)
 
-    user_budget_data = budget_data()
+    # Get keys and values from user_budget_data[0]
+    budget_years = list(user_budget_data[0].keys())
+    budget_months = list(user_budget_data[0].values())
+    budget_amounts = list(user_budget_data[1].values())
+    reps = len(budget_years) # Used in chartjs to loop through the values from the dict
+    colors = ['#0066ff', '#ff0000', '#ffcc00', '#00cc00', '#0066ff']
 
     # ==========================================================
     # USER ASSETS
@@ -196,6 +212,12 @@ def update():
             # Budget data
             budget_form=budget_form,
             user_budget_data=user_budget_data,
+            budget_years=budget_years,
+            budget_months=budget_months,
+            budget_amounts=budget_amounts,
+            budget_items=budget_items,
+            reps=reps,
+            colors=colors,
 
             # Income data
             actual_income_form=actual_income_form,
@@ -225,6 +247,10 @@ def update():
             all_liabilities=all_liabilities,
             liabilities_amounts=liabilities_amounts,
             )
+
+# ==================== END OF GET DATA FUNCTIONS ====================
+
+# ==================== DELETE USER DATA ====================
 
 
 @app.route('/delete/budget-item-<int:id>')
@@ -270,3 +296,38 @@ def actual_income_delete(id):
     db.session.commit()
     flash(str(actual_income.amount) + ' has been deleted from actual income')
     return redirect(url_for('update', anchor='income-sources'))
+
+# ==================== END OF DELETE USER DATA ====================
+
+# ==================== DOWNLOAD USER DATA ====================
+
+
+@app.route('/download-budget-data', methods=['GET', 'POST'])
+@login_required
+def download_budget_data():
+    """Download budget data as pdf"""
+    user = User.query.filter_by(username=current_user.username).first()
+    user_budget_data = budget_data(user)
+
+    # Get keys and values from user_budget_data[0]
+    budget_years = list(user_budget_data[0].keys())
+
+    # Download budget data as pdf
+    download_budget_form = DownloadDataForm()
+    download_budget_form.year.choices = [(year, year) for year in budget_years]
+    if download_budget_form.validate_on_submit() and download_budget_form.year.data:
+        session['year'] = download_budget_form.year.data
+        print(session['year'])
+        download_budget_pdf(user)
+        flash('Your budget data has been downloaded. Click Save to keep a copy.')
+        encrypt_pdf(
+            input_pdf=app.config['PDF_FOLDER'] + 'budget_data' + session['year'] + '.pdf',
+            password=user.username)
+        del session['year']
+        return redirect(url_for('update', anchor='budget'))
+    return render_template(
+        'download_data_form.html',
+        title='Download Budget Data',
+        download_budget_form=download_budget_form)
+
+# ==================== DOWNLOAD USER DATA ====================
