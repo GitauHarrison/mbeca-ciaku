@@ -170,7 +170,7 @@
                 </div>
                 <!-- Income data chart -->
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-9">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Actual Incomes Data Chart</h3>
@@ -178,6 +178,19 @@
                             <div class="panel-body">
                                 <div id="budget-chart">
                                     <canvas id="income-chart-canvas" width="400" height="200"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Download Actual Incomes Data</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div>
+                                    Want to download your actual incomes data? 
+                                    <a href=" # ">Click here</a>.
                                 </div>
                             </div>
                         </div>
@@ -245,16 +258,29 @@
                         </div>
                     </div>
                 </div>
-                <!-- Income data chart -->
+                <!-- Expenses data chart -->
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-9">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Actual Incomes Data Chart</h3>
+                                <h3 class="panel-title">Expenses Data Chart</h3>
                             </div>
                             <div class="panel-body">
                                 <div id="budget-chart">
                                     <canvas id="expenses-chart-canvas" width="400" height="200"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Download Expenses Data</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div>
+                                    Want to download your expenses data? 
+                                    <a href=" # ">Click here</a>.
                                 </div>
                             </div>
                         </div>
@@ -327,11 +353,24 @@
                     <div class="col-sm-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Actual Assets Data Chart</h3>
+                                <h3 class="panel-title">Assets Data Chart</h3>
                             </div>
                             <div class="panel-body">
                                 <div id="budget-chart">
                                     <canvas id="assets-chart-canvas" width="400" height="200"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Download Assets Data</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div>
+                                    Want to download your assets data? 
+                                    <a href=" # ">Click here</a>.
                                 </div>
                             </div>
                         </div>
@@ -399,9 +438,9 @@
                         </div>
                     </div>
                 </div>
-                <!-- Assets data chart -->
+                <!-- Liabilities data chart -->
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-9">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Actual Assets Data Chart</h3>
@@ -409,6 +448,19 @@
                             <div class="panel-body">
                                 <div id="budget-chart">
                                     <canvas id="liabilities-chart-canvas" width="400" height="200"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Download Liabilities Data</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div>
+                                    Want to download your liabilities data? 
+                                    <a href=" # ">Click here</a>.
                                 </div>
                             </div>
                         </div>
@@ -432,10 +484,8 @@
         type: 'line',
         data: {
             labels: [
-                {% for year in user_budget_data[0]%}
-                    {% for month in user_budget_data[0][year] %}
-                        "{{ month }}",
-                    {% endfor %}
+                {% for year in user_budget_data[4]%}
+                    "{{ year }}",
                 {% endfor %}
             ],
             datasets: [
@@ -451,6 +501,15 @@
                 {% endfor %}
             ]
         },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        reverse: false,
+                    }
+                }]
+            }
+        }
     });
 
     // Actual incomes chart
@@ -467,6 +526,13 @@
                 borderWidth: 1
             }]
         },
+        options: {
+            scales: {
+                x: {
+                        beginAtZero:false
+                    }
+            }
+        }
     });
 
     // Actual assets chart
