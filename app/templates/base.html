@@ -5,7 +5,7 @@
     {{  super() }}
     <!-- Add icon -->
     <link rel="icon" href="{{ url_for('static', filename='images/money.png') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.css">
 {% endblock %}
 
@@ -62,6 +62,15 @@
         {% endwith %}
         <!-- End of flash message -->
         {% block app_context %}{% endblock %}
+
+        {% block footer %}    
+        <div class="row footer">
+            <div class="col-md-12 text-center">
+                <hr>
+                <small>&copy; Mbeca Ciaku - {{ moment().format('YYYY') }}</small>
+            </div>
+        </div>
+    {% endblock %}
     </div>
 {% endblock %}
 

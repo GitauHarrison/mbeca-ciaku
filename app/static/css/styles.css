@@ -1,0 +1,40 @@
+/* ------------------------------------------------- */
+/* FOOTER */
+/* ------------------------------------------------- */
+.footer {
+    margin-bottom: 0px;
+    position: absolute;
+    /*With the parent relative, we can set our footer to absolute*/
+    bottom: 0;
+    /*This takes it to the bottom*/
+    width: 60%;
+    height: 80px;
+}
+
+@media screen and (max-width: 600px) {
+    .footer {
+        height: 10px;
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 900px) {
+    .footer {
+        height: 30px;
+        width: 90%;
+    }
+    .url-btn {
+        font-size: 3.6rem;
+        padding: 23px 20px;
+    }
+    .card {
+        font-size: large;
+    }
+}
+
+@media screen and (min-width: 900px) and (max-width: 1200px) {
+    .footer {
+        height: 90px;
+        width: 90%;
+    }
+}
