@@ -4,18 +4,18 @@ from app import app
 from datetime import datetime
 
 
-def download_budget_pdf(user):
+def download_assets_pdf(user):
     # PDF()
-    budget = user.budget_items.all()
+    asset = user.assets.all()
 
     # Split dates into lists of year, month, day
-    dates = [budget_date.date.split('-') for budget_date in budget]
+    dates = [asset_date.date.split('-') for asset_date in asset]
 
-    # Get a list of the amounts spent throughout the budget years
-    amounts = [budget_date.amount for budget_date in budget]
+    # Get a list of the amounts spent throughout the asset years
+    amounts = [asset_date.amount for asset_date in asset]
 
-    # Get a list of the budget items in the budget years
-    items = [budget_date.name for budget_date in budget]
+    # Get a list of the asset items in the asset years
+    items = [asset_date.name for asset_date in asset]
 
     # Month numbers will be replaced with month names
     month_names = [
@@ -75,7 +75,7 @@ def download_budget_pdf(user):
     pdf.alias_nb_pages()
     pdf.add_page()
 
-    # --- table showing budget items and amounts spent in each year ---
+    # --- table showing asset items and amounts spent in each year ---
 
     # Colors, line width and bold font
     pdf.set_font('Arial', '', 12)
@@ -114,7 +114,7 @@ def download_budget_pdf(user):
     if session['year'] in months_in_year.keys():
         pdf.cell(50, 10, str(expenditure_in_a_year[session['year']]), 1, 1, 'C')
         pdf.output(
-            app.config['PDF_FOLDER'] + 'budget_data' + session["year"] + '.pdf', 'F')
+            app.config['PDF_FOLDER'] + 'asset_data' + session["year"] + '.pdf', 'F')
 
 
 

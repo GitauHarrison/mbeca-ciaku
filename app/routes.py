@@ -12,6 +12,7 @@ from flask_login import current_user, login_user, logout_user, \
 from app.data_income import income_data
 from app.data_budget import budget_data
 from app.download_budget_data import download_budget_pdf
+from app.download_assets_data import download_assets_pdf
 from app.data_assets import assets_data
 from app.data_expense import expenses_data
 from app.data_liabilities import liabilities_data
@@ -109,7 +110,8 @@ def update():
     budget_months = list(user_budget_data[0].values())
     budget_amounts = list(user_budget_data[1].values())
     reps = len(budget_years) # Used in chartjs to loop through the values from the dict
-    colors = ['#0066ff', '#ff0000', '#ffcc00', '#00cc00', '#0066ff']
+    colors = ['#00bcd4', '#ff9800', '#9c27b0', '#2196f3', '#ffeb3b',
+              '#ffc107', '#673ab7', '#795548', '#009688', '#607d8b']
 
     # ==========================================================
     # USER ASSETS
@@ -128,11 +130,40 @@ def update():
         flash(asset_item.name + ' has been added to your assets')
         return redirect(url_for('update', anchor='assets'))
     assets = user.assets.all()
+    user_assets_data = assets_data(user)
 
-    # Get current user's assets
-    assets_months = assets_data()[0]
-    all_assets = assets_data()[1]
-    assets_amounts = assets_data()[2]
+    # Get keys and values from user_assets_data[0]
+    asset_years = list(user_assets_data[0].keys())
+    asset_months = list(user_assets_data[0].values())
+    asset_amounts = list(user_assets_data[1].values())
+    asset_reps = len(asset_years) # Used in chartjs to loop through the values from the dict
+    asset_colors = ['#ffc107', '#673ab7', '#795548', '#009688', '#607d8b',
+                    '#00bcd4', '#ff9800', '#9c27b0', '#2196f3', '#ffeb3b']
+
+    # ==========================================================
+    # USER LIABILITIES
+    # ==========================================================
+
+    # Get all liability items for current user
+    liability_form = LiabilityForm()
+    if liability_form.validate_on_submit() and liability_form.liability.data:
+        liability_item = Liability(
+            date=liability_form.date.data,
+            name=liability_form.name.data,
+            amount=liability_form.amount.data,
+            user_id=current_user.id)
+        db.session.add(liability_item)
+        db.session.commit()
+        flash(liability_item.name + ' has been added to your liabilities')
+        return redirect(url_for('update', anchor='liabilities'))
+    liabilities = user.liabilities.all()
+    # user_liabilities_data = liabilities_data(user)
+
+    # # Get keys and values from user_liabilities_data[0]
+    # liability_years = list(user_liabilities_data[0].keys())
+    # liability_months = list(user_liabilities_data[0].values())
+    # liability_amounts = list(user_liabilities_data[1].values())
+    # liability_reps = len(liability_years)
 
     # ==========================================================
     # USER LIABILITY
@@ -229,9 +260,12 @@ def update():
             # Assets data
             asset_form=asset_form,
             assets=assets,
-            assets_months=assets_months,
-            all_assets=all_assets,
-            assets_amounts=assets_amounts,
+            user_assets_data=user_assets_data,
+            asset_years=asset_years,
+            asset_months=asset_months,
+            asset_amounts=asset_amounts,
+            asset_reps=asset_reps,
+            asset_colors=asset_colors,
 
             # Expenses data
             expense_form=expense_form,
@@ -313,11 +347,10 @@ def download_budget_data():
     budget_years = list(user_budget_data[0].keys())
 
     # Download budget data as pdf
-    download_budget_form = DownloadDataForm()
-    download_budget_form.year.choices = [(year, year) for year in budget_years]
-    if download_budget_form.validate_on_submit() and download_budget_form.year.data:
-        session['year'] = download_budget_form.year.data
-        print(session['year'])
+    download_data_form = DownloadDataForm()
+    download_data_form.year.choices = [(year, year) for year in budget_years]
+    if download_data_form.validate_on_submit() and download_data_form.year.data:
+        session['year'] = download_data_form.year.data
         download_budget_pdf(user)
         flash('Your budget data has been downloaded. Click Save to keep a copy.')
         encrypt_pdf(
@@ -328,6 +361,34 @@ def download_budget_data():
     return render_template(
         'download_data_form.html',
         title='Download Budget Data',
-        download_budget_form=download_budget_form)
+        download_data_form=download_data_form)
+
+
+@app.route('/download-asset-data', methods=['GET', 'POST'])
+@login_required
+def download_asset_data():
+    """Download asset data as pdf"""
+    user = User.query.filter_by(username=current_user.username).first()
+    user_assets_data = assets_data(user)
+
+    # Get keys and values from user_assets_data[0]
+    asset_years = list(user_assets_data[0].keys())
+
+    # Download asset data as pdf
+    download_data_form = DownloadDataForm()
+    download_data_form.year.choices = [(year, year) for year in asset_years]
+    if download_data_form.validate_on_submit() and download_data_form.year.data:
+        session['year'] = download_data_form.year.data
+        download_assets_pdf(user)
+        flash('Your asset data has been downloaded. Click Save to keep a copy.')
+        encrypt_pdf(
+            input_pdf=app.config['PDF_FOLDER'] + 'asset_data' + session['year'] + '.pdf',
+            password=user.username)
+        del session['year']
+        return redirect(url_for('update', anchor='assets'))
+    return render_template(
+        'download_data_form.html',
+        title='Download Asset Data',
+        download_data_form=download_data_form)
 
 # ==================== DOWNLOAD USER DATA ====================

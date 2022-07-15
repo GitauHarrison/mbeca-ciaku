@@ -85,4 +85,4 @@ def budget_data(user):
         for i in range(len(sorted_non_repetitive_expenditure_years)):
             if sorted_non_repetitive_expenditure_years[i] == year:
                 sorted_non_repetitive_expenditure_years[i] = non_repetitive_months_in_year.keys()
-    return months_in_year, amounts_in_year, items_in_year, expenditure_in_a_year
+    return months_in_year, amounts_in_year, items_in_year, expenditure_in_a_year, month_names
