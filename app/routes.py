@@ -168,8 +168,8 @@ def update():
     liability_months = list(user_liabilities_data[0].values())
     liability_amounts = list(user_liabilities_data[1].values())
     liability_reps = len(liability_years) # Used in chartjs to loop through the values from the dict
-    liability_colors = ['61481C', '#673ab7', '1F4690', 'FFE5B4', '66BFBF',
-                        'FF0063', 'A47E3B', '#9c27b0', '#2196f3', '#ffeb3b']
+    liability_colors = ['#61481C', '#673ab7', '31F4690', '#FFE5B4', '#66BFBF',
+                        '#FF0063', '#A47E3B', '#9c27b0', '#2196f3', '#ffeb3b']
 
     # ==========================================================
     # USER INCOME
@@ -224,8 +224,8 @@ def update():
     expense_months = list(user_expenses_data[0].values())
     expense_amounts = list(user_expenses_data[1].values())
     expense_reps = len(expense_years) # Used in chartjs to loop through the values from the dict
-    expense_colors = ['C8B6E2', '377D71', '#795548', '#009688', '495C83',
-                        'FBA1A1', '#ff9800', '#9c27b0', '1A4D2E', '#ffeb3b']
+    expense_colors = ['#C8B6E2', '#377D71', '#795548', '#009688', '#495C83',
+                        '#FBA1A1', '#ff9800', '#9c27b0', '#1A4D2E', '#ffeb3b']
 
     return render_template(
             'update.html',
