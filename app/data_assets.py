@@ -60,5 +60,4 @@ def assets_data(user):
                 months_in_year[year].append(month_names[int(date[1]) - 1])
                 amounts_in_year[year].append(amount)
                 items_in_year[year].append(item)
-    print(months_in_year, amounts_in_year, items_in_year, expenditure_in_a_year)
     return months_in_year, amounts_in_year, items_in_year, expenditure_in_a_year, month_names

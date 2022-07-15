@@ -13,6 +13,7 @@ from app.data_income import income_data
 from app.data_budget import budget_data
 from app.download_budget_data import download_budget_pdf
 from app.download_assets_data import download_assets_pdf
+from app.download_liabilities_data import download_liabilities_pdf
 from app.data_assets import assets_data
 from app.data_expense import expenses_data
 from app.data_liabilities import liabilities_data
@@ -157,36 +158,15 @@ def update():
         flash(liability_item.name + ' has been added to your liabilities')
         return redirect(url_for('update', anchor='liabilities'))
     liabilities = user.liabilities.all()
-    # user_liabilities_data = liabilities_data(user)
+    user_liabilities_data = liabilities_data(user)
 
-    # # Get keys and values from user_liabilities_data[0]
-    # liability_years = list(user_liabilities_data[0].keys())
-    # liability_months = list(user_liabilities_data[0].values())
-    # liability_amounts = list(user_liabilities_data[1].values())
-    # liability_reps = len(liability_years)
-
-    # ==========================================================
-    # USER LIABILITY
-    # ==========================================================
-
-    # Get all liability items for current user
-    liability_form = LiabilityForm()
-    if liability_form.validate_on_submit() and liability_form.liability.data:
-        liability_item = Liability(
-            date=liability_form.date.data,
-            name=liability_form.name.data,
-            amount=liability_form.amount.data,
-            user_id=current_user.id)
-        db.session.add(liability_item)
-        db.session.commit()
-        flash(liability_item.name + ' has been added to your liabilities')
-        return redirect(url_for('update', anchor='liabilities'))
-    liabilities = user.liabilities.all()
-
-    # Get current user's liabilities
-    liabilities_months = liabilities_data()[0]
-    all_liabilities = liabilities_data()[1]
-    liabilities_amounts = liabilities_data()[2]
+    # Get keys and values from user_liabilities_data[0]
+    liability_years = list(user_liabilities_data[0].keys())
+    liability_months = list(user_liabilities_data[0].values())
+    liability_amounts = list(user_liabilities_data[1].values())
+    liability_reps = len(liability_years) # Used in chartjs to loop through the values from the dict
+    liability_colors = ['61481C', '#673ab7', '1F4690', 'FFE5B4', '66BFBF',
+                        'FF0063', 'A47E3B', '#9c27b0', '#2196f3', '#ffeb3b']
 
     # ==========================================================
     # USER INCOME
@@ -277,9 +257,12 @@ def update():
             # Liabilities data
             liability_form=liability_form,
             liabilities=liabilities,
-            liabilities_months=liabilities_months,
-            all_liabilities=all_liabilities,
-            liabilities_amounts=liabilities_amounts,
+            user_liabilities_data=user_liabilities_data,
+            liability_years=liability_years,
+            liability_months=liability_months,
+            liability_amounts=liability_amounts,
+            liability_reps=liability_reps,
+            liability_colors=liability_colors
             )
 
 # ==================== END OF GET DATA FUNCTIONS ====================
@@ -391,4 +374,31 @@ def download_asset_data():
         title='Download Asset Data',
         download_data_form=download_data_form)
 
+
+@app.route('/download-liabilities-data', methods=['GET', 'POST'])
+@login_required
+def download_liabilities_data():
+    """Download liabilities data as pdf"""
+    user = User.query.filter_by(username=current_user.username).first()
+    user_liabilities_data = liabilities_data(user)
+
+    # Get keys and values from user_liabilities_data[0]
+    liability_years = list(user_liabilities_data[0].keys())
+
+    # Download liabilities data as pdf
+    download_data_form = DownloadDataForm()
+    download_data_form.year.choices = [(year, year) for year in liability_years]
+    if download_data_form.validate_on_submit() and download_data_form.year.data:
+        session['year'] = download_data_form.year.data
+        download_liabilities_pdf(user)
+        flash('Your liabilities data has been downloaded. Click Save to keep a copy.')
+        encrypt_pdf(
+            input_pdf=app.config['PDF_FOLDER'] + 'liabilities_data' + session['year'] + '.pdf',
+            password=user.username)
+        del session['year']
+        return redirect(url_for('update', anchor='liabilities'))
+    return render_template(
+        'download_data_form.html',
+        title='Download Liabilities Data',
+        download_data_form=download_data_form)
 # ==================== DOWNLOAD USER DATA ====================
