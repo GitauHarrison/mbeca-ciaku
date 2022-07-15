@@ -75,3 +75,11 @@ class ActualExpenseForm(FlaskForm):
 class DownloadDataForm(FlaskForm):
     year = SelectField('', choices=[])
     download_data = SubmitField('Download')
+
+
+class HelpForm(FlaskForm):
+    body = TextAreaField(
+        'Help',
+        validators=[DataRequired()],
+        render_kw={'placeholder': 'Ex. Help me with my budgeting.'})
+    submit = SubmitField('Submit')

@@ -1,12 +1,12 @@
 from crypt import methods
 from app import app, db
 from flask import render_template, flash, redirect, url_for, session,\
-    abort
+    request
 from app.forms import LoginForm, RegistrationForm, BudgetItemForm, \
     AssetForm, LiabilityForm, ActualIncomeForm, ActualExpenseForm, \
-    DownloadDataForm
+    DownloadDataForm, HelpForm
 from app.models import User, BudgetItem, Expenses, Asset, Liability,\
-    ActualIncome
+    ActualIncome, Help
 from flask_login import current_user, login_user, logout_user, \
     login_required
 from app.data_income import income_data
@@ -21,7 +21,7 @@ from app.data_assets import assets_data
 from app.data_expense import expenses_data
 from app.data_liabilities import liabilities_data
 from app.encrypt_pdf import encrypt_pdf
-import os
+import datetime
 
 
 # The two functions below allow us to specify what forms
@@ -41,10 +41,52 @@ def index():
     return render_template('index.html', title='Income Statement')
 
 
-@app.route('/help')
+@app.route('/help', methods=['GET', 'POST'])
 @login_required
 def help():
-    return render_template('help.html', title='Help')
+    user = User.query.filter_by(username=current_user.username).first()
+    form = HelpForm()
+    if form.validate_on_submit():
+        question = Help(
+            body=form.body.data,
+            author=user)
+        db.session.add(question)
+        db.session.commit()
+        flash('An email has been sent to the admin.'
+              ' You will receive an email notification when your question is answered.')
+        return redirect(url_for('help'))
+    page = request.args.get('page', 1, type=int)
+    questions = user.questions.order_by(Help.timestamp.desc()).paginate(
+        page, app.config['QUESTIONS_PER_PAGE'], False)
+    next_url = url_for('help', page=questions.next_num) \
+        if questions.has_next else None
+    prev_url = url_for('help', page=questions.prev_num) \
+        if questions.has_prev else None
+    return render_template(
+        'help.html',
+        title='Help',
+        form=form,
+        questions=questions.items,
+        next_url=next_url,
+        prev_url=prev_url)
+
+
+@app.route('/edit-help/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_help(id):
+    question = Help.query.get_or_404(id)
+    form = HelpForm()
+    if form.validate_on_submit():
+        if question.body == form.body.data:
+            flash('There has been no change in the question, please try again.')
+            return redirect(url_for('help'))
+        else:
+            question.body = form.body.data
+            db.session.commit()
+            flash('Your question has been updated.')
+            return redirect(url_for('help'))
+    form.body.data = question.body
+    return render_template('edit_help.html', title='Edit Help', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])

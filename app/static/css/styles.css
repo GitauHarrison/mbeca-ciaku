@@ -38,3 +38,16 @@
         width: 90%;
     }
 }
+
+/* Question */
+.question-id, .label {
+    margin-right: 5px;
+    padding: 3px;
+}
+.question-body {
+    margin-top: 10px;
+}
+table {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

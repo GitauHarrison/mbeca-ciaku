@@ -14,3 +14,6 @@ class Config:
 
     # PDF folder
     PDF_FOLDER = os.environ.get('PDF_FOLDER') or os.path.join(basedir, 'pdf')
+
+    # Questions per page
+    QUESTIONS_PER_PAGE = int(os.environ.get('QUESTIONS_PER_PAGE')) or 10

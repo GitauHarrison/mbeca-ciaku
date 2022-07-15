@@ -1,6 +1,6 @@
 from app import app, db
 from app.models import User, BudgetItem, Expenses, Asset, \
-    Liability, ActualIncome
+    Liability, ActualIncome, Help
 
 
 @app.shell_context_processor
@@ -12,4 +12,5 @@ def make_shell_context():
         Expenses=Expenses,
         Asset=Asset,
         Liability=Liability,
-        ActualIncome=ActualIncome)
+        ActualIncome=ActualIncome,
+        Help=Help)
