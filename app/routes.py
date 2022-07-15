@@ -16,6 +16,7 @@ from app.download_budget_data import download_budget_pdf
 from app.download_assets_data import download_assets_pdf
 from app.download_liabilities_data import download_liabilities_pdf
 from app.download_expenses_data import download_expenses_pdf
+from app.download_income_data import download_income_pdf
 from app.data_assets import assets_data
 from app.data_expense import expenses_data
 from app.data_liabilities import liabilities_data
@@ -188,12 +189,16 @@ def update():
         flash(str(actual_income.amount) + ' has been added to your income')
         return redirect(url_for('update', anchor='income-sources'))
     actual_incomes = user.actual_incomes.all()
+    user_income_data = income_data(user)
 
-    # Get current user's incomes
-    income_months = income_data()[0]
-    income_items = income_data()[1]
-    income_amounts = income_data()[2]
-
+    # Get keys and values from user_income_data[0]
+    income_years = list(user_income_data[0].keys())
+    income_months = list(user_income_data[0].values())
+    income_amounts = list(user_income_data[1].values())
+    income_reps = len(income_years) # Used in chartjs to loop through the values from the dict
+    income_colors = ['#ffc107', '#673ab7', '#795548', '#009688', '#607d8b' ,
+                        '#00bcd4', '#ff9800', '#9c27b0', '#2196f3', '#ffeb3b']
+    
     # ==========================================================
     # USER EXPENSES
     # ==========================================================
@@ -239,9 +244,12 @@ def update():
             # Income data
             actual_income_form=actual_income_form,
             actual_incomes=actual_incomes,
+            user_income_data=user_income_data,
+            income_years=income_years,
             income_months=income_months,
-            income_items=income_items,
             income_amounts=income_amounts,
+            income_reps=income_reps,
+            income_colors=income_colors,
 
             # Assets data
             asset_form=asset_form,
@@ -437,6 +445,34 @@ def download_expenses_data():
     return render_template(
         'download_data_form.html',
         title='Download Expenses Data',
+        download_data_form=download_data_form)
+
+
+@app.route('/download-income-data', methods=['GET', 'POST'])
+@login_required
+def download_income_data():
+    """Download income data as pdf"""
+    user = User.query.filter_by(username=current_user.username).first()
+    user_income_data = income_data(user)
+
+    # Get keys and values from user_income_data[0]
+    income_years = list(user_income_data[0].keys())
+
+    # Download income data as pdf
+    download_data_form = DownloadDataForm()
+    download_data_form.year.choices = [(year, year) for year in income_years]
+    if download_data_form.validate_on_submit() and download_data_form.year.data:
+        session['year'] = download_data_form.year.data
+        download_income_pdf(user)
+        flash('Your income data has been downloaded. Click Save to keep a copy.')
+        encrypt_pdf(
+            input_pdf=app.config['PDF_FOLDER'] + 'income_data' + session['year'] + '.pdf',
+            password=user.username)
+        del session['year']
+        return redirect(url_for('update', anchor='income-sources'))
+    return render_template(
+        'download_data_form.html',
+        title='Download Income Data',
         download_data_form=download_data_form)
 
 # ==================== DOWNLOAD USER DATA ====================

@@ -1,7 +1,3 @@
-from app.models import User
-from flask_login import current_user
-
-
 def liabilities_data(user):
     """
     Retrieve current user's liabilities data from the database.

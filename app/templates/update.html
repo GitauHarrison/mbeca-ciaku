@@ -185,12 +185,12 @@
                     <div class="col-sm-3">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Download Actual Incomes Data</h3>
+                                <h3 class="panel-title">Download Income Data</h3>
                             </div>
                             <div class="panel-body">
                                 <div>
-                                    Want to download your actual incomes data? 
-                                    <a href=" # ">Click here</a>.
+                                    Want to download your income data? 
+                                    <a href=" {{ url_for('download_income_data') }} ">Click here</a>.
                                 </div>
                             </div>
                         </div>
@@ -517,13 +517,16 @@
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: [{% for month in income_months %}"{{ month }}",{% endfor %}],
+            labels: [{% for year in user_income_data[4] %}"{{ year }}",{% endfor %}],
             datasets: [{
-                label: ['2022 Income'],
-                data: [{% for amount in income_amounts %}{{ amount }},{% endfor %}],
-                backgroundColor: ['rgba(255, 99, 132, 0.2)'],
-                borderColor: ['rgba(255,99,132,1)'],
-                borderWidth: 1
+                {% for rep in range(income_reps) %}
+                    label: "Year {{ income_years[rep] }}",
+                    data: {{ income_amounts[rep] }},
+                    borderColor: "{{ income_colors[rep] }}",
+                    backgroundColor: "{{ income_colors[rep] }}",
+                    fill: false,
+                    borderWidth: 1
+                {% endfor %}
             }]
         },
         options: {
