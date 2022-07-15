@@ -63,14 +63,16 @@
         <!-- End of flash message -->
         {% block app_context %}{% endblock %}
 
-        {% block footer %}    
-        <div class="row footer">
-            <div class="col-md-12 text-center">
-                <hr>
-                <small>&copy; Mbeca Ciaku - {{ moment().format('YYYY') }}</small>
-            </div>
-        </div>
-    {% endblock %}
+        {% if current_user.is_anonymous %}
+            {% block footer %}    
+                <div class="row footer">
+                    <div class="col-md-12 text-center">
+                        <hr>
+                        <small>&copy; Mbeca Ciaku - {{ moment().format('YYYY') }}</small>
+                    </div>
+                </div>
+            {% endblock %}
+        {% endif %}
     </div>
 {% endblock %}
 
