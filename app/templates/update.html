@@ -280,7 +280,7 @@
                             <div class="panel-body">
                                 <div>
                                     Want to download your expenses data? 
-                                    <a href=" # ">Click here</a>.
+                                    <a href=" {{ url_for('download_expenses_data') }} ">Click here</a>.
                                 </div>
                             </div>
                         </div>
@@ -559,13 +559,16 @@
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: [{% for month in expense_months %}"{{ month }}",{% endfor %}],
+            labels: [{% for year in user_expenses_data[4] %}"{{ year }}",{% endfor %}],
             datasets: [{
-                label: ['2022 Expenses'],
-                data: [{% for amount in expense_amounts %}{{ amount }},{% endfor %}],
-                backgroundColor: ['rgba(255, 99, 132, 0.2)'],
-                borderColor: ['rgba(255,99,132,1)'],
-                borderWidth: 1
+                {% for rep in range(expense_reps) %}
+                    label: "Year {{ expense_years[rep] }}",
+                    data: {{ expense_amounts[rep] }},
+                    borderColor: "{{ expense_colors[rep] }}",
+                    backgroundColor: "{{ expense_colors[rep] }}",
+                    fill: false,
+                    borderWidth: 1
+                {% endfor %}
             }]
         },
     });

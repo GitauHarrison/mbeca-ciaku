@@ -11,9 +11,11 @@ from flask_login import current_user, login_user, logout_user, \
     login_required
 from app.data_income import income_data
 from app.data_budget import budget_data
+from app.data_expense import expenses_data
 from app.download_budget_data import download_budget_pdf
 from app.download_assets_data import download_assets_pdf
 from app.download_liabilities_data import download_liabilities_pdf
+from app.download_expenses_data import download_expenses_pdf
 from app.data_assets import assets_data
 from app.data_expense import expenses_data
 from app.data_liabilities import liabilities_data
@@ -210,11 +212,15 @@ def update():
         flash(str(actual_expense.amount) + ' has been added to your expenses')
         return redirect(url_for('update', anchor='expenses'))
     actual_expenses = user.expenses.all()
+    user_expenses_data = expenses_data(user)
 
-    # Get current user's expenses
-    expense_months = expenses_data()[0]
-    expense_items = expenses_data()[1]
-    expense_amounts = expenses_data()[2]
+    # Get keys and values from user_expenses_data[0]
+    expense_years = list(user_expenses_data[0].keys())
+    expense_months = list(user_expenses_data[0].values())
+    expense_amounts = list(user_expenses_data[1].values())
+    expense_reps = len(expense_years) # Used in chartjs to loop through the values from the dict
+    expense_colors = ['C8B6E2', '377D71', '#795548', '#009688', '495C83',
+                        'FBA1A1', '#ff9800', '#9c27b0', '1A4D2E', '#ffeb3b']
 
     return render_template(
             'update.html',
@@ -250,9 +256,12 @@ def update():
             # Expenses data
             expense_form=expense_form,
             actual_expenses=actual_expenses,
+            user_expenses_data=user_expenses_data,
+            expense_years=expense_years,
             expense_months=expense_months,
-            expense_items=expense_items,
             expense_amounts=expense_amounts,
+            expense_reps=expense_reps,
+            expense_colors=expense_colors,
 
             # Liabilities data
             liability_form=liability_form,
@@ -401,4 +410,33 @@ def download_liabilities_data():
         'download_data_form.html',
         title='Download Liabilities Data',
         download_data_form=download_data_form)
+
+
+@app.route('/download-expenses-data', methods=['GET', 'POST'])
+@login_required
+def download_expenses_data():
+    """Download expenses data as pdf"""
+    user = User.query.filter_by(username=current_user.username).first()
+    user_expenses_data = expenses_data(user)
+
+    # Get keys and values from user_expenses_data[0]
+    expense_years = list(user_expenses_data[0].keys())
+
+    # Download expenses data as pdf
+    download_data_form = DownloadDataForm()
+    download_data_form.year.choices = [(year, year) for year in expense_years]
+    if download_data_form.validate_on_submit() and download_data_form.year.data:
+        session['year'] = download_data_form.year.data
+        download_expenses_pdf(user)
+        flash('Your expenses data has been downloaded. Click Save to keep a copy.')
+        encrypt_pdf(
+            input_pdf=app.config['PDF_FOLDER'] + 'expenses_data' + session['year'] + '.pdf',
+            password=user.username)
+        del session['year']
+        return redirect(url_for('update', anchor='expenses'))
+    return render_template(
+        'download_data_form.html',
+        title='Download Expenses Data',
+        download_data_form=download_data_form)
+
 # ==================== DOWNLOAD USER DATA ====================
