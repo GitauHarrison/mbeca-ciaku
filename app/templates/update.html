@@ -488,18 +488,16 @@
                     "{{ year }}",
                 {% endfor %}
             ],
-            datasets: [
+            datasets: [{
                 {% for rep in range(reps) %}
-                    {
-                        label: "Year {{ budget_years[rep] }}",
+                    label: "Year {{ budget_years[rep] }}",
                         data: {{ budget_amounts[rep] }},
                         borderColor: "{{ colors[rep] }}",
                         backgroundColor: "{{ colors[rep] }}",
                         fill: false,
                         borderWidth: 1
-                    },
                 {% endfor %}
-            ]
+            }]
         },
         options: {
             scales: {
