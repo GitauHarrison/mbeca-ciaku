@@ -11,6 +11,7 @@ Mbeca (pronounced as 'besha') means "money" and Ciaku (pronounced as 'shiaku') m
 - [Deployed Application](#deployed-application)
 - [Contributors](#contributors)
 - [Testing The Application Locally](#testing-the-application-locally)
+- [Areas of improvement](#areas-of-improvement)
 
 ## Overview
 
