@@ -155,7 +155,6 @@ def enable_2fa():
 
 
 @app.route('/verify-2fa', methods=['GET', 'POST'])
-@login_required
 def verify_2fa():
     form = VerifyForm()
     if form.validate_on_submit():
@@ -168,7 +167,7 @@ def verify_2fa():
                 flash('You have enabled two-factor authentication.')
                 return redirect(url_for('help'))
             else:
-                username = session.get('username')
+                username = session['username']
                 del session['username']
                 user = User.query.filter_by(username=username).first()
                 next_page = request.args.get('next')
