@@ -36,7 +36,12 @@
                 {% if current_user.is_authenticated %}
                     <li><a href="{{ url_for('update') }}">Update</a></li>
                     <li><a href=" {{ url_for('help') }} ">Need Help?</a></li>
-                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    <li>
+                        <a href="{{ url_for('logout') }}">
+                        {{ current_user.username }} 
+                        <img class="img-fluid" style="height: 20px; width: 20px;" src=" {{ url_for('static', filename='images/logout.png') }} " alt="Logout">
+                    </a>
+                    </li>
                 {% else %}
                     <li><a href=" {{ url_for('login') }} ">Login</a></li>
                 {% endif %}
