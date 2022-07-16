@@ -47,6 +47,7 @@ Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryptio
 - [x] Encryption of downloaded PDF file
 - [ ] Tests
 - [ ] Custom admin dashboard
+- [x] Dynamic charts
 
 
 ## Tools Used
@@ -61,6 +62,7 @@ Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryptio
 - [x] [PyFPDF](https://pyfpdf.readthedocs.io/en/latest/) for PDF generation
 - [x] [PyPDF2](https://pypdf2.readthedocs.io/en/latest/) for PDF encryption
 - [ ] [Unittest](https://docs.python.org/3/library/unittest.html) for unit testing
+- [ ] [ChartJS](https://www.chartjs.org/) for charting
 
 ## Deployed Application
 
