@@ -15,7 +15,7 @@ Mbeca (pronounced as 'besha') means "money" and Ciaku (pronounced as 'shiaku') m
 ## Overview
 
 
-For many years, I have always made use of Google Sheets to record how my money comes in and goes out. At the end of each day, preferably at night, I consistently update this sheet with the current state of my money.
+For many years, I have used Google Sheets to record how my money comes in and goes out. At the end of each day, preferably at night, I consistently update this file with the current state of my money.
 
 ![Excel Data](app/static/images/excel_data.png)
 
@@ -34,7 +34,7 @@ Besides detailed budget, income and expenses data, I wanted to have a summary of
 
 Mbeca Ciaku is an attempt to create an easier solution to this small problem. Besides simplicity, I wanted to make an application that would be usable by multiple other people. These users can download their data for offline analysis. The downloaded data would be organized and encrypted in a PDF file.
 
-Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryption of personal data very interesting. If you are an active MPesa user, sometimes you would like to refer to your transactions to settle a dispute, confirm a payment, or to make a complaint. Whatever the case, [Safaricom](https://www.safaricom.co.ke/) allows you to easily request for a copy of your transaction data for free. The statement would be sent to you via email. This file is encrypted and can only be accessed by you. At the time of this writing, decrypting the file is dependant on the user providing their National ID number plus a one-time passcode sent to their phone. The decryption format is "ID-token". 
+Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryption process of personal data very interesting. This feature is really useful in the quest to guard against the rampant MPesa fraud cases. If you are an active MPesa user, sometimes you would like to refer to your transactions to settle a dispute, confirm a payment, or to make a complaint. Whatever the case, [Safaricom](https://www.safaricom.co.ke/) allows you to easily request for a copy of your transaction data for free. The statement would be sent to you via email. This file is encrypted and can only be accessed by you. At the time of this writing, decrypting the file is dependant on the user providing their National ID number plus a one-time numeric token sent to their phone. The decryption format is "ID-token". 
 
 ## Features
 
@@ -74,81 +74,85 @@ Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryptio
 
 1. Clone the repository
 
-```python
-$ git clone git@github.com:GitauHarrison/mbeca-ciaku.git
-```
+
+    ```python
+    $ git clone git@github.com:GitauHarrison/mbeca-ciaku.git
+    ```
 
 2. Change to the repository directory
 
-```python
-$ cd mbeca-ciaku
-```
+
+    ```python
+    $ cd mbeca-ciaku
+    ```
 
 3. Create and activate a virtual environment
 
-```python
-$ virtualenv venv
-$ source venv/bin/activate
 
-# OR using virtualenvwrapper
+    ```python
+    $ virtualenv venv
+    $ source venv/bin/activate
 
-$ mkvirtualenv mbeca-ciaku
-```
+    # OR using virtualenvwrapper
+
+    $ mkvirtualenv mbeca-ciaku
+    ```
 
 
 4. Install dependencies
 
-```python
-(mbeca-ciaku)$ pip install -r requirements.txt
-```
+
+    ```python
+    (mbeca-ciaku)$ pip3 install -r requirements.txt
+    ```
 
 
-5. Create `.env` file to all needed environment variables
+5. Create `.env` file in the root directory to store all needed environment variables
 
 
-```python
-(mbeca-ciaku)$ touch .env
-```
+    ```python
+    (mbeca-ciaku)$ touch .env
+    ```
 
 
 6. Update `.env` file with the variables seen in `.env-template` file in the repository root directory
 
 
 
-```python
-# Example .env-template file
+    ```python
+    # Example .env-template file
 
-SECRET_KEY=
-PDF_FOLDER=
-QUESTIONS_PER_PAGE=
-```
+    SECRET_KEY=
+    PDF_FOLDER_PATH=
+    QUESTIONS_PER_PAGE=
+    ```
 
-Note on how to generate a random string for the `SECRET_KEY` variable:
+    Note on how to generate a random string for the `SECRET_KEY` variable:
 
-```python
-# On terminal
-$ python -c "import os; print(os.urandom(24))"
+    ```python
+    # On terminal
+    $ python -c "import os; print(os.urandom(24))"
 
-# Output: b'\xc5\xdd\xb3s\xab<\xcc;h$>\x83f>e$\x03\xb8\xc8\xd1\xce\tZ\xd1'
+    # Output: b'\xc5\xdd\xb3s\xab<\xcc;h$>\x83f>e$\x03\xb8\xc8\xd1\xce\tZ\xd1'
 
-# Or
+    # Or
 
-(mbeca-ciaku)$ python -c 'import secrets; print(secrets.token_hex(16))'
+    (mbeca-ciaku)$ python -c 'import secrets; print(secrets.token_hex(16))'
 
-# Output:  ff4fcb6dc2243c5050677dca63c05112
+    # Output:  ff4fcb6dc2243c5050677dca63c05112
 
-# Or
+    # Or
 
-# Get password from https://www.grc.com/passwords.htm
+    # Get password from https://www.grc.com/passwords.htm
 
-```
+    ```
 
 
 7. Run the application
 
-```python
-(mbeca-ciaku)$ flask run
-```
+    ```python
+    (mbeca-ciaku)$ flask run
+    ```
 
 
 8. Paste the localhost URL http://127.0.0.1:5000  into your browser. You should be able to see the application.
@@ -156,9 +160,9 @@ $ python -c "import os; print(os.urandom(24))"
 
 9. Run the tests
 
-```python
-(mbeca-ciaku)$ python3 -m tests.py
-```
+    ```python
+    (mbeca-ciaku)$ python3 -m tests.py
+    ```
 
 ## Areas of Improvement
 
