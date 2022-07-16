@@ -152,13 +152,13 @@ def update():
     user_budget_data = budget_data(user)
 
     # Get keys and values from user_budget_data[0]
+    label_years = user_budget_data[4]
     budget_years = list(user_budget_data[0].keys())
     budget_months = list(user_budget_data[0].values())
     budget_amounts = list(user_budget_data[1].values())
     reps = len(budget_years) # Used in chartjs to loop through the values from the dict
     colors = ['#00bcd4', '#ff9800', '#9c27b0', '#2196f3', '#ffeb3b',
               '#ffc107', '#673ab7', '#795548', '#009688', '#607d8b']
-
     # ==========================================================
     # USER ASSETS
     # ==========================================================
@@ -179,6 +179,7 @@ def update():
     user_assets_data = assets_data(user)
 
     # Get keys and values from user_assets_data[0]
+    asset_label_years = user_assets_data[4]
     asset_years = list(user_assets_data[0].keys())
     asset_months = list(user_assets_data[0].values())
     asset_amounts = list(user_assets_data[1].values())
@@ -206,6 +207,7 @@ def update():
     user_liabilities_data = liabilities_data(user)
 
     # Get keys and values from user_liabilities_data[0]
+    liability_label_years = user_liabilities_data[4]
     liability_years = list(user_liabilities_data[0].keys())
     liability_months = list(user_liabilities_data[0].values())
     liability_amounts = list(user_liabilities_data[1].values())
@@ -232,15 +234,18 @@ def update():
         return redirect(url_for('update', anchor='income-sources'))
     actual_incomes = user.actual_incomes.all()
     user_income_data = income_data(user)
+    print(user_income_data[1])
 
     # Get keys and values from user_income_data[0]
+    income_label_years = user_income_data[4]
     income_years = list(user_income_data[0].keys())
     income_months = list(user_income_data[0].values())
     income_amounts = list(user_income_data[1].values())
+    print(income_amounts)
     income_reps = len(income_years) # Used in chartjs to loop through the values from the dict
     income_colors = ['#ffc107', '#673ab7', '#795548', '#009688', '#607d8b' ,
                         '#00bcd4', '#ff9800', '#9c27b0', '#2196f3', '#ffeb3b']
-    
+
     # ==========================================================
     # USER EXPENSES
     # ==========================================================
@@ -262,6 +267,7 @@ def update():
     user_expenses_data = expenses_data(user)
 
     # Get keys and values from user_expenses_data[0]
+    expense_label_years = user_expenses_data[4]
     expense_years = list(user_expenses_data[0].keys())
     expense_months = list(user_expenses_data[0].values())
     expense_amounts = list(user_expenses_data[1].values())
@@ -276,6 +282,7 @@ def update():
             # Budget data
             budget_form=budget_form,
             user_budget_data=user_budget_data,
+            label_years=label_years,
             budget_years=budget_years,
             budget_months=budget_months,
             budget_amounts=budget_amounts,
@@ -287,6 +294,7 @@ def update():
             actual_income_form=actual_income_form,
             actual_incomes=actual_incomes,
             user_income_data=user_income_data,
+            income_label_years=income_label_years,
             income_years=income_years,
             income_months=income_months,
             income_amounts=income_amounts,
@@ -297,6 +305,7 @@ def update():
             asset_form=asset_form,
             assets=assets,
             user_assets_data=user_assets_data,
+            asset_label_years=asset_label_years,
             asset_years=asset_years,
             asset_months=asset_months,
             asset_amounts=asset_amounts,
@@ -307,6 +316,7 @@ def update():
             expense_form=expense_form,
             actual_expenses=actual_expenses,
             user_expenses_data=user_expenses_data,
+            expense_label_years=expense_label_years,
             expense_years=expense_years,
             expense_months=expense_months,
             expense_amounts=expense_amounts,
@@ -317,6 +327,7 @@ def update():
             liability_form=liability_form,
             liabilities=liabilities,
             user_liabilities_data=user_liabilities_data,
+            liability_label_years=liability_label_years,
             liability_years=liability_years,
             liability_months=liability_months,
             liability_amounts=liability_amounts,
