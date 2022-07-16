@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_context %}
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h1>Disable 2FA on your Account</h1>                                             
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-center my-form">
+            {{ wtf.quick_form(form) }}     
+        </div>
+     </div>
+{% endblock %}

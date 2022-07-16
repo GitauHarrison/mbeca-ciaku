@@ -3,8 +3,25 @@
 
 {% block app_context%}
     <div class="row">
-        <h1 class="text-center">Ask the Support Team</h1>
+        <h1>Your Profile</h1>
         <div class="col-md-12">
+            <p>Username: {{ user.username }}</p>
+            <p>Email: {{ user.email }}</p>
+            <p>
+                Considering two-factor authentication?
+                <span>
+                    {% if not user.two_factor_enabled() %}
+                        <a href=" {{ url_for('enable_2fa') }} ">Enable 2FA</a>
+                    {% else %}
+                        <a href=" {{ url_for('disable_2fa') }} ">Disable 2FA</a>
+                    {% endif %}
+                </span>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <h1 class="text-center">Ask the Support Team</h1>
+        <div class="col-md-12 my-form">
             {{ wtf.quick_form(form) }}
         </div>
     </div>

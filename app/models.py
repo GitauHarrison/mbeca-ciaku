@@ -15,6 +15,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
+    verification_phone = db.Column(db.String(20))
 
     budget_items = db.relationship(
         'BudgetItem', backref='user', lazy='dynamic')
@@ -41,6 +42,9 @@ class User(UserMixin, db.Model):
     def avatar(self, size):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return f'https://www.gravatar.com/avatar/{digest}?d=identicon&s={size}'
+
+    def two_factor_enabled(self):
+        return self.verification_phone is not None
 
 
 class BudgetItem(db.Model):

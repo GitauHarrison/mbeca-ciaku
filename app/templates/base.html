@@ -7,6 +7,7 @@
     <link rel="icon" href="{{ url_for('static', filename='images/money.png') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/16.0.4/css/intlTelInput.css">
 {% endblock %}
 
 <!-- The title of our application is defined here -->
@@ -92,6 +93,22 @@
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+
+    <!-- Phone verification field -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/16.0.4/js/intlTelInput-jquery.min.js"></script>
+    
+    <script>
+        $("#verification_phone").css({position: 'absolute', top: '-9999px', left: '-9999px'});
+        $("#verification_phone").parent().append('<div><input type="tel" id="_verification_phone"></div>');
+        $("#_verification_phone").intlTelInput({
+            separateDialCode: true,
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/16.0.4/js/utils.js",
+        });
+        $("#_verification_phone").intlTelInput("setNumber", $('#verification_phone').val());
+        $('#_verification_phone').blur(function() {
+            $('#verification_phone').val($('#_verification_phone').intlTelInput("getNumber"));
+        });
+    </script>
 
     <!-- Custom scripts -->
     {% block app_scripts %}{% endblock %}

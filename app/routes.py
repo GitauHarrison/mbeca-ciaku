@@ -2,9 +2,9 @@ from crypt import methods
 from app import app, db
 from flask import render_template, flash, redirect, url_for, session,\
     request
-from app.forms import LoginForm, RegistrationForm, BudgetItemForm, \
+from app.forms import LoginForm, PhoneForm, RegistrationForm, BudgetItemForm, \
     AssetForm, LiabilityForm, ActualIncomeForm, ActualExpenseForm, \
-    DownloadDataForm, HelpForm
+    DownloadDataForm, HelpForm, PhoneForm, VerifyForm, DisableForm
 from app.models import User, BudgetItem, Expenses, Asset, Liability,\
     ActualIncome, Help
 from flask_login import current_user, login_user, logout_user, \
@@ -21,7 +21,9 @@ from app.data_assets import assets_data
 from app.data_expense import expenses_data
 from app.data_liabilities import liabilities_data
 from app.encrypt_pdf import encrypt_pdf
-import datetime
+from app.twilio_verify_api import request_verification_token, \
+    check_verification_token
+from werkzeug.urls import url_parse
 
 
 # The two functions below allow us to specify what forms
@@ -52,7 +54,7 @@ def help():
             author=user)
         db.session.add(question)
         db.session.commit()
-        flash('An email has been sent to the admin.'
+        flash('An email has been sent to the support team.'
               ' You will receive an email notification when your question is answered.')
         return redirect(url_for('help'))
     page = request.args.get('page', 1, type=int)
@@ -66,6 +68,7 @@ def help():
         'help.html',
         title='Help',
         form=form,
+        user=user,
         questions=questions.items,
         next_url=next_url,
         prev_url=prev_url)
@@ -99,9 +102,20 @@ def login():
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password')
             return redirect(url_for('login'))
+        next_page = request.args.get('next')
+        if not next_page or url_parse(next_page).netloc != '':
+            next_page = url_for('index')
+        if user.two_factor_enabled():
+            request_verification_token(user.verification_phone)
+            session['username'] = user.username
+            session['phone'] = user.verification_phone
+            return redirect(url_for(
+                'verify_2fa',
+                next=next_page,
+                remember='1' if form.remember_me.data else '0'))
         login_user(user, remember=form.remember_me.data)
         flash('Welcome back, ' + user.username)
-        return redirect(url_for('index'))
+        return redirect(next_page)
     return render_template('login.html', title='Login', form=form)
 
 
@@ -124,6 +138,57 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+# ===============================================================
+# Two-factor authentication
+# ===============================================================
+
+
+@app.route('/enable-2fa', methods=['GET', 'POST'])
+@login_required
+def enable_2fa():
+    form = PhoneForm()
+    if form.validate_on_submit():
+        session['phone'] = form.verification_phone.data
+        request_verification_token(session['phone'])
+        return redirect(url_for('verify_2fa'))
+    return render_template('enable_2fa.html', title='Enable 2FA', form=form)
+
+
+@app.route('/verify-2fa', methods=['GET', 'POST'])
+@login_required
+def verify_2fa():
+    form = VerifyForm()
+    if form.validate_on_submit():
+        phone = session['phone']
+        if check_verification_token(phone, form.token.data):
+            del session['phone']
+            if current_user.is_authenticated:
+                current_user.verification_phone = phone
+                db.session.commit()
+                flash('You have enabled two-factor authentication.')
+                return redirect(url_for('help'))
+            else:
+                username = session.get('username')
+                del session['username']
+                user = User.query.filter_by(username=username).first()
+                next_page = request.args.get('next')
+                remember = request.args.get('remember', '0') == '1'
+                login_user(user, remember=remember)
+                return redirect(next_page or url_for('index'))
+        form.token.errors.append('Invalid token.')
+    return render_template('verify_2fa.html', title='Verify 2FA', form=form)
+
+
+@app.route('/disable-2fa', methods=['GET', 'POST'])
+@login_required
+def disable_2fa():
+    form = DisableForm()
+    if form.validate_on_submit():
+        current_user.verification_phone = None
+        db.session.commit()
+        flash('You have disabled two-factor authentication.')
+        return redirect(url_for('help'))
+    return render_template('disable_2fa.html', title='Disable 2FA', form=form)
 
 # ==================== GET USER DATA FUNCTIONS ====================
 

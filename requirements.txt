@@ -22,6 +22,7 @@ itsdangerous==2.1.0
 Jinja2==3.0.3
 Mako==1.1.6
 MarkupSafe==2.1.0
+phonenumbers==8.12.51
 psycopg2==2.9.3
 PyJWT==2.3.0
 PyPDF2==2.5.0
