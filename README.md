@@ -40,7 +40,9 @@ Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryptio
 ## Features
 
 - [x] Password-based user authentication
-- [ ] Two-factor authentication
+- [x] Two-factor authentication
+- [ ] Custom super user (aka admin)
+- [ ] Custom user roles
 - [ ] Email notification
 - [x] Interactive tables with search, sort and pagination functionality
 - [x] Download of user data as PDF file
@@ -48,6 +50,8 @@ Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryptio
 - [ ] Tests
 - [ ] Custom support dashboard
 - [x] Dynamic charts
+- [ ] Password reset
+- [ ] Rich text integration and preview
 
 
 ## Tools Used
@@ -63,7 +67,8 @@ Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryptio
 - [x] [PyPDF2](https://pypdf2.readthedocs.io/en/latest/) for PDF encryption
 - [ ] [Unittest](https://docs.python.org/3/library/unittest.html) for unit testing
 - [x] [ChartJS](https://www.chartjs.org/) for data visualization
-- [] [Twilio Verify API](https://www.twilio.com/docs/verify/api) for SMS verification
+- [x] [Twilio Verify API](https://www.twilio.com/docs/verify/api) for SMS verification
+- [ ] [Flask pagedown](https://pypi.org/project/Flask-PageDown/0.1.3/) for Markdown support
 
 ## Deployed Application
 
@@ -72,6 +77,30 @@ Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryptio
 ## Contributors
 
 [![GitHub Contributors](https://img.shields.io/github/contributors/GitauHarrison/mbeca-ciaku)](https://github.com/GitauHarrison/mbeca-ciaku/graphs/contributors)
+
+
+## User Roles
+
+Admin
+
+- Has a private link to login
+- No registration page for admin
+- Adds the support team to answer user questions
+- Has absolute CRUD powers
+
+Support Team
+
+- Responsible for answering user questions and providing support
+- Has a private link to login
+- They cannot register themselves; only done by the admin
+- Receives email notifications when there is a new question
+
+User
+
+- A random user can register themselves
+- They will be required to authenticate themselves before they can access the application
+- Can update their financial information (budget, income, expenses, assets, liabilities)
+- They can download their data as a encrypted PDF file
 
 
 ## Testing The Application Locally
@@ -173,4 +202,4 @@ Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryptio
 - [ ] User interface design
 - [ ] Proper display of multiple graphs on specific charts (based on data years)
 - [ ] Disabling of the _Edit_ link in the help page after a specified duration
-- [ ] Automatic email notifications to remind users to update their data
+- [ ] Scheduled email notifications to remind users to update their data at the end of a day
