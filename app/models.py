@@ -3,6 +3,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from datetime import datetime
 from hashlib import md5
+import bleach
+from markdown import markdown
 
 
 @login.user_loader
@@ -105,8 +107,20 @@ class ActualIncome(db.Model):
 class Help(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.String(500))
+    body_html = db.Column(db.String(500))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
+    @staticmethod
+    def on_changed_body(target, value, oldvalue, initiator):
+        allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
+        'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
+        'h1', 'h2', 'h3', 'p']
+        target.body_html = bleach.linkify(bleach.clean(
+        markdown(value, output_format='html'),
+        tags=allowed_tags, strip=True))
+
     def __repr__(self):
         return f'Help: {self.body}'
+
+db.event.listen(Help.body, 'set', Help.on_changed_body)

@@ -3,6 +3,7 @@
 <!-- Link all style files here -->
 {% block head %}
     {{  super() }}
+    {{ pagedown.html_head() }}
     <!-- Add icon -->
     <link rel="icon" href="{{ url_for('static', filename='images/money.png') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">

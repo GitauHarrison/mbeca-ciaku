@@ -51,7 +51,7 @@ Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryptio
 - [ ] Custom support dashboard
 - [x] Dynamic charts
 - [ ] Password reset
-- [ ] Rich text integration and preview
+- [x] Rich text integration and preview
 
 
 ## Tools Used
@@ -68,7 +68,7 @@ Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryptio
 - [ ] [Unittest](https://docs.python.org/3/library/unittest.html) for unit testing
 - [x] [ChartJS](https://www.chartjs.org/) for data visualization
 - [x] [Twilio Verify API](https://www.twilio.com/docs/verify/api) for SMS verification
-- [ ] [Flask pagedown](https://pypi.org/project/Flask-PageDown/0.1.3/) for Markdown support
+- [x] [Flask pagedown](https://pypi.org/project/Flask-PageDown/0.1.3/) for Markdown support
 
 ## Deployed Application
 

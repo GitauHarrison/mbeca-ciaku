@@ -3,6 +3,7 @@ from wtforms import StringField, PasswordField, SubmitField, BooleanField, \
     SelectField, IntegerField, TextAreaField, DateField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 import phonenumbers
+from flask_pagedown.fields import PageDownField
 
 
 class RegistrationForm(FlaskForm):
@@ -103,8 +104,8 @@ class DownloadDataForm(FlaskForm):
 
 
 class HelpForm(FlaskForm):
-    body = TextAreaField(
+    body = PageDownField(
         'Help',
         validators=[DataRequired()],
-        render_kw={'placeholder': 'Ex. Help me with my budgeting.'})
+        render_kw={'placeholder': 'This form has markdown support.'})
     submit = SubmitField('Submit')
