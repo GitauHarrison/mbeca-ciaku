@@ -57,5 +57,13 @@ table {
     margin: 10px;
     border: 1px solid rgb(236, 236, 236);
     border-radius: 5px;
-    padding: 10px;
+    padding: 20px;
+}
+
+/* General styling */
+body {
+    font-family: 'Roboto', sans-serif;
+}
+p {
+    padding-top: 15px;
 }
