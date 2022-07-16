@@ -114,7 +114,7 @@ def download_liabilities_pdf(user):
     if session['year'] in months_in_year.keys():
         pdf.cell(50, 10, str(expenditure_in_a_year[session['year']]), 1, 1, 'C')
         pdf.output(
-            app.config['PDF_FOLDER'] + 'liabilities_data' + session["year"] + '.pdf', 'F')
+            app.config['PDF_FOLDER_PATH'] + 'liabilities_data' + session["year"] + '.pdf', 'F')
 
 
 
