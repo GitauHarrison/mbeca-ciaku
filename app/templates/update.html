@@ -478,44 +478,39 @@
     $(document).ready(function() {
         $('#tabs').tab();
     });
+    
     // Budget chart
-    var ctx = document.getElementById("budget-chart-canvas").getContext("2d");
-    var myChart = new Chart(ctx, {
+    var budget_ctx = document.getElementById("budget-chart-canvas").getContext("2d");
+    var myBudgetChart = new Chart(budget_ctx, {
         type: 'line',
         data: {
-            labels: [
-                {% for year in user_budget_data[4]%}
-                    "{{ year }}",
-                {% endfor %}
-            ],
+            labels: [{% for year in label_years %}"{{ year }}",{% endfor %}],
             datasets: [{
                 {% for rep in range(reps) %}
                     label: "Year {{ budget_years[rep] }}",
-                        data: {{ budget_amounts[rep] }},
-                        borderColor: "{{ colors[rep] }}",
-                        backgroundColor: "{{ colors[rep] }}",
-                        fill: false,
-                        borderWidth: 1
+                    data: {{ budget_amounts[rep] }},
+                    borderColor: "{{ colors[rep] }}",
+                    backgroundColor: "{{ colors[rep] }}",
+                    fill: false,
+                    borderWidth: 1
                 {% endfor %}
             }]
         },
         options: {
             scales: {
-                yAxes: [{
-                    ticks: {
-                        reverse: false,
+                x: {
+                        beginAtZero:false
                     }
-                }]
             }
         }
     });
 
     // Actual incomes chart
-    var ctx = document.getElementById("income-chart-canvas").getContext("2d");
-    var myChart = new Chart(ctx, {
+    var income_ctx = document.getElementById("income-chart-canvas").getContext("2d");
+    var myIncomeChart = new Chart(income_ctx, {
         type: 'line',
         data: {
-            labels: [{% for year in user_income_data[4] %}"{{ year }}",{% endfor %}],
+            labels: [{% for year in income_label_years %}"{{ year }}",{% endfor %}],
             datasets: [{
                 {% for rep in range(income_reps) %}
                     label: "Year {{ income_years[rep] }}",
@@ -537,11 +532,11 @@
     });
 
     // Actual assets chart
-    var ctx = document.getElementById("assets-chart-canvas").getContext("2d");
-    var myChart = new Chart(ctx, {
+    var asset_ctx = document.getElementById("assets-chart-canvas").getContext("2d");
+    var myAssetChart = new Chart(asset_ctx, {
         type: 'line',
         data: {
-            labels: [{% for year in user_assets_data[4] %}"{{ year }}",{% endfor %}],
+            labels: [{% for year in asset_label_years %}"{{ year }}",{% endfor %}],
             datasets: [{
                 {% for rep in range(asset_reps) %}
                     label: "Year {{ asset_years[rep] }}",
@@ -556,11 +551,11 @@
     });
 
     // Expenses chart
-    var ctx = document.getElementById("expenses-chart-canvas").getContext("2d");
-    var myChart = new Chart(ctx, {
+    var expenses_ctx = document.getElementById("expenses-chart-canvas").getContext("2d");
+    var myExpensesChart = new Chart(expenses_ctx, {
         type: 'line',
         data: {
-            labels: [{% for year in user_expenses_data[4] %}"{{ year }}",{% endfor %}],
+            labels: [{% for year in expense_label_years %}"{{ year }}",{% endfor %}],
             datasets: [{
                 {% for rep in range(expense_reps) %}
                     label: "Year {{ expense_years[rep] }}",
@@ -575,11 +570,11 @@
     });
 
     // Liabilities chart
-    var ctx = document.getElementById("liabilities-chart-canvas").getContext("2d");
-    var myChart = new Chart(ctx, {
+    var liabilities_ctx = document.getElementById("liabilities-chart-canvas").getContext("2d");
+    var myLiabilitiesChart = new Chart(liabilities_ctx, {
         type: 'line',
         data: {
-            labels: [{% for year in user_liabilities_data[4] %}"{{ year }}",{% endfor %}],
+            labels: [{% for year in liability_label_years %}"{{ year }}",{% endfor %}],
             datasets: [{
                 {% for rep in range(liability_reps) %}
                     label: "Year {{ liability_years[rep] }}",
