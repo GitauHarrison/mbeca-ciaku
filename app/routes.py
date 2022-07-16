@@ -1,7 +1,7 @@
 from crypt import methods
 from app import app, db
 from flask import render_template, flash, redirect, url_for, session,\
-    request
+    request, send_file
 from app.forms import LoginForm, PhoneForm, RegistrationForm, BudgetItemForm, \
     AssetForm, LiabilityForm, ActualIncomeForm, ActualExpenseForm, \
     DownloadDataForm, HelpForm, PhoneForm, VerifyForm, DisableForm
@@ -24,6 +24,8 @@ from app.encrypt_pdf import encrypt_pdf
 from app.twilio_verify_api import request_verification_token, \
     check_verification_token
 from werkzeug.urls import url_parse
+from io import BytesIO
+import os
 
 
 # The two functions below allow us to specify what forms
@@ -468,14 +470,30 @@ def download_budget_data():
     download_data_form = DownloadDataForm()
     download_data_form.year.choices = [(year, year) for year in budget_years]
     if download_data_form.validate_on_submit() and download_data_form.year.data:
+        # Save the year in session to be used in the naming of pdf
         session['year'] = download_data_form.year.data
+        # Download the budget data as pdf file
+        # Downloaded file will be saved in a chosen directory
         download_budget_pdf(user)
-        flash('Your budget data has been downloaded. Click Save to keep a copy.')
+        flash('Save popup should have been triggered.')
+        # Encrypt the pdf file
         encrypt_pdf(
-            input_pdf=app.config['PDF_FOLDER'] + 'budget_data' + session['year'] + '.pdf',
+            input_pdf=app.config['PDF_FOLDER_PATH'] + 'budget_data' + session['year'] + '.pdf',
             password=user.username)
-        del session['year']
-        return redirect(url_for('update', anchor='budget'))
+        # Download file to local computer
+        # File like objects are opend in binary mode
+        buffer = BytesIO()
+        buffer.write(open(
+            app.config['PDF_FOLDER_PATH'] + 'budget_data' + session['year'] + '.pdf', 'rb').read())
+        # File pointer will be seeked to the start of the data
+        buffer.seek(0)
+        # Delete the downloaded pdf file from project folder (save space)
+        os.remove(app.config['PDF_FOLDER_PATH'] + 'budget_data' + session['year'] + '.pdf')
+        # Send the file to the browser as a pdf file
+        return send_file(
+            buffer,
+            attachment_filename='budget_data' + session['year'] + '.pdf',
+            as_attachment=True)
     return render_template(
         'download_data_form.html',
         title='Download Budget Data',
@@ -498,12 +516,19 @@ def download_asset_data():
     if download_data_form.validate_on_submit() and download_data_form.year.data:
         session['year'] = download_data_form.year.data
         download_assets_pdf(user)
-        flash('Your asset data has been downloaded. Click Save to keep a copy.')
+        flash('Save popup should have been triggered.')
         encrypt_pdf(
-            input_pdf=app.config['PDF_FOLDER'] + 'asset_data' + session['year'] + '.pdf',
+            input_pdf=app.config['PDF_FOLDER_PATH'] + 'asset_data' + session['year'] + '.pdf',
             password=user.username)
-        del session['year']
-        return redirect(url_for('update', anchor='assets'))
+        buffer = BytesIO()
+        buffer.write(open(
+            app.config['PDF_FOLDER_PATH'] + 'asset_data' + session['year'] + '.pdf', 'rb').read())
+        buffer.seek(0)
+        os.remove(app.config['PDF_FOLDER_PATH'] + 'asset_data' + session['year'] + '.pdf')
+        return send_file(
+            buffer,
+            attachment_filename='asset_data' + session['year'] + '.pdf',
+            as_attachment=True)
     return render_template(
         'download_data_form.html',
         title='Download Asset Data',
@@ -526,12 +551,19 @@ def download_liabilities_data():
     if download_data_form.validate_on_submit() and download_data_form.year.data:
         session['year'] = download_data_form.year.data
         download_liabilities_pdf(user)
-        flash('Your liabilities data has been downloaded. Click Save to keep a copy.')
+        flash('Save popup should have been triggered.')
         encrypt_pdf(
-            input_pdf=app.config['PDF_FOLDER'] + 'liabilities_data' + session['year'] + '.pdf',
+            input_pdf=app.config['PDF_FOLDER_PATH'] + 'liabilities_data' + session['year'] + '.pdf',
             password=user.username)
-        del session['year']
-        return redirect(url_for('update', anchor='liabilities'))
+        buffer = BytesIO()
+        buffer.write(open(
+            app.config['PDF_FOLDER_PATH'] + 'liabilities_data' + session['year'] + '.pdf', 'rb').read())
+        buffer.seek(0)
+        os.remove(app.config['PDF_FOLDER_PATH'] + 'liabilities_data' + session['year'] + '.pdf')
+        return send_file(
+            buffer,
+            attachment_filename='liabilities_data' + session['year'] + '.pdf',
+            as_attachment=True)
     return render_template(
         'download_data_form.html',
         title='Download Liabilities Data',
@@ -554,12 +586,19 @@ def download_expenses_data():
     if download_data_form.validate_on_submit() and download_data_form.year.data:
         session['year'] = download_data_form.year.data
         download_expenses_pdf(user)
-        flash('Your expenses data has been downloaded. Click Save to keep a copy.')
+        flash('Save popup should have been triggered.')
         encrypt_pdf(
-            input_pdf=app.config['PDF_FOLDER'] + 'expenses_data' + session['year'] + '.pdf',
+            input_pdf=app.config['PDF_FOLDER_PATH'] + 'expenses_data' + session['year'] + '.pdf',
             password=user.username)
-        del session['year']
-        return redirect(url_for('update', anchor='expenses'))
+        buffer = BytesIO()
+        buffer.write(open(
+            app.config['PDF_FOLDER_PATH'] + 'expenses_data' + session['year'] + '.pdf', 'rb').read())
+        buffer.seek(0)
+        os.remove(app.config['PDF_FOLDER_PATH'] + 'expenses_data' + session['year'] + '.pdf')
+        return send_file(
+            buffer,
+            attachment_filename='expenses_data' + session['year'] + '.pdf',
+            as_attachment=True)
     return render_template(
         'download_data_form.html',
         title='Download Expenses Data',
@@ -582,15 +621,22 @@ def download_income_data():
     if download_data_form.validate_on_submit() and download_data_form.year.data:
         session['year'] = download_data_form.year.data
         download_income_pdf(user)
-        flash('Your income data has been downloaded. Click Save to keep a copy.')
+        flash('Save popup should have been triggered.')
         encrypt_pdf(
-            input_pdf=app.config['PDF_FOLDER'] + 'income_data' + session['year'] + '.pdf',
+            input_pdf=app.config['PDF_FOLDER_PATH'] + 'income_data' + session['year'] + '.pdf',
             password=user.username)
-        del session['year']
-        return redirect(url_for('update', anchor='income-sources'))
+        buffer = BytesIO()
+        buffer.write(open(
+            app.config['PDF_FOLDER_PATH'] + 'income_data' + session['year'] + '.pdf', 'rb').read())
+        buffer.seek(0)
+        os.remove(app.config['PDF_FOLDER_PATH'] + 'income_data' + session['year'] + '.pdf')
+        return send_file(
+            buffer,
+            attachment_filename='income_data' + session['year'] + '.pdf',
+            as_attachment=True)
     return render_template(
         'download_data_form.html',
         title='Download Income Data',
         download_data_form=download_data_form)
 
-# ==================== DOWNLOAD USER DATA ====================
+# ==================== END OF DOWNLOAD USER DATA ====================
