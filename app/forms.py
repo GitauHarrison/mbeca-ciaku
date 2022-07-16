@@ -1,7 +1,7 @@
 from random import choices
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, \
-    SelectField, IntegerField, TextAreaField, DateField, DateTimeField
+    SelectField, IntegerField, TextAreaField, DateField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 
 
