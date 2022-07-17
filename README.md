@@ -43,13 +43,13 @@ Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryptio
 - [x] Password-based user authentication
 - [x] Two-factor authentication
 - [x] Custom super user (aka admin)
-- [ ] Custom user roles
+- [x] Custom user roles
 - [x] Email notification
 - [x] Interactive tables with search, sort and pagination functionality
 - [x] Download of user data as PDF file
 - [x] Encryption of downloaded PDF file
 - [ ] Tests
-- [ ] Custom support dashboard
+- [x] Custom support dashboard
 - [x] Dynamic charts
 - [x] Password reset
 - [x] Rich text integration and preview
@@ -68,8 +68,10 @@ Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryptio
 - [x] [PyPDF2](https://pypdf2.readthedocs.io/en/latest/) for PDF encryption
 - [ ] [Unittest](https://docs.python.org/3/library/unittest.html) for unit testing
 - [x] [ChartJS](https://www.chartjs.org/) for data visualization
-- [x] [Twilio Verify API](https://www.twilio.com/docs/verify/api) for SMS verification
+- [x] [Twilio Verify API](https://www.twilio.com/docs/verify/api) for SMS verification 
 - [x] [Flask pagedown](https://pypi.org/project/Flask-PageDown/0.1.3/) for Markdown support
+
+- To work with Twilio Verify API, you need to have a Twilio account. Learn more about it [here](https://github.com/GitauHarrison/notes/blob/master/two_factor_authentication/twilio_verify_2fa.md).
 
 ## Deployed Application
 
