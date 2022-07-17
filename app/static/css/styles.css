@@ -67,3 +67,10 @@ body {
 p {
     padding-top: 15px;
 }
+.dashboard {
+    margin: 10px;
+    background-color: rgb(248, 252, 255);
+}
+.dashboard:hover {
+    background-color: #ececec;
+}

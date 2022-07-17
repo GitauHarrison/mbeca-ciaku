@@ -10,6 +10,7 @@ Mbeca (pronounced as 'besha') means "money" and Ciaku (pronounced as 'shiaku') m
 - [Tools Used](#tools-used)
 - [Deployed Application](#deployed-application)
 - [Contributors](#contributors)
+- [User Roles](#user-roles)
 - [Testing The Application Locally](#testing-the-application-locally)
 - [Areas of improvement](#areas-of-improvement)
 
@@ -41,16 +42,16 @@ Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryptio
 
 - [x] Password-based user authentication
 - [x] Two-factor authentication
-- [ ] Custom super user (aka admin)
+- [x] Custom super user (aka admin)
 - [ ] Custom user roles
-- [ ] Email notification
+- [x] Email notification
 - [x] Interactive tables with search, sort and pagination functionality
 - [x] Download of user data as PDF file
 - [x] Encryption of downloaded PDF file
 - [ ] Tests
 - [ ] Custom support dashboard
 - [x] Dynamic charts
-- [ ] Password reset
+- [x] Password reset
 - [x] Rich text integration and preview
 
 
@@ -60,7 +61,7 @@ Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryptio
 - [x] [Flask Bootstrap](https://pythonhosted.org/Flask-Bootstrap/) for styling and cross-browser responsive design
 - [x] [Flask-WTF](https://flask-wtf.readthedocs.io/en/latest/) for form validation
 - [x] [Flask-Login](https://flask-login.readthedocs.io/en/latest/) for user authentication
-- [ ] [Flask-Mail](https://pythonhosted.org/Flask-Mail/) for email notification
+- [x] [Flask-Mail](https://pythonhosted.org/Flask-Mail/) for email notification
 - [x] [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/2.x/) for database management
 - [x] [Flask-Migrate](https://flask-migrate.readthedocs.io/en/latest/) for database migrations
 - [x] [PyFPDF](https://pyfpdf.readthedocs.io/en/latest/) for PDF generation

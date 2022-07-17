@@ -6,7 +6,7 @@ from app.forms import LoginForm, PhoneForm, RegistrationForm, BudgetItemForm, \
     DownloadDataForm, HelpForm, PhoneForm, VerifyForm, DisableForm, \
     ResetPasswordRequestForm, ResetPasswordForm
 from app.models import User, BudgetItem, Expenses, Asset, Liability,\
-    ActualIncome, Help
+    ActualIncome, Help, Admin, Support
 from flask_login import current_user, login_user, logout_user, \
     login_required
 from app.data_income import income_data
@@ -26,7 +26,7 @@ from app.twilio_verify_api import request_verification_token, \
 from werkzeug.urls import url_parse
 from io import BytesIO
 import os
-from app.email import send_password_reset_email
+from app.email import send_password_reset_email, send_admin_password_reset_email
 
 
 # The two functions below allow us to specify what forms
@@ -94,6 +94,203 @@ def edit_help(id):
     form.body.data = question.body
     return render_template('edit_help.html', title='Edit Help', form=form)
 
+# ==========================================================
+# Dashboard Routes
+# ==========================================================
+
+
+# Render admin dashboard
+
+
+@app.route('/admin/dashboard/registration', methods=['GET', 'POST'])
+def admin_dashboard_registration():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        admin = Admin(username=form.username.data,email=form.email.data)
+        admin.set_password(form.password.data)
+        db.session.add(admin)
+        db.session.commit()
+        flash('You have successfully registered as an admin!')
+        return redirect(url_for('admin_login'))
+    return render_template(
+        'register.html',
+        title='Registration',
+        form=form)
+
+
+@app.route('/admin/dashboard/login', methods=['GET', 'POST'])
+def admin_login():
+    if current_user.is_authenticated:
+        return redirect(url_for('admin_dashboard'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        admin = Admin.query.filter_by(username=form.username.data).first()
+        if admin is None or not admin.check_password(form.password.data):
+            flash('Invalid username or password')
+            return redirect(url_for('admin_login'))
+        next_page = request.args.get('next')
+        if not next_page or url_parse(next_page).netloc != '':
+            next_page = url_for('admin_dashboard', username=admin.username)
+        if admin.two_factor_enabled():
+            request_verification_token(admin.verification_phone)
+            session['username'] = admin.username
+            username = session['username']
+            session['phone'] = admin.verification_phone
+            return redirect(url_for(
+                'admin_verify_2fa', username=admin.username,
+                next=next_page,
+                remember='1' if form.remember_me.data else '0'))
+        login_user(admin, remember=form.remember_me.data)
+        flash('Welcome back, ' + admin.username)
+        return redirect(next_page)
+    return render_template('admin/admin_login.html', title='Admin Login', form=form)
+
+
+@app.route('/dashboard/admin/logout')
+def admin_logout():
+    logout_user()
+    return redirect(url_for('admin_login'))
+
+
+@app.route('/admin/request-password-reset', methods=['GET', 'POST'])
+def admin_request_password_reset():
+    if current_user.is_authenticated:
+        return redirect(url_for('admin_dashboard'))
+    form = ResetPasswordRequestForm()
+    if form.validate_on_submit():
+        admin = Admin.query.filter_by(email=form.email.data).first()
+        if admin:
+            send_admin_password_reset_email(admin)
+        flash('Check your email for the instructions to reset your password')
+        return redirect(url_for('admin_login'))
+    return render_template(
+        'reset_password_request.html',
+        title='Request Reset Password',
+        form=form)
+
+
+@app.route('/admin/reset-password/<token>', methods=['GET', 'POST'])
+def admin_reset_password(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    admin = Admin.verify_reset_password_token(token)
+    if not admin:
+        return redirect(url_for('admin_login'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        admin.set_password(form.password.data)
+        db.session.commit()
+        flash('Your admin password has been reset.')
+        return redirect(url_for('admin_login'))
+    return render_template(
+        'reset_password.html',
+        title='Reset Password',
+        form=form)
+
+
+@app.route('/admin/dashboard/<username>', methods=['GET', 'POST'])
+@login_required
+def admin_dashboard(username):
+    admin = Admin.query.filter_by(username=username).first_or_404()
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        support = Support(username=form.username.data,email=form.email.data)
+        support.set_password(form.password.data)
+        db.session.add(support)
+        db.session.commit()
+        flash(f'You have successfully registered ' + {support.username} + ' a support team member!')
+        return redirect(url_for('admin_dashboard', username=admin.username))
+    support_team = Support.query.all()
+    return render_template(
+        'admin/admin_dashboard.html',
+        title='Admin Dashboard',
+        admin=admin,
+        support_team=support_team,
+        form=form)
+
+
+@app.route('/admin/dashboard/support-member/<username>/delete', methods=['GET', 'POST'])
+def admin_delete_support_member(username):
+    support = Support.query.filter_by(username=username).first_or_404()
+    db.session.delete(support)
+    db.session.commit()
+    flash(f'You have successfully deleted ' + {support.username} + ' from the support team!')
+    return redirect(url_for('admin_dashboard', username=current_user.username))
+
+
+# Two-factor authentication routes
+
+
+@app.route('/admin/dashboard/<username>/enable_2fa', methods=['GET', 'POST'])
+@login_required
+def admin_enable_2fa(username):
+    admin = Admin.query.filter_by(username=username).first_or_404()
+    form = PhoneForm()
+    if form.validate_on_submit():
+        session['phone'] = form.verification_phone.data
+        request_verification_token(session['phone'])
+        return redirect(url_for('admin_verify_2fa', username=admin.username))
+    return render_template(
+        'enable_2fa.html',
+        title='Enable 2FA',
+        form=form,
+        admin=admin)
+
+
+@app.route('/admin/dashboard/<username>/verify_2fa', methods=['GET', 'POST'])
+def admin_verify_2fa(username):
+    admin = Admin.query.filter_by(username=username).first_or_404()
+    form = VerifyForm()
+    if form.validate_on_submit():
+        phone = session['phone']
+        if check_verification_token(phone, form.token.data):
+            del session['phone']
+            if current_user.is_authenticated:
+                current_user.verification_phone = phone
+                db.session.commit()
+                flash('You have enabled two-factor authentication on your account.')
+                return redirect(url_for('admin_dashboard', username=username))
+            else:
+                username = session['username']
+                del session['username']
+                admin = Admin.query.filter_by(username=username).first_or_404()
+                next_page = request.args.get('next')
+                remember = request.args.get('remember', '0') == '1'
+                login_user(admin, remember=remember)
+                return redirect(next_page or url_for('admin_dashboard', username=username))
+        form.token.errors.append('Invalid token')
+    return render_template(
+        'verify_2fa.html',
+        title='Verify 2FA',
+        form=form,
+        admin=admin)
+
+
+@app.route('/admin/dashboard/<username>/disable_2fa', methods=['GET', 'POST'])
+@login_required
+def admin_disable_2fa(username):
+    admin = Admin.query.filter_by(username=username).first_or_404()
+    form = DisableForm()
+    if form.validate_on_submit():
+        current_user.verification_phone = None
+        db.session.commit()
+        flash('You have disabled two-factor authentication on your account.')
+        return redirect(url_for('admin_dashboard', username=username))
+    return render_template(
+        'disable_2fa.html',
+        title='Disable 2FA',
+        form=form,
+        admin=admin)
+
+# ==========================================================
+# End of Dashboard Routes
+# ==========================================================
+
+
+# ==========================================================
+# Basic Auth
+# ==========================================================
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -119,7 +316,7 @@ def login():
         login_user(user, remember=form.remember_me.data)
         flash('Welcome back, ' + user.username)
         return redirect(next_page)
-    return render_template('login.html', title='Login', form=form)
+    return render_template('login.html', title='User Login', form=form)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -140,6 +337,40 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+
+@app.route('/request-for-password-reset', methods=['GET', 'POST'])
+def reset_password_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = ResetPasswordRequestForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            send_password_reset_email(user)
+        flash('Check your email for the instructions to reset your password')
+        return redirect(url_for('login'))
+    return render_template(
+        'reset_password_request.html',
+        title='Request Reset Password', form=form)
+
+
+@app.route('/reset-password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    user = User.verify_reset_password_token(token)
+    if not user:
+        return redirect(url_for('index'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        user.set_password(form.password.data)
+        db.session.commit()
+        flash('Your password has been reset.')
+        return redirect(url_for('login'))
+    return render_template(
+        'reset_password.html', form=form, title='Reset Password')
+
 
 # ===============================================================
 # Two-factor authentication
@@ -194,40 +425,9 @@ def disable_2fa():
     return render_template('disable_2fa.html', title='Disable 2FA', form=form)
 
 
-@app.route('/request-for-password-reset', methods=['GET', 'POST'])
-def reset_password_request():
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
-    form = ResetPasswordRequestForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user:
-            send_password_reset_email(user)
-        flash('Check your email for the instructions to reset your password')
-        return redirect(url_for('login'))
-    return render_template(
-        'reset_password_request.html',
-        title='Request Reset Password', form=form)
-
-
-@app.route('/reset-password/<token>', methods=['GET', 'POST'])
-def reset_password(token):
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
-    user = User.verify_reset_password_token(token)
-    if not user:
-        return redirect(url_for('index'))
-    form = ResetPasswordForm()
-    if form.validate_on_submit():
-        user.set_password(form.password.data)
-        db.session.commit()
-        flash('Your password has been reset.')
-        return redirect(url_for('login'))
-    return render_template(
-        'reset_password.html', form=form, title='Reset Password')
-
-
-# ==================== GET USER DATA FUNCTIONS ====================
+# ===============================================================
+# Get User data
+# ===============================================================
 
 @app.route('/update', methods=['GET', 'POST'])
 @login_required
@@ -437,9 +637,13 @@ def update():
             liability_colors=liability_colors
             )
 
-# ==================== END OF GET DATA FUNCTIONS ====================
+# ===============================================================
+# End of Get User data
+# ===============================================================
 
-# ==================== DELETE USER DATA ====================
+# ===============================================================
+# Delete User data
+# ===============================================================
 
 
 @app.route('/delete/budget-item-<int:id>')
@@ -486,9 +690,13 @@ def actual_income_delete(id):
     flash(str(actual_income.amount) + ' has been deleted from actual income')
     return redirect(url_for('update', anchor='income-sources'))
 
-# ==================== END OF DELETE USER DATA ====================
+# ===============================================================
+# End of Delete User data
+# ===============================================================
 
-# ==================== DOWNLOAD USER DATA ====================
+# ===============================================================
+# Download and Encrypt User data
+# ===============================================================
 
 
 @app.route('/download-budget-data', methods=['GET', 'POST'])
@@ -674,4 +882,6 @@ def download_income_data():
         title='Download Income Data',
         download_data_form=download_data_form)
 
-# ==================== END OF DOWNLOAD USER DATA ====================
+# ===============================================================
+# End of Download and Encrypt User data
+# ===============================================================
