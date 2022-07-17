@@ -51,6 +51,11 @@ class Admin(UserMixin, db.Model):
     def two_factor_enabled(self):
         return self.verification_phone is not None
 
+    def avatar(self, size):
+        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
+        return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
+            digest, size)
+
 
 class Support(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)

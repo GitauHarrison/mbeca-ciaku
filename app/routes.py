@@ -26,7 +26,9 @@ from app.twilio_verify_api import request_verification_token, \
 from werkzeug.urls import url_parse
 from io import BytesIO
 import os
-from app.email import send_password_reset_email, send_admin_password_reset_email
+from app.email import send_password_reset_email, \
+    send_admin_password_reset_email, send_support_password_reset_email, \
+    send_new_question_email, send_answer_email
 
 
 # The two functions below allow us to specify what forms
@@ -60,8 +62,11 @@ def help():
         flash('An email has been sent to the support team.'
               ' You will receive an email notification when your question is answered.')
         return redirect(url_for('help'))
+    support_members = Support.query.all()
+    for support in support_members:
+        send_new_question_email(support)
     page = request.args.get('page', 1, type=int)
-    questions = user.questions.order_by(Help.timestamp.desc()).paginate(
+    questions = Help.query.order_by(Help.timestamp.desc()).paginate(
         page, app.config['QUESTIONS_PER_PAGE'], False)
     next_url = url_for('help', page=questions.next_num) \
         if questions.has_next else None
@@ -95,7 +100,7 @@ def edit_help(id):
     return render_template('edit_help.html', title='Edit Help', form=form)
 
 # ==========================================================
-# Dashboard Routes
+# Admin Dashboard Routes
 # ==========================================================
 
 
@@ -165,14 +170,14 @@ def admin_request_password_reset():
         return redirect(url_for('admin_login'))
     return render_template(
         'reset_password_request.html',
-        title='Request Reset Password',
+        title='[Admin] Request Password Reset',
         form=form)
 
 
 @app.route('/admin/reset-password/<token>', methods=['GET', 'POST'])
 def admin_reset_password(token):
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('admin_dashboard'))
     admin = Admin.verify_reset_password_token(token)
     if not admin:
         return redirect(url_for('admin_login'))
@@ -283,12 +288,198 @@ def admin_disable_2fa(username):
         admin=admin)
 
 # ==========================================================
-# End of Dashboard Routes
+# End of Admin Dashboard Routes
+# ==========================================================
+
+
+
+# ==========================================================
+# Support Dashboard Routes
+# ==========================================================
+
+# Basic authentication routes
+
+@app.route('/support/dashboard/login', methods=['GET', 'POST'])
+def support_login():
+    if current_user.is_authenticated:
+        return redirect(url_for('support_dashboard'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        support = Support.query.filter_by(username=form.username.data).first()
+        if support is None or not support.check_password(form.password.data):
+            flash('Invalid username or password')
+            return redirect(url_for('support_login'))
+        next_page = request.args.get('next')
+        if not next_page or url_parse(next_page).netloc != '':
+            next_page = url_for('support_dashboard', username=support.username)
+        if support.two_factor_enabled():
+            request_verification_token(support.verification_phone)
+            session['username'] = support.username
+            username = session['username']
+            session['phone'] = support.verification_phone
+            return redirect(url_for(
+                'support_verify_2fa', username=support.username,
+                next=next_page,
+                remember='1' if form.remember_me.data else '0'))
+        login_user(support, remember=form.remember_me.data)
+        flash('Welcome back, ' + support.username)
+        return redirect(next_page)
+    return render_template(
+        'support/support_login.html', title='Support Login', form=form)
+
+
+@app.route('/dashboard/support/logout')
+def support_logout():
+    logout_user()
+    return redirect(url_for('support_login'))
+
+
+# Password reset routes
+
+
+@app.route('/support/request-password-reset', methods=['GET', 'POST'])
+def support_request_password_reset():
+    if current_user.is_authenticated:
+        return redirect(url_for('support_dashboard'))
+    form = ResetPasswordRequestForm()
+    if form.validate_on_submit():
+        support = Support.query.filter_by(email=form.email.data).first()
+        if support:
+            send_support_password_reset_email(support)
+        flash('Check your email for the instructions to reset your password')
+        return redirect(url_for('support_login'))
+    return render_template(
+        'reset_password_request.html',
+        title='[Support] Request Password Reset',
+        form=form)
+
+
+@app.route('/support/reset-password/<token>', methods=['GET', 'POST'])
+def support_reset_password(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('support_dashboard'))
+    support = Admin.verify_reset_password_token(token)
+    if not support:
+        return redirect(url_for('support_login'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        support.set_password(form.password.data)
+        db.session.commit()
+        flash('Your support password has been reset.')
+        return redirect(url_for('support_login'))
+    return render_template(
+        'reset_password.html',
+        title='Reset Password',
+        form=form)
+
+
+@app.route('/support/dashboard/<username>', methods=['GET', 'POST'])
+@login_required
+def support_dashboard(username):
+    support = Support.query.filter_by(username=username).first_or_404()
+    form = HelpForm()
+    if form.validate_on_submit():
+        answer = Help(body = form.body.data, support=support)
+        db.session.add(answer)
+        db.session.commit()
+        flash(f'You have successfully answered a question!')
+        return redirect(url_for('support_dashboard', username=support.username))
+    users = User.query.all()
+    for user in users:
+        question_author = user.author.username
+        if question_author:
+            send_answer_email(user)
+    flash('You have successfully answered a question! An email has been sent to the user.')
+    page = request.args.get('page', 1, type=int)
+    questions = Help.query.order_by(Help.timestamp.desc()).paginate(
+        page, app.config['QUESTIONS_PER_PAGE'], False)
+    next_url = url_for(
+        'support_dashboard', username=support.username, page=questions.next_num) \
+            if questions.has_next else None
+    prev_url = url_for(
+        'support_dashboard', username=support.username, page=questions.prev_num) \
+            if questions.has_prev else None
+    return render_template(
+        'support/support_dashboard.html',
+        title='Support Dashboard',
+        support=support,
+        form=form,
+        questions=questions.items,
+        next_url=next_url,
+        prev_url=prev_url)
+
+
+# Two-factor authentication routes
+
+
+@app.route('/support/dashboard/<username>/enable_2fa', methods=['GET', 'POST'])
+@login_required
+def support_enable_2fa(username):
+    support = Support.query.filter_by(username=username).first_or_404()
+    form = PhoneForm()
+    if form.validate_on_submit():
+        session['phone'] = form.verification_phone.data
+        request_verification_token(session['phone'])
+        return redirect(url_for('support_verify_2fa', username=support.username))
+    return render_template(
+        'enable_2fa.html',
+        title='Enable 2FA',
+        form=form,
+        support=support)
+
+
+@app.route('/support/dashboard/<username>/verify_2fa', methods=['GET', 'POST'])
+def support_verify_2fa(username):
+    support = Support.query.filter_by(username=username).first_or_404()
+    form = VerifyForm()
+    if form.validate_on_submit():
+        phone = session['phone']
+        if check_verification_token(phone, form.token.data):
+            del session['phone']
+            if current_user.is_authenticated:
+                current_user.verification_phone = phone
+                db.session.commit()
+                flash('You have enabled two-factor authentication on your account.')
+                return redirect(url_for('support_dashboard', username=username))
+            else:
+                username = session['username']
+                del session['username']
+                support = Support.query.filter_by(username=username).first_or_404()
+                next_page = request.args.get('next')
+                remember = request.args.get('remember', '0') == '1'
+                login_user(support, remember=remember)
+                return redirect(next_page or url_for('support_dashboard', username=username))
+        form.token.errors.append('Invalid token')
+    return render_template(
+        'verify_2fa.html',
+        title='Verify 2FA',
+        form=form,
+        support=support)
+
+
+@app.route('/support/dashboard/<username>/disable_2fa', methods=['GET', 'POST'])
+@login_required
+def support_disable_2fa(username):
+    support = Support.query.filter_by(username=username).first_or_404()
+    form = DisableForm()
+    if form.validate_on_submit():
+        current_user.verification_phone = None
+        db.session.commit()
+        flash('You have disabled two-factor authentication on your account.')
+        return redirect(url_for('support_dashboard', username=username))
+    return render_template(
+        'disable_2fa.html',
+        title='Disable 2FA',
+        form=form,
+        support=support)
+
+# ==========================================================
+# End of Support Dashboard Routes
 # ==========================================================
 
 
 # ==========================================================
-# Basic Auth
+# User Basic Auth
 # ==========================================================
 
 
@@ -352,7 +543,7 @@ def reset_password_request():
         return redirect(url_for('login'))
     return render_template(
         'reset_password_request.html',
-        title='Request Reset Password', form=form)
+        title='Request Password Reset ', form=form)
 
 
 @app.route('/reset-password/<token>', methods=['GET', 'POST'])

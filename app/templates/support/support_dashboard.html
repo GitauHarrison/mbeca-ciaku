@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_context%}
+    <div class="row">
+        <div class="col-12 text-center">
+            <h1 class="text-center">{{ title }}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <h2>Your Profile</h2>
+            <div class="col-md-12">
+                <p>Username: {{ support.username }}</p>
+                <p>Email: {{ support.email }}</p>
+                <p>
+                    Considering two-factor authentication?
+                    <span>
+                        {% if not support.two_factor_enabled() %}
+                            <a href=" {{ url_for('support_enable_2fa', username=support.username) }} ">Enable 2FA</a>
+                        {% else %}
+                            <a href=" {{ url_for('support_disable_2fa', username=support.username) }} ">Disable 2FA</a>
+                        {% endif %}
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div class="col-md-9">
+            {% for question in questions %}
+                {% include '_support_questions.html' %}
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+<table class="table table-striped">
+    <tr valign='top'>
+        <td width="30px">
+            <img src=" {{ question.support.avatar(30) }}  ">
+        </td>
+        <td>
+            <span class="question-id label label-default"># {{ question.id }} </span>
+            <span class="label label-success"> {{ question.support.username }} </span>  
+            said {{ moment(question.timestamp).fromNow() }}:
+            <br>
+            <div class="question-body">
+                {% if question.body_html %}
+                    {{ question.body_html | safe }}
+                {% else %}
+                    {{ question.body }}
+                {% endif %}
+            </div>
+            <a class="btn " href=" # ">Edit</a>
+        </td>
+    </tr>    
+</table>
