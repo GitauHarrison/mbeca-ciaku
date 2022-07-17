@@ -102,7 +102,7 @@ def edit_help(id):
 # Render admin dashboard
 
 
-@app.route('/admin/dashboard/registration', methods=['GET', 'POST'])
+@app.route('/admin/dashboard/register', methods=['GET', 'POST'])
 def admin_dashboard_registration():
     form = RegistrationForm()
     if form.validate_on_submit():

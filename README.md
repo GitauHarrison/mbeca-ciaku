@@ -85,9 +85,9 @@ Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryptio
 Admin
 
 - Has a private link to login
-- No registration page for admin
+- The idea is to have no registration page for the admin, but since this is a test application, I have included a link to the registration page.
 - Adds the support team to answer user questions
-- Has absolute CRUD powers
+- Can delete support team members permanently
 
 Support Team
 
