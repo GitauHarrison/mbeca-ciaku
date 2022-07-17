@@ -9,14 +9,19 @@ from time import time
 import jwt
 
 
-# @login.user_loader
-# def load_user(id):
-#     return User.query.get(int(id))
+@login.user_loader
+def load_user(id):
+    return User.query.get(int(id))
 
 
 @login.user_loader
-def load_user(id):
+def load_admin(id):
     return Admin.query.get(int(id))
+
+@login.user_loader
+def load_support(id):
+    return Support.query.get(int(id))
+
 
 class Admin(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
