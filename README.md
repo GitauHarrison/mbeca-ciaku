@@ -9,6 +9,7 @@ Mbeca (pronounced as 'besha') means "money" and Ciaku (pronounced as 'shiaku') m
 - [Features](#features)
 - [Tools Used](#tools-used)
 - [Deployed Application](#deployed-application)
+- [Design](#design)
 - [Contributors](#contributors)
 - [User Roles](#user-roles)
 - [Testing The Application Locally](#testing-the-application-locally)
@@ -76,6 +77,12 @@ Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryptio
 ## Deployed Application
 
 - [ ] [Mbeca Ciaku](https://mbecaciaku.herokuapp.com/) on Heroku
+
+
+## Design
+
+- [x] [Mbeca Ciaku](https://www.figma.com/proto/s8DMkx68mQGg3dqEdnNb7p/Mbeca-Ciaku?node-id=2%3A2&starting-point-node-id=2%3A2) on Figma
+
 
 ## Contributors
 
