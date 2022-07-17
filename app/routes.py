@@ -1,10 +1,10 @@
-from crypt import methods
 from app import app, db
 from flask import render_template, flash, redirect, url_for, session,\
     request, send_file
 from app.forms import LoginForm, PhoneForm, RegistrationForm, BudgetItemForm, \
     AssetForm, LiabilityForm, ActualIncomeForm, ActualExpenseForm, \
-    DownloadDataForm, HelpForm, PhoneForm, VerifyForm, DisableForm
+    DownloadDataForm, HelpForm, PhoneForm, VerifyForm, DisableForm, \
+    ResetPasswordRequestForm, ResetPasswordForm
 from app.models import User, BudgetItem, Expenses, Asset, Liability,\
     ActualIncome, Help
 from flask_login import current_user, login_user, logout_user, \
@@ -26,6 +26,7 @@ from app.twilio_verify_api import request_verification_token, \
 from werkzeug.urls import url_parse
 from io import BytesIO
 import os
+from app.email import send_password_reset_email
 
 
 # The two functions below allow us to specify what forms
@@ -192,6 +193,40 @@ def disable_2fa():
         return redirect(url_for('help'))
     return render_template('disable_2fa.html', title='Disable 2FA', form=form)
 
+
+@app.route('/request-for-password-reset', methods=['GET', 'POST'])
+def reset_password_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = ResetPasswordRequestForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            send_password_reset_email(user)
+        flash('Check your email for the instructions to reset your password')
+        return redirect(url_for('login'))
+    return render_template(
+        'reset_password_request.html',
+        title='Request Reset Password', form=form)
+
+
+@app.route('/reset-password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    user = User.verify_reset_password_token(token)
+    if not user:
+        return redirect(url_for('index'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        user.set_password(form.password.data)
+        db.session.commit()
+        flash('Your password has been reset.')
+        return redirect(url_for('login'))
+    return render_template(
+        'reset_password.html', form=form, title='Reset Password')
+
+
 # ==================== GET USER DATA FUNCTIONS ====================
 
 @app.route('/update', methods=['GET', 'POST'])
@@ -344,7 +379,7 @@ def update():
 
     return render_template(
             'update.html',
-            title='Update Items',
+            title='Update Your Financial Statement',
 
             # Budget data
             budget_form=budget_form,

@@ -6,6 +6,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_moment import Moment
 from flask_pagedown import PageDown
+from flask_mail import Mail
 
 
 app = Flask(__name__)
@@ -19,5 +20,6 @@ login = LoginManager(app)
 login.login_view = 'login'
 moment = Moment(app)
 pagedown = PageDown(app)
+mail = Mail(app)
 
 from app import routes, models, errors
