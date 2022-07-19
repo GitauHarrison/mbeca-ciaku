@@ -70,6 +70,7 @@ p {
 .dashboard {
     margin: 10px;
     background-color: rgb(248, 252, 255);
+    padding: 10px;
 }
 .dashboard:hover {
     background-color: #ececec;
