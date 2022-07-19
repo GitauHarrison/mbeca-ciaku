@@ -12,16 +12,18 @@
             <h2>Manage Support Team</h2>
             <div class="my-form"> {{ wtf.quick_form(form) }} </div>
             <p>Available support team:</p>
-            <ul>
+            <ol>
                 {% for support in support_team %}
                     <li>
-                        {{ support.username }} - 
-                        <span class="label label-danger">
-                            <a style="color: white; text-decoration: none;" href=" {{ url_for('admin_delete_support_member', username=support.username) }}">Delete</a>
-                        </span>
+                        <p>
+                            {{ support.username }} - 
+                            <span class="label label-danger">
+                                <a style="color: white; text-decoration: none;" href=" {{ url_for('admin_delete_support_member', username=support.username) }}">Delete</a>
+                            </span>
+                        </p>
                     </li>
                 {% endfor %}
-            </ul>
+            </ol>
         </div>
         <div class="col-md-5 dashboard">
             <h2>Admin Profile</h2>

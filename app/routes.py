@@ -59,12 +59,12 @@ def help():
             author=user)
         db.session.add(question)
         db.session.commit()
+        support_members = Support.query.all()
+        for support in support_members:
+            send_new_question_email(support)
         flash('An email has been sent to the support team.'
               ' You will receive an email notification when your question is answered.')
         return redirect(url_for('help'))
-    support_members = Support.query.all()
-    for support in support_members:
-        send_new_question_email(support)
     page = request.args.get('page', 1, type=int)
     questions = Help.query.order_by(Help.timestamp.desc()).paginate(
         page, app.config['QUESTIONS_PER_PAGE'], False)
@@ -146,7 +146,7 @@ def admin_login():
                 next=next_page,
                 remember='1' if form.remember_me.data else '0'))
         login_user(admin, remember=form.remember_me.data)
-        flash('Welcome back, ' + admin.username)
+        flash(f'Welcome back, {admin.username}')
         return redirect(next_page)
     return render_template('admin/admin_login.html', title='Admin Login', form=form)
 
@@ -204,7 +204,7 @@ def admin_dashboard(username):
         db.session.add(support)
         db.session.commit()
         send_registration_email(support)
-        flash(f'You have successfully registered ' + {support.username} + ' a support team member!')
+        flash(f'You have successfully registered {support.username} a support team member!')
         return redirect(url_for('admin_dashboard', username=admin.username))
     support_team = Support.query.all()
     return render_template(
@@ -220,7 +220,7 @@ def admin_delete_support_member(username):
     support = Support.query.filter_by(username=username).first_or_404()
     db.session.delete(support)
     db.session.commit()
-    flash(f'You have successfully deleted ' + {support.username} + ' from the support team!')
+    flash(f'You have successfully deleted {support.username} from the support team!')
     return redirect(url_for('admin_dashboard', username=current_user.username))
 
 

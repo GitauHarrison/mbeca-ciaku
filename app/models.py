@@ -17,16 +17,6 @@ def load_user(id):
     return user or admin or support
 
 
-# @login.user_loader
-# def load_admin(id):
-#     return Admin.query.get(int(id))
-
-# @login.user_loader
-# def load_support(id):
-#     return Support.query.get(int(id))
-
-
-
 class Admin(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
