@@ -11,16 +11,20 @@ import jwt
 
 @login.user_loader
 def load_user(id):
-    return User.query.get(int(id))
+    user = User.query.get(int(id))
+    admin = Admin.query.get(int(id))
+    support = Support.query.get(int(id))
+    return user or admin or support
 
 
-@login.user_loader
-def load_admin(id):
-    return Admin.query.get(int(id))
+# @login.user_loader
+# def load_admin(id):
+#     return Admin.query.get(int(id))
 
-@login.user_loader
-def load_support(id):
-    return Support.query.get(int(id))
+# @login.user_loader
+# def load_support(id):
+#     return Support.query.get(int(id))
+
 
 
 class Admin(UserMixin, db.Model):
@@ -114,8 +118,7 @@ class User(UserMixin, db.Model):
         'Liability', backref='user', lazy='dynamic')
     actual_incomes = db.relationship(
         'ActualIncome', backref='user', lazy='dynamic')
-    questions = db.relationship(
-        'Help', backref='author', lazy='dynamic')
+    questions = db.relationship('Help', backref='author', lazy='dynamic')
 
     def __repr__(self):
         return f'User: {self.username}'
@@ -209,7 +212,7 @@ class Help(db.Model):
     body_html = db.Column(db.String(500))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    suppport_id = db.Column(db.Integer, db.ForeignKey('support.id'))
+    support_id = db.Column(db.Integer, db.ForeignKey('support.id'))
 
     @staticmethod
     def on_changed_body(target, value, oldvalue, initiator):
