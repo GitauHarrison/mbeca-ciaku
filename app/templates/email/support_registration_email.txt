@@ -1,6 +1,6 @@
 
 
-Dear {{ support.username }},
+Dear {{ support.support.username }},
 
 Congratulations! You have been registered as a support member.
 You will be notified every time a user asks a question.

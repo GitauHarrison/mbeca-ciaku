@@ -17,7 +17,7 @@
                     <li>
                         {{ support.username }} - 
                         <span class="label label-danger">
-                            <a href=" {{ url_for('admin_delete_support_member', username=support.username) }}">Delete</a>
+                            <a style="color: white; text-decoration: none;" href=" {{ url_for('admin_delete_support_member', username=support.username) }}">Delete</a>
                         </span>
                     </li>
                 {% endfor %}

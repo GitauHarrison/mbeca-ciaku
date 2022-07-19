@@ -386,26 +386,26 @@ def support_dashboard(username):
         flash(f'You have successfully answered a question!')
         return redirect(url_for('support_dashboard', username=support.username))
     users = User.query.all()
-    for user in users:
-        question_author = user.author.username
-        if question_author:
-            send_answer_email(user)
-    flash('You have successfully answered a question! An email has been sent to the user.')
+    # for user in users:
+    #     question_author = user.author.username
+    #     if question_author:
+    #         send_answer_email(user)
+    # flash('You have successfully answered a question! An email has been sent to the user.')
     page = request.args.get('page', 1, type=int)
-    questions = Help.query.order_by(Help.timestamp.desc()).paginate(
+    all_questions = Help.query.order_by(Help.timestamp.desc()).paginate(
         page, app.config['QUESTIONS_PER_PAGE'], False)
     next_url = url_for(
-        'support_dashboard', username=support.username, page=questions.next_num) \
-            if questions.has_next else None
+        'support_dashboard', username=support.username, page=all_questions.next_num) \
+            if all_questions.has_next else None
     prev_url = url_for(
-        'support_dashboard', username=support.username, page=questions.prev_num) \
-            if questions.has_prev else None
+        'support_dashboard', username=support.username, page=all_questions.prev_num) \
+            if all_questions.has_prev else None
     return render_template(
         'support/support_dashboard.html',
         title='Support Dashboard',
         support=support,
         form=form,
-        questions=questions.items,
+        all_questions=all_questions.items,
         next_url=next_url,
         prev_url=prev_url)
 
