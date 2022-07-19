@@ -28,7 +28,7 @@ from io import BytesIO
 import os
 from app.email import send_password_reset_email, \
     send_admin_password_reset_email, send_support_password_reset_email, \
-    send_new_question_email, send_answer_email
+    send_new_question_email, send_answer_email, send_registration_email
 
 
 # The two functions below allow us to specify what forms
@@ -151,7 +151,7 @@ def admin_login():
     return render_template('admin/admin_login.html', title='Admin Login', form=form)
 
 
-@app.route('/dashboard/admin/logout')
+@app.route('/admin/dashboard/logout')
 def admin_logout():
     logout_user()
     return redirect(url_for('admin_login'))
@@ -203,6 +203,7 @@ def admin_dashboard(username):
         support.set_password(form.password.data)
         db.session.add(support)
         db.session.commit()
+        send_registration_email(support)
         flash(f'You have successfully registered ' + {support.username} + ' a support team member!')
         return redirect(url_for('admin_dashboard', username=admin.username))
     support_team = Support.query.all()

@@ -78,3 +78,16 @@ def send_answer_email(user):
                html_body=render_template(
                 'email/support_answer_email.html',
                 user=user, token=token))
+
+
+def send_registration_email(support):
+    token = support.get_reset_password_token()
+    send_email('[Mbeca Ciaku] You have been registered as Support',
+               sender=app.config['ADMINS'][0],
+               recipients=[support.email],
+               text_body=render_template(
+                'email/support_registration_email.txt',
+                support=support, token=token),
+               html_body=render_template(
+                'email/support_registration_email.html',
+                support=support, token=token))
