@@ -45,7 +45,8 @@ def is_submitted(self):
 @app.route('/index')
 @login_required
 def index():
-    return render_template('index.html', title='Income Statement')
+    user = User.query.filter_by(username=current_user.username).first()
+    return render_template('index.html', title='Income Statement', user=user)
 
 
 @app.route('/help', methods=['GET', 'POST'])
@@ -772,6 +773,7 @@ def update():
     return render_template(
             'update.html',
             title='Update Your Financial Statement',
+            user=user,
 
             # Budget data
             budget_form=budget_form,
