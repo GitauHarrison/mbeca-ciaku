@@ -22,20 +22,24 @@ For many years, I have used Google Sheets to record how my money comes in and go
 
 ![Excel Data](app/static/images/excel_data.png)
 
-It works well, but it is quite cumbersome to use over a long period of time. For example, I have to manually create the table structures occassionally. I also have to manually add the formulas to generate a chart of my income and expenses. The data is good, but if you cannot visualize it, then it is hard to know what is going on.
+It works well, but it is quite cumbersome to use over a long period of time. For example, I have to manually create the table structures occassionally. I also have to manually add the formulas to generate a chart of my income and expenses. Google Sheets allows me to organize my data, and the data is presentable, but if I cannot quickly visualize it, then it is hard to know what is going on.
 
-### Sample expense data
-
-![Visualize Expense Data](app/static/images/visualize_expense_data.png)
 
 Besides detailed budget, income and expenses data, I wanted to have a summary of the health status of my money. I would compare my expenses to my budget and see if I was spending too much. Of course, expenses are made possible by my income. This cashflow is what can enable one to buy an asset and experience freedom or live a liability-filled life.
 
-### Sample financial statement
+
+Mbeca Ciaku is an attempt to create an easier solution to this small problem. Besides simplicity, I wanted to make an application that would be usable by multiple other people. These users can download their data for offline analysis. The downloaded data would be organized and encrypted in a PDF file.
+
+### Sample expense data on Mbeca Ciaku
+
+![Visualize Expense Data](app/static/images/visualize_expense_data.png)
+
+
+### Sample financial statement on Mbeca Ciaku
 
 
 ![Visualize Financial Statement](app/static/images/visualize_financial_statement.png)
 
-Mbeca Ciaku is an attempt to create an easier solution to this small problem. Besides simplicity, I wanted to make an application that would be usable by multiple other people. These users can download their data for offline analysis. The downloaded data would be organized and encrypted in a PDF file.
 
 Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryption process of personal data very interesting. This feature is really useful in the quest to guard against the rampant MPesa fraud cases. If you are an active MPesa user, sometimes you would like to refer to your transactions to settle a dispute, confirm a payment, or to make a complaint. Whatever the case, [Safaricom](https://www.safaricom.co.ke/) allows you to easily request for a copy of your transaction data for free. The statement would be sent to you via email. This file is encrypted and can only be accessed by you. At the time of this writing, decrypting the file is dependant on the user providing their National ID number plus a one-time numeric token sent to their phone. The decryption format is "ID-token". 
 
@@ -95,7 +99,7 @@ Admin
 
 - Has a private link to login
 - The idea is to have no registration page for the admin, but since this is a test application, I have included a link to the registration page.
-- Adds the support team to answer user questions
+- Adds the support team responsible for for answering user questions
 - Can delete support team members permanently
 
 Support Team
@@ -103,6 +107,7 @@ Support Team
 - Responsible for answering user questions and providing support
 - Has a private link to login
 - They cannot register themselves; only done by the admin
+- Once registered, their login credentials are automatically sent to them via email
 - Receives email notifications when there is a new question
 
 User
@@ -111,6 +116,30 @@ User
 - They will be required to authenticate themselves before they can access the application
 - Can update their financial information (budget, income, expenses, assets, liabilities)
 - They can download their data as a encrypted PDF file
+
+
+## How To Use The Application
+
+[Browser 1] Ceate an Admin
+- [x] [Create a new admin](http://127.0.0.1:5000/register)
+- [x] [Login as admin](http://127.0.0.1:5000/login). You will be redirected to the admin dashboard.
+- [x] Create a new support team
+
+
+[Browser 2] Login as Support Team
+
+- [x] Find the login details to your support account in the email you received.
+- [x] [Login as support team](http://127.0.0.1:5000/support/dashboard/login). You will be redirected to the support dashboard.
+- [x] Answer a question and press the "Submit" button. A user will recieve an email notification.
+
+
+[Browser 3] Register as User
+
+- [x] [Create a new user](http://127.0.0.1:5000/register)
+- [x] [Login as user](http://127.0.0.1:5000/login). You will be redirected to the user home page.
+- [x] [Update your financial information](http://127.0.0.1:5000/update)
+- [x] User can optionally download their data as a encrypted PDF file.
+- [x] Need help? [Contact support team](http://127.0.0.1:5000/help)
 
 
 ## Testing The Application Locally
