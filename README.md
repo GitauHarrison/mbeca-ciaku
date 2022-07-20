@@ -8,10 +8,12 @@ Mbeca (pronounced as 'besha') means "money" and Ciaku (pronounced as 'shiaku') m
 - [Overview](#overview)
 - [Features](#features)
 - [Tools Used](#tools-used)
-- [Deployed Application](#deployed-application)
 - [Design](#design)
 - [Contributors](#contributors)
+- [License](#license)
+- [Deployed Application](#deployed-application)
 - [User Roles](#user-roles)
+- [How To Use The Application](#how-to-use-the-application)
 - [Testing The Application Locally](#testing-the-application-locally)
 - [Areas of improvement](#areas-of-improvement)
 
@@ -78,9 +80,6 @@ Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryptio
 
 - To work with Twilio Verify API, you need to have a Twilio account. Learn more about it [here](https://github.com/GitauHarrison/notes/blob/master/two_factor_authentication/twilio_verify_2fa.md).
 
-## Deployed Application
-
-- [ ] [Mbeca Ciaku](https://mbecaciaku.herokuapp.com/) on Heroku
 
 
 ## Design
@@ -91,6 +90,16 @@ Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryptio
 ## Contributors
 
 [![GitHub Contributors](https://img.shields.io/github/contributors/GitauHarrison/mbeca-ciaku)](https://github.com/GitauHarrison/mbeca-ciaku/graphs/contributors)
+
+
+## License
+
+- [x] [MIT](LICENCE) license
+
+
+## Deployed Application
+
+- [ ] [Mbeca Ciaku](https://mbecaciaku.herokuapp.com/) on Heroku
 
 
 ## User Roles
