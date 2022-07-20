@@ -86,6 +86,7 @@ def help():
 @app.route('/edit-help/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_help(id):
+    user = User.query.filter_by(username=current_user.username).first()
     question = Help.query.get_or_404(id)
     form = HelpForm()
     if form.validate_on_submit():
@@ -98,7 +99,8 @@ def edit_help(id):
             flash('Your question has been updated.')
             return redirect(url_for('help'))
     form.body.data = question.body
-    return render_template('edit_help.html', title='Edit Help', form=form)
+    return render_template(
+        'edit_help.html', title='Edit Help', form=form, user=user)
 
 # ==========================================================
 # Admin Dashboard Routes
@@ -573,12 +575,14 @@ def reset_password(token):
 @app.route('/enable-2fa', methods=['GET', 'POST'])
 @login_required
 def enable_2fa():
+    user = User.query.filter_by(username=current_user.username).first_or_404()
     form = PhoneForm()
     if form.validate_on_submit():
         session['phone'] = form.verification_phone.data
         request_verification_token(session['phone'])
         return redirect(url_for('verify_2fa'))
-    return render_template('enable_2fa.html', title='Enable 2FA', form=form)
+    return render_template(
+        'enable_2fa.html', title='Enable 2FA', form=form, user=user)
 
 
 @app.route('/verify-2fa', methods=['GET', 'POST'])
@@ -609,13 +613,15 @@ def verify_2fa():
 @app.route('/disable-2fa', methods=['GET', 'POST'])
 @login_required
 def disable_2fa():
+    user = User.query.filter_by(username=current_user.username).first_or_404()
     form = DisableForm()
     if form.validate_on_submit():
         current_user.verification_phone = None
         db.session.commit()
         flash('You have disabled two-factor authentication.')
         return redirect(url_for('help'))
-    return render_template('disable_2fa.html', title='Disable 2FA', form=form)
+    return render_template(
+        'disable_2fa.html', title='Disable 2FA', form=form, user=user)
 
 
 # ===============================================================
@@ -934,7 +940,8 @@ def download_budget_data():
     return render_template(
         'download_data_form.html',
         title='Download Budget Data',
-        download_data_form=download_data_form)
+        download_data_form=download_data_form,
+        user=user)
 
 
 @app.route('/download-asset-data', methods=['GET', 'POST'])
@@ -969,7 +976,8 @@ def download_asset_data():
     return render_template(
         'download_data_form.html',
         title='Download Asset Data',
-        download_data_form=download_data_form)
+        download_data_form=download_data_form,
+        user=user)
 
 
 @app.route('/download-liabilities-data', methods=['GET', 'POST'])
@@ -1004,7 +1012,8 @@ def download_liabilities_data():
     return render_template(
         'download_data_form.html',
         title='Download Liabilities Data',
-        download_data_form=download_data_form)
+        download_data_form=download_data_form,
+        user=user)
 
 
 @app.route('/download-expenses-data', methods=['GET', 'POST'])
@@ -1039,7 +1048,8 @@ def download_expenses_data():
     return render_template(
         'download_data_form.html',
         title='Download Expenses Data',
-        download_data_form=download_data_form)
+        download_data_form=download_data_form,
+        user=user)
 
 
 @app.route('/download-income-data', methods=['GET', 'POST'])
@@ -1074,7 +1084,8 @@ def download_income_data():
     return render_template(
         'download_data_form.html',
         title='Download Income Data',
-        download_data_form=download_data_form)
+        download_data_form=download_data_form,
+        user=user)
 
 # ===============================================================
 # End of Download and Encrypt User data
