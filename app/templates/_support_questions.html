@@ -15,7 +15,9 @@
                     {{ question.body }}
                 {% endif %}
             </div>
-            <a class="btn " href=" # ">Edit</a>
+            {% if current_user.username == question.support.username %}
+                <a class="btn" id="edit_link" href=" # ">Edit</a>
+            {% endif %}
         </td>
     </tr>    
 </table>
