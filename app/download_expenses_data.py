@@ -105,7 +105,7 @@ def download_expenses_pdf(user):
                 pdf.cell(50, 10, items_in_year[year][item], 1, 0, 'C')
                 pdf.cell(
                     50, 10,
-                    dates[item][0] + '-' + dates[item][1] + '-' + dates[item][2],
+                    months_in_year[year][item] + ' ' + year,
                     1, 0, 'C')
                 pdf.cell(50, 10, str(amounts_in_year[year][item]), 1, 1, 'C')
     # Total
