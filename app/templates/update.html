@@ -475,119 +475,159 @@
 
 {% block app_scripts %}
 <script>
-    $(document).ready(function() {
-        $('#tabs').tab();
-    });
-    
     // Budget chart
     var budget_ctx = document.getElementById("budget-chart-canvas").getContext("2d");
     var myBudgetChart = new Chart(budget_ctx, {
         type: 'line',
         data: {
-            labels: [{% for year in label_years %}"{{ year }}",{% endfor %}],
-            datasets: [{
-                {% for rep in range(reps) %}
-                    label: "Year {{ budget_years[rep] }}",
-                    data: {{ budget_amounts[rep] }},
-                    borderColor: "{{ colors[rep] }}",
-                    backgroundColor: "{{ colors[rep] }}",
-                    fill: false,
-                    borderWidth: 1
+            labels: [
+                {% for month in label_months %}
+                    "{{ month }}",
                 {% endfor %}
-            }]
-        },
-        options: {
-            scales: {
-                x: {
-                        beginAtZero:false
-                    }
-            }
+            ],
+            datasets: [
+                {% for rep in range(reps) %}
+                    {
+                        label: "Year {{ budget_years[rep] }}",
+                        data: [
+                            {% for amount in budget_amounts[rep] %}
+                                {{ amount }},
+                            {% endfor %}
+                        ],
+                        backgroundColor: "{{ colors[rep] }}",
+                        borderColor: "{{ colors[rep] }}",
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        pointHitRadius: 10,
+                    },
+                {% endfor %}
+            ]
         }
     });
-
-    // Actual incomes chart
+</script>
+<script>
+    // Income chart
     var income_ctx = document.getElementById("income-chart-canvas").getContext("2d");
     var myIncomeChart = new Chart(income_ctx, {
         type: 'line',
         data: {
-            labels: [{% for year in income_label_years %}"{{ year }}",{% endfor %}],
-            datasets: [{
-                {% for rep in range(income_reps) %}
-                    label: "Year {{ income_years[rep] }}",
-                    data: {{ income_amounts[rep] }},
-                    borderColor: "{{ income_colors[rep] }}",
-                    backgroundColor: "{{ income_colors[rep] }}",
-                    fill: false,
-                    borderWidth: 1
+            labels: [
+                {% for month in income_label_months %}
+                    "{{ month }}",
                 {% endfor %}
-            }]
-        },
-        options: {
-            scales: {
-                x: {
-                        beginAtZero:false
-                    }
-            }
+            ],
+            datasets: [
+                {% for rep in range(income_reps) %}
+                    {
+                        label: "Year {{ income_years[rep] }}",
+                        data: [
+                            {% for amount in income_amounts[rep] %}
+                                {{ amount }},
+                            {% endfor %}
+                        ],
+                        backgroundColor: "{{ income_colors[rep] }}",
+                        borderColor: "{{ income_colors[rep] }}",
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        pointHitRadius: 10,
+                    },
+                {% endfor %}
+            ]
         }
     });
-
-    // Actual assets chart
-    var asset_ctx = document.getElementById("assets-chart-canvas").getContext("2d");
-    var myAssetChart = new Chart(asset_ctx, {
-        type: 'line',
-        data: {
-            labels: [{% for year in asset_label_years %}"{{ year }}",{% endfor %}],
-            datasets: [{
-                {% for rep in range(asset_reps) %}
-                    label: "Year {{ asset_years[rep] }}",
-                    data: {{ asset_amounts[rep] }},
-                    borderColor: "{{ asset_colors[rep] }}",
-                    backgroundColor: "{{ asset_colors[rep] }}",
-                    fill: false,
-                    borderWidth: 1
-                {% endfor %}
-            }]
-        },
-    });
-
+</script>
+<script>
     // Expenses chart
-    var expenses_ctx = document.getElementById("expenses-chart-canvas").getContext("2d");
-    var myExpensesChart = new Chart(expenses_ctx, {
+    var expense_ctx = document.getElementById("expenses-chart-canvas").getContext("2d");
+    var myExpensesChart = new Chart(expense_ctx, {
         type: 'line',
         data: {
-            labels: [{% for year in expense_label_years %}"{{ year }}",{% endfor %}],
-            datasets: [{
+            labels: [
+                {% for month in expense_label_months %}
+                    "{{ month }}",
+                {% endfor %}
+            ],
+            datasets: [
                 {% for rep in range(expense_reps) %}
-                    label: "Year {{ expense_years[rep] }}",
-                    data: {{ expense_amounts[rep] }},
-                    borderColor: "{{ expense_colors[rep] }}",
-                    backgroundColor: "{{ expense_colors[rep] }}",
-                    fill: false,
-                    borderWidth: 1
+                    {
+                        label: "Year {{ expense_years[rep] }}",
+                        data: [
+                            {% for amount in expense_amounts[rep] %}
+                                {{ amount }},
+                            {% endfor %}
+                        ],
+                        backgroundColor: "{{ expense_colors[rep] }}",
+                        borderColor: "{{ expense_colors[rep] }}",
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        pointHitRadius: 10,
+                    },
                 {% endfor %}
-            }]
-        },
+            ]
+        }
     });
-
-    // Liabilities chart
-    var liabilities_ctx = document.getElementById("liabilities-chart-canvas").getContext("2d");
-    var myLiabilitiesChart = new Chart(liabilities_ctx, {
+</script>
+<script>
+    // Assets chart
+    var asset_ctx = document.getElementById("assets-chart-canvas").getContext("2d");
+    var myExpensesChart = new Chart(asset_ctx, {
         type: 'line',
         data: {
-            labels: [{% for year in liability_label_years %}"{{ year }}",{% endfor %}],
-            datasets: [{
-                {% for rep in range(liability_reps) %}
-                    label: "Year {{ liability_years[rep] }}",
-                    data: {{ liability_amounts[rep] }},
-                    borderColor: "{{ liability_colors[rep] }}",
-                    backgroundColor: "{{ liability_colors[rep] }}",
-                    fill: false,
-                    borderWidth: 1
+            labels: [
+                {% for month in asset_label_months %}
+                    "{{ month }}",
                 {% endfor %}
-            }]
-        },
+            ],
+            datasets: [
+                {% for rep in range(asset_reps) %}
+                    {
+                        label: "Year {{ asset_years[rep] }}",
+                        data: [
+                            {% for amount in asset_amounts[rep] %}
+                                {{ amount }},
+                            {% endfor %}
+                        ],
+                        backgroundColor: "{{ asset_colors[rep] }}",
+                        borderColor: "{{ asset_colors[rep] }}",
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        pointHitRadius: 10,
+                    },
+                {% endfor %}
+            ]
+        }
     });
-
+</script>
+<script>
+    // Liabilities chart
+    var liability_ctx = document.getElementById("liabilities-chart-canvas").getContext("2d");
+    var myLiabilitiesChart = new Chart(liability_ctx, {
+        type: 'line',
+        data: {
+            labels: [
+                {% for month in liability_label_months %}
+                    "{{ month }}",
+                {% endfor %}
+            ],
+            datasets: [
+                {% for rep in range(liability_reps) %}
+                    {
+                        label: "Year {{ liability_years[rep] }}",
+                        data: [
+                            {% for amount in liability_amounts[rep] %}
+                                {{ amount }},
+                            {% endfor %}
+                        ],
+                        backgroundColor: "{{ liability_colors[rep] }}",
+                        borderColor: "{{ liability_colors[rep] }}",
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        pointHitRadius: 10,
+                    },
+                {% endfor %}
+            ]
+        }
+    });
 </script>
 <script>
     // DataTablesJS
