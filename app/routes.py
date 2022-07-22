@@ -735,7 +735,6 @@ def update():
         return redirect(url_for('update', anchor='income-sources'))
     actual_incomes = user.actual_incomes.all()
     user_income_data = income_data(user)
-    print(user_income_data[1])
 
     # Get keys and values from user_income_data[0]
     income_label_months = user_income_data[4]
