@@ -32,9 +32,9 @@ Besides detailed budget, income and expenses data, I wanted to have a summary of
 
 Mbeca Ciaku is an attempt to create an easier solution to this small problem. Besides simplicity, I wanted to make an application that would be usable by multiple other people. These users can download their data for offline analysis. The downloaded data would be organized and encrypted in a PDF file.
 
-### Sample expense data on Mbeca Ciaku
+### Sample income data on Mbeca Ciaku
 
-![Visualize Expense Data](app/static/images/visualize_expense_data.png)
+![Visualize Expense Data](app/static/images/income_template.png)
 
 
 ### Sample financial statement on Mbeca Ciaku
@@ -43,7 +43,7 @@ Mbeca Ciaku is an attempt to create an easier solution to this small problem. Be
 ![Visualize Financial Statement](app/static/images/visualize_financial_statement.png)
 
 
-Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryption process of personal data very interesting. This feature is really useful in the quest to guard against the rampant MPesa fraud cases. If you are an active MPesa user, sometimes you would like to refer to your transactions to settle a dispute, confirm a payment, or to make a complaint. Whatever the case, [Safaricom](https://www.safaricom.co.ke/) allows you to easily request for a copy of your transaction data for free. The statement would be sent to you via email. This file is encrypted and can only be accessed by you. At the time of this writing, decrypting the file is dependant on the user providing their National ID number plus a one-time numeric token sent to their phone. The decryption format is "ID-token". 
+Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryption process of personal data very interesting. This feature is really useful. In the MPesa context, the need to guard against the rampant MPesa fraud cases is critical. If you are an active MPesa user, sometimes you would like to refer to your transactions to settle a dispute, confirm a payment, or to make a complaint. Whatever the case, [Safaricom](https://www.safaricom.co.ke/) allows you to easily request for a copy of your transaction data for free. The statement would be sent to you via email. This file is encrypted and can only be accessed by you. At the time of this writing, decrypting the file is dependant on the user providing their National ID number plus a one-time numeric token sent to their phone. The decryption format is "ID-token". 
 
 ## Features
 
@@ -76,9 +76,8 @@ Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryptio
 - [ ] [Unittest](https://docs.python.org/3/library/unittest.html) for unit testing
 - [x] [ChartJS](https://www.chartjs.org/) for data visualization
 - [x] [Twilio Verify API](https://www.twilio.com/docs/verify/api) for SMS verification 
-- [x] [Flask pagedown](https://pypi.org/project/Flask-PageDown/0.1.3/) for Markdown support
-
-- To work with Twilio Verify API, you need to have a Twilio account. Learn more about it [here](https://github.com/GitauHarrison/notes/blob/master/two_factor_authentication/twilio_verify_2fa.md).
+    - To work with Twilio Verify API, you need to have a Twilio account. Learn more about it [here](https://github.com/GitauHarrison/notes/blob/master/two_factor_authentication/twilio_verify_2fa.md).
+- [x] [Flask pagedown](https://pypi.org/project/Flask-PageDown/0.1.3/) for Markdown support on both the client and the server
 
 
 
