@@ -24,7 +24,7 @@ For many years, I have used Google Sheets to record how my money comes in and go
 
 ![Excel Data](app/static/images/excel_data.png)
 
-It works well, but it is quite cumbersome to use over a long period of time. For example, I have to manually create the table structures occassionally. I also have to manually add the formulas to generate a chart of my income and expenses. Google Sheets allows me to organize my data, and the data is presentable, but if I cannot quickly visualize it, then it is hard to know what is going on.
+It works well, but it is quite cumbersome to use over a long period of time. For example, I have to manually create the table structures occassionally. I also have to manually add the formulas to generate a chart of my income and expenses. Google Sheets allows me to organize my data, and the data is presentable, but if I cannot quickly visualize this data, then it is hard to know what is going on.
 
 
 Besides detailed budget, income and expenses data, I wanted to have a summary of the health status of my money. I would compare my expenses to my budget and see if I was spending too much. Of course, expenses are made possible by my income. This cashflow is what can enable one to buy an asset and experience freedom or live a liability-filled life.
@@ -40,7 +40,7 @@ Mbeca Ciaku is an attempt to create an easier solution to this small problem. Be
 ### Sample financial statement on Mbeca Ciaku
 
 
-![Visualize Financial Statement](app/static/images/visualize_financial_statement.png)
+![Visualize Financial Statement](app/static/images/income_statement.png)
 
 
 Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryption process of personal data very interesting. This feature is really useful. In the MPesa context, the need to guard against the rampant MPesa fraud cases is critical. If you are an active MPesa user, sometimes you would like to refer to your transactions to settle a dispute, confirm a payment, or to make a complaint. Whatever the case, [Safaricom](https://www.safaricom.co.ke/) allows you to easily request for a copy of your transaction data for free. The statement would be sent to you via email. This file is encrypted and can only be accessed by you. At the time of this writing, decrypting the file is dependant on the user providing their National ID number plus a one-time numeric token sent to their phone. The decryption format is "ID-token". 
@@ -123,7 +123,7 @@ User
 - A random user can register themselves
 - They will be required to authenticate themselves before they can access the application
 - Can update their financial information (budget, income, expenses, assets, liabilities)
-- They can download their data as a encrypted PDF file
+- They can download their data as an encrypted PDF file
 
 
 ## How To Use The Application
@@ -131,7 +131,7 @@ User
 [Browser 1] Ceate an Admin
 - [x] [Create a new admin](http://127.0.0.1:5000/register)
 - [x] [Login as admin](http://127.0.0.1:5000/login). You will be redirected to the admin dashboard.
-- [x] Create a new support team
+- [x] Create a new support team member
 
 
 [Browser 2] Login as Support Team
@@ -146,7 +146,7 @@ User
 - [x] [Create a new user](http://127.0.0.1:5000/register)
 - [x] [Login as user](http://127.0.0.1:5000/login). You will be redirected to the user home page.
 - [x] [Update your financial information](http://127.0.0.1:5000/update)
-- [x] User can optionally download their data as a encrypted PDF file.
+- [x] User can optionally download their data as an encrypted PDF file.
 - [x] Need help? [Contact support team](http://127.0.0.1:5000/help)
 
 
@@ -223,7 +223,7 @@ User
 
     # Or
 
-    # Get password from https://www.grc.com/passwords.htm
+    # Get random value from https://www.grc.com/passwords.htm
 
     ```
 
@@ -247,6 +247,6 @@ User
 ## Areas of Improvement
 
 - [ ] User interface design
-- [ ] Proper display of multiple graphs on specific charts (based on data years)
+- [ ] Proper display of multiple graphs on specific charts (based on the month an item is keyed in)
 - [ ] Disabling of the _Edit_ link in the help page after a specified duration
 - [ ] Scheduled email notifications to remind users to update their data at the end of a day
