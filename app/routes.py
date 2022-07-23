@@ -188,6 +188,7 @@ def edit_help(id):
             return redirect(url_for('help'))
         else:
             question.body = form.body.data
+            question.edited = True
             db.session.commit()
             flash('Your question has been updated.')
             return redirect(url_for('help'))

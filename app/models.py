@@ -201,6 +201,7 @@ class Help(db.Model):
     body = db.Column(db.String(500))
     body_html = db.Column(db.String(500))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    edited = db.Column(db.Boolean, default=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     support_id = db.Column(db.Integer, db.ForeignKey('support.id'))
 
