@@ -2,9 +2,204 @@
 
 {% block app_context %}
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 text-center">
         <h1>{{ title }}</h1>
-        Username: {{ user.username }}
     </div>  
 </div>
+<!-- Income -->
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Income</h3>
+            </div>
+            <div class="panel-body">
+                
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for year in income_years %}
+                                <tr>
+                                    <td>{{ year }}</td>
+                                    <td>{{ income_total[year] }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <hr>
+                
+                    <table id="income" class="table table-striped">
+                        <tr>
+                            <th>Year</th>
+                            <th>Item</th>
+                            <th>Amount</th>
+                        </tr>
+                        {% for year in income_years %}
+                            {% for rep in range(num_amounts) %}
+                                <tr>
+                                    <td>{{ year }}</td>
+                                    <td>{{ income_items[year][rep] }}</td>
+                                    <td>{{ income_amounts[year][rep] }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </table>
+                
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Expenses</h3>
+            </div>
+            <div class="panel-body">
+                
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for year in expenses_years %}
+                                <tr>
+                                    <td>{{ year }}</td>
+                                    <td>{{ expenses_total[year] }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <hr>
+                
+                    <table id="expenses" class="table table-striped">
+                        <tr>
+                            <th>Year</th>
+                            <th>Item</th>
+                            <th>Amount</th>
+                        </tr>
+                        {% for year in expenses_years %}
+                            {% for rep in range(num_expenses_amounts) %}
+                                <tr>
+                                    <td>{{ year }}</td>
+                                    <td>{{ expenses_items[year][rep] }}</td>
+                                    <td>{{ expenses_amounts[year][rep] }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </table>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Assets</h3>
+            </div>
+            <div class="panel-body">
+                
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for year in assets_years %}
+                                <tr>
+                                    <td>{{ year }}</td>
+                                    <td>{{ assets_total[year] }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <hr>
+                
+                    <table id="assests" class="table table-striped">
+                        <tr>
+                            <th>Year</th>
+                            <th>Item</th>
+                            <th>Amount</th>
+                        </tr>
+                        {% for year in assets_years %}
+                            {% for rep in range(num_assets_amounts) %}
+                                <tr>
+                                    <td>{{ year }}</td>
+                                    <td>{{ assets_items[year][rep] }}</td>
+                                    <td>{{ assets_amounts[year][rep] }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </table>
+                
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Liabilities</h3>
+            </div>
+            <div class="panel-body">
+                
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for year in liabilities_years %}
+                                <tr>
+                                    <td>{{ year }}</td>
+                                    <td>{{ liabilities_total[year] }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <hr>
+                
+                    <table id="liabilities" class="table table-striped">
+                        <tr>
+                            <th>Year</th>
+                            <th>Item</th>
+                            <th>Amount</th>
+                        </tr>
+                        {% for year in liabilities_years %}
+                            {% for rep in range(num_liabilities_amounts) %}
+                                <tr>
+                                    <td>{{ year }}</td>
+                                    <td>{{ liabilities_items[year][rep] }}</td>
+                                    <td>{{ liabilities_amounts[year][rep] }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </table>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block app_scripts %}
+<script>
+    $(document).ready(function() {
+        $('#assets').DataTable();
+        $('#liabilities').DataTable();
+        $('#income').DataTable();
+        $('#expenses').DataTable();
+    });
+</script>
 {% endblock %}
