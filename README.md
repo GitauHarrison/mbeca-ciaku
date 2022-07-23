@@ -2,7 +2,7 @@
 
 Mbeca (pronounced as 'besha') means "money" and Ciaku (pronounced as 'shiaku') means "mine" in Kikuyu, one of the venacular languages in Kenya. Put together, you get "My money". This project is aimed at helping a user to visualize his money.
 
-![Project image here]()
+![Project image here](/app/static/images/mbeca_ciaku.gif)
 
 ## Table of Contents
 - [Overview](#overview)
@@ -248,5 +248,4 @@ User
 
 - [ ] User interface design
 - [ ] Proper display of multiple graphs on specific charts (based on the month an item is keyed in)
-- [ ] Disabling of the _Edit_ link in the help page after a specified duration
 - [ ] Scheduled email notifications to remind users to update their data at the end of a day
