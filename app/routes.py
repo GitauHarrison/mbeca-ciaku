@@ -56,6 +56,18 @@ def index():
     for year in income_years:
         num_amounts = len(income_amounts[year])
 
+    # Expenses
+    user_expenses_data = expenses_data(user)
+    expenses_amounts = user_expenses_data[1]
+    expenses_items = user_expenses_data[2]
+    expenses_total = user_expenses_data[3]
+    expenses_years = list(user_expenses_data[0].keys())
+    for year in expenses_years:
+        num_expenses_amounts = len(expenses_amounts[year])
+        compare_income_expenses_total = income_total[year] - \
+            expenses_total[year]
+        print("Year: ", year, compare_income_expenses_total)
+
     # Liabilities
     user_liabilities_data = liabilities_data(user)
     liabilities_amounts = user_liabilities_data[1]
@@ -65,7 +77,7 @@ def index():
     for year in liabilities_years:
         num_liabilities_amounts = len(liabilities_amounts[year])
 
-    # Expenses
+    # Assets
     user_assests_data = assets_data(user)
     assets_amounts = user_assests_data[1]
     assets_items = user_assests_data[2]
@@ -73,15 +85,8 @@ def index():
     assets_years = list(user_assests_data[0].keys())
     for year in assets_years:
         num_assets_amounts = len(assets_amounts[year])
-
-    # Expenses
-    user_expenses_data = expenses_data(user)
-    expenses_amounts = user_expenses_data[1]
-    expenses_items = user_expenses_data[2]
-    expenses_total = user_expenses_data[3]
-    expenses_years = list(user_expenses_data[0].keys())
-    for year in expenses_years:
-        num_expenses_amounts = len(expenses_amounts[year])
+        compare_assests_and_liabilities = assets_total[year] - \
+            liabilities_total[year]
 
     return render_template(
         'index.html',
@@ -114,7 +119,11 @@ def index():
         assets_items=assets_items,
         assets_total=assets_total,
         assets_years=assets_years,
-        num_assets_amounts=num_assets_amounts,)
+        num_assets_amounts=num_assets_amounts,
+
+        # Comparison
+        compare_income_expenses_total=compare_income_expenses_total,
+        compare_assests_and_liabilities=compare_assests_and_liabilities)
 
 
 @app.route('/help', methods=['GET', 'POST'])

@@ -99,6 +99,23 @@
         </div>
     </div>
 </div>
+<div class="row text-center status">
+    <div class="col-md-12">
+        <h3>INCOME - EXPENSES STATUS</h3>
+        {% for year in income_years %}
+            {% if year in expenses_years %}
+                {% if compare_income_expenses_total < 0 %}
+                    <h3 class="danger">{{ year }}:You are overspending by {{ compare_income_expenses_total }}</h3>
+                {% elif compare_income_expenses_total > 0 %}
+                    <h3 class="success">{{ year }}: HEALTHY by {{ compare_income_expenses_total }}</h3>
+                {% else %}
+                    <h3>You are not overspending or underspending</h3>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        <hr>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-6">
         <div class="panel panel-default">
@@ -189,6 +206,23 @@
                 
             </div>
         </div>
+    </div>
+</div>
+<div class="row text-center status">
+    <div class="col-md-12">
+        <h3>ASSETS - LIABILITIES STATUS</h3>
+        {% for year in assets_years %}
+            {% if year in liabilities_years %}
+                {% if compare_assests_and_liabilities < 0 %}
+                    <h3 class="danger">{{ year }}:DANGEROUS by {{ compare_assests_and_liabilities }}</h3>
+                {% elif compare_assests_and_liabilities > 0 %}
+                    <h3 class="success">{{ year }}: HEALTHY by {{ compare_assests_and_liabilities }}</h3>
+                {% else %}
+                    <h3>You are not overspending or underspending</h3>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        <hr>
     </div>
 </div>
 {% endblock %}

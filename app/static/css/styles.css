@@ -75,3 +75,18 @@ p {
 .dashboard:hover {
     background-color: #ececec;
 }
+
+/* Comparison styles */
+.danger {
+    font-size: 35px;
+    color: #950019;
+}
+.success {
+    font-size: 35px;
+    color: #00a65a;
+}
+.status {
+    margin-top: 0px;
+    margin-bottom: 30px;
+    background-color: #f2f2f2;
+}
