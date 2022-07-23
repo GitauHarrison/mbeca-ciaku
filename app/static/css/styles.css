@@ -78,11 +78,11 @@ p {
 
 /* Comparison styles */
 .danger {
-    font-size: 35px;
+    font-size: 30px;
     color: #950019;
 }
 .success {
-    font-size: 35px;
+    font-size: 30px;
     color: #00a65a;
 }
 .status {

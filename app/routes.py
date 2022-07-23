@@ -29,7 +29,7 @@ import os
 from app.email import send_password_reset_email, \
     send_admin_password_reset_email, send_support_password_reset_email, \
     send_new_question_email, send_answer_email, send_registration_email
-
+import datetime
 
 # The two functions below allow us to specify what forms
 # are to be submitted in a post request
@@ -53,8 +53,11 @@ def index():
     income_items = user_income_data[2]
     income_total = user_income_data[3]
     income_years = list(user_income_data[0].keys())
-    for year in income_years:
-        num_amounts = len(income_amounts[year])
+    if income_years == []:
+        num_amounts = 0
+    else:
+        for year in income_years:
+            num_amounts = len(income_amounts[year])
 
     # Expenses
     user_expenses_data = expenses_data(user)
@@ -62,11 +65,17 @@ def index():
     expenses_items = user_expenses_data[2]
     expenses_total = user_expenses_data[3]
     expenses_years = list(user_expenses_data[0].keys())
-    for year in expenses_years:
-        num_expenses_amounts = len(expenses_amounts[year])
-        compare_income_expenses_total = income_total[year] - \
-            expenses_total[year]
-        print("Year: ", year, compare_income_expenses_total)
+
+    # Catch if expenses_years is empty
+    if income_years == [] or expenses_years == []:
+        num_expenses_amounts = 0
+        compare_income_expenses_total = num_expenses_amounts - \
+                num_expenses_amounts
+    else:
+        for year in expenses_years:
+            num_expenses_amounts = len(expenses_amounts[year])
+            compare_income_expenses_total = income_total[year] - \
+                expenses_total[year]
 
     # Liabilities
     user_liabilities_data = liabilities_data(user)
@@ -74,8 +83,11 @@ def index():
     liabilities_items = user_liabilities_data[2]
     liabilities_total = user_liabilities_data[3]
     liabilities_years = list(user_liabilities_data[0].keys())
-    for year in liabilities_years:
-        num_liabilities_amounts = len(liabilities_amounts[year])
+    if liabilities_years == []:
+        num_liabilities_amounts = 0
+    else:
+        for year in liabilities_years:
+            num_liabilities_amounts = len(liabilities_amounts[year])
 
     # Assets
     user_assests_data = assets_data(user)
@@ -83,11 +95,15 @@ def index():
     assets_items = user_assests_data[2]
     assets_total = user_assests_data[3]
     assets_years = list(user_assests_data[0].keys())
-    for year in assets_years:
-        num_assets_amounts = len(assets_amounts[year])
-        compare_assests_and_liabilities = assets_total[year] - \
-            liabilities_total[year]
-
+    if assets_years == [] or liabilities_years == []:
+        num_assets_amounts = 0
+        compare_assests_and_liabilities = num_assets_amounts - \
+                num_assets_amounts
+    else:
+        for year in assets_years:
+            num_assets_amounts = len(assets_amounts[year])
+            compare_assests_and_liabilities = assets_total[year] - \
+                liabilities_total[year]
     return render_template(
         'index.html',
         title='Income Statement',

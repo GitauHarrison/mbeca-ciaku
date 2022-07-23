@@ -109,7 +109,7 @@
                 {% elif compare_income_expenses_total > 0 %}
                     <h3 class="success">{{ year }}: HEALTHY by {{ compare_income_expenses_total }}</h3>
                 {% else %}
-                    <h3>You are not overspending or underspending</h3>
+                    <h3>{{ year }}: You are not overspending or underspending</h3>
                 {% endif %}
             {% endif %}
         {% endfor %}
@@ -211,7 +211,7 @@
 <div class="row text-center status">
     <div class="col-md-12">
         <h3>ASSETS - LIABILITIES STATUS</h3>
-        {% for year in assets_years %}
+        {% for year in assets_years or year in liabilities_years %}
             {% if year in liabilities_years %}
                 {% if compare_assests_and_liabilities < 0 %}
                     <h3 class="danger">{{ year }}:DANGEROUS by {{ compare_assests_and_liabilities }}</h3>

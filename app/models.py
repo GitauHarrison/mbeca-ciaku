@@ -160,7 +160,7 @@ class Expenses(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return f'ActualIncome: {self.name}: {self.amount}'
+        return f'Expenses: {self.name}: {self.amount}'
 
 
 class Asset(db.Model):
@@ -193,7 +193,7 @@ class ActualIncome(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return f'ActualIncome: {self.name}: {self.amount}'
+        return f'Income: {self.name}: {self.amount}'
 
 
 class Help(db.Model):
