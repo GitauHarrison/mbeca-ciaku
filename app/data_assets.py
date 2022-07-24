@@ -10,7 +10,7 @@ def assets_data(user):
 
     # Get individual items from the assets
     assets_item = [item.name for item in assets]
-    amount = [item.amount for item in assets]
+    amounts = [item.amount for item in assets]
 
     # Split date into year, month, and day
     dates = [assets_date.date.split('-') for assets_date in assets]
@@ -39,7 +39,7 @@ def assets_data(user):
         # i.e (expenditure_amounts_in_each_year)
         # Add the amounts to get the total amount spent in that year
         expenditure_amounts_in_each_year.append(
-            sum([amount for date, amount in zip(dates, amount) if date[0] == year]))
+            sum([amount for date, amount in zip(dates, amounts) if date[0] == year]))
 
         # Add the year and amount spent in that year to the dictionary
         expenditure_in_a_year[year] = expenditure_amounts_in_each_year[
@@ -53,7 +53,7 @@ def assets_data(user):
         months_in_year[year] = []
         amounts_in_year[year] = []
         items_in_year[year] = []
-        for date, amount, item in zip(dates, amount, assets_item):
+        for date, amount, item in zip(dates, amounts, assets_item):
             if date[0] == year:
                 # Get the expenditure in each month
                 # The months are converted to month names

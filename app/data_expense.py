@@ -1,3 +1,6 @@
+from app.models import Expenses
+
+
 def expenses_data(user):
     """
     Retrieve current user's expenses data from the database.
@@ -6,7 +9,7 @@ def expenses_data(user):
 
     # Get individual items from the expenses
     expenses_item = [item.name for item in expenses]
-    amount = [item.amount for item in expenses]
+    amounts = [item.amount for item in expenses]
 
     # Split date into year, month, and day
     dates = [expenses_date.date.split('-') for expenses_date in expenses]
@@ -35,7 +38,7 @@ def expenses_data(user):
         # i.e (expenditure_amounts_in_each_year)
         # Add the amounts to get the total amount spent in that year
         expenditure_amounts_in_each_year.append(
-            sum([amount for date, amount in zip(dates, amount) if date[0] == year]))
+            sum([amount for date, amount in zip(dates, amounts) if date[0] == year]))
 
         # Add the year and amount spent in that year to the dictionary
         expenditure_in_a_year[year] = expenditure_amounts_in_each_year[
@@ -49,7 +52,7 @@ def expenses_data(user):
         months_in_year[year] = []
         amounts_in_year[year] = []
         items_in_year[year] = []
-        for date, amount, item in zip(dates, amount, expenses_item):
+        for date, amount, item in zip(dates, amounts, expenses_item):
             if date[0] == year:
                 # Get the expenditure in each month
                 # The months are converted to month names

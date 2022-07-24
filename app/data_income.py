@@ -1,3 +1,6 @@
+from app.models import ActualIncome
+
+
 def income_data(user):
     """
     Retrieve current user's incomes data from the database.

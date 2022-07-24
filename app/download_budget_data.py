@@ -20,8 +20,7 @@ def download_budget_pdf(user):
     # Month numbers will be replaced with month names
     month_names = [
         'January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'
-        ]
+        'July', 'August', 'September', 'October', 'November', 'December']
 
     # Get expenditure years
     expenditure_years = [date[0] for date in dates]

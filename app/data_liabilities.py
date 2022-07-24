@@ -6,7 +6,7 @@ def liabilities_data(user):
 
     # Get individual items from the liabilities
     liabilities_item = [item.name for item in liabilities]
-    amount = [item.amount for item in liabilities]
+    amounts = [item.amount for item in liabilities]
 
     # Split date into year, month, and day
     dates = [liabilities_date.date.split('-') for liabilities_date in liabilities]
@@ -35,7 +35,7 @@ def liabilities_data(user):
         # i.e (expenditure_amounts_in_each_year)
         # Add the amounts to get the total amount spent in that year
         expenditure_amounts_in_each_year.append(
-            sum([amount for date, amount in zip(dates, amount) if date[0] == year]))
+            sum([amount for date, amount in zip(dates, amounts) if date[0] == year]))
 
         # Add the year and amount spent in that year to the dictionary
         expenditure_in_a_year[year] = expenditure_amounts_in_each_year[
@@ -49,7 +49,7 @@ def liabilities_data(user):
         months_in_year[year] = []
         amounts_in_year[year] = []
         items_in_year[year] = []
-        for date, amount, item in zip(dates, amount, liabilities_item):
+        for date, amount, item in zip(dates, amounts, liabilities_item):
             if date[0] == year:
                 # Get the expenditure in each month
                 # The months are converted to month names
