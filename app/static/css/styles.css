@@ -72,18 +72,26 @@ p {
     background-color: rgb(248, 252, 255);
     padding: 10px;
 }
+h3 {
+    text-decoration: underline;
+}
+
+/* Custom styles */
 .dashboard:hover {
     background-color: #ececec;
 }
 
 /* Comparison styles */
 .danger {
-    font-size: 30px;
+    font-size: 25px;
     color: #950019;
 }
 .success {
     font-size: 30px;
     color: #00a65a;
+}
+.normal {
+    font-size: 25px;
 }
 .status {
     margin-top: 0px;

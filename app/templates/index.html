@@ -105,11 +105,11 @@
         {% for year in income_years %}
             {% if year in expenses_years %}
                 {% if compare_income_expenses_total < 0 %}
-                    <h3 class="danger">{{ year }}:You are overspending by {{ compare_income_expenses_total }}</h3>
+                    <p class="danger">{{ year }}: aYou are overspending by {{ compare_income_expenses_total }}</p>
                 {% elif compare_income_expenses_total > 0 %}
-                    <h3 class="success">{{ year }}: HEALTHY by {{ compare_income_expenses_total }}</h3>
+                    <p class="success">{{ year }}: HEALTHY by {{ compare_income_expenses_total }}</p>
                 {% else %}
-                    <h3>{{ year }}: You are not overspending or underspending</h3>
+                    <p class="normal">{{ year }}: You are not overspending or underspending</p>
                 {% endif %}
             {% endif %}
         {% endfor %}
@@ -214,11 +214,11 @@
         {% for year in assets_years or year in liabilities_years %}
             {% if year in liabilities_years %}
                 {% if compare_assests_and_liabilities < 0 %}
-                    <h3 class="danger">{{ year }}:DANGEROUS by {{ compare_assests_and_liabilities }}</h3>
+                    <p class="danger">{{ year }}:DANGEROUS by {{ compare_assests_and_liabilities }}</p>
                 {% elif compare_assests_and_liabilities > 0 %}
-                    <h3 class="success">{{ year }}: HEALTHY by {{ compare_assests_and_liabilities }}</h3>
+                    <p class="success">{{ year }}: HEALTHY by {{ compare_assests_and_liabilities }}</p>
                 {% else %}
-                    <h3>You are not overspending or underspending</h3>
+                    <p class="normal">You are not overspending or underspending</p>
                 {% endif %}
             {% endif %}
         {% endfor %}
