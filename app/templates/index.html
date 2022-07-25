@@ -34,20 +34,24 @@
                     <hr>
                 
                     <table id="income" class="table table-striped">
-                        <tr>
-                            <th>Year</th>
-                            <th>Item</th>
-                            <th>Amount</th>
-                        </tr>
-                        {% for year in income_years %}
-                            {% for rep in range(num_amounts) %}
-                                <tr>
-                                    <td>{{ year }}</td>
-                                    <td>{{ income_items[year][rep] }}</td>
-                                    <td>{{ income_amounts[year][rep] }}</td>
-                                </tr>
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Item</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for year in income_years %}
+                                {% for rep in range(num_amounts) %}
+                                    <tr>
+                                        <td>{{ year }}</td>
+                                        <td>{{ income_items[year][rep] }}</td>
+                                        <td>{{ income_amounts[year][rep] }}</td>
+                                    </tr>
+                                {% endfor %}
                             {% endfor %}
-                        {% endfor %}
+                        </tbody>
                     </table>
                 
             </div>
@@ -79,20 +83,24 @@
                     <hr>
                 
                     <table id="expenses" class="table table-striped">
-                        <tr>
-                            <th>Year</th>
-                            <th>Item</th>
-                            <th>Amount</th>
-                        </tr>
-                        {% for year in expenses_years %}
-                            {% for rep in range(num_expenses_amounts) %}
-                                <tr>
-                                    <td>{{ year }}</td>
-                                    <td>{{ expenses_items[year][rep] }}</td>
-                                    <td>{{ expenses_amounts[year][rep] }}</td>
-                                </tr>
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Item</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for year in expenses_years %}
+                                {% for rep in range(num_expenses_amounts) %}
+                                    <tr>
+                                        <td>{{ year }}</td>
+                                        <td>{{ expenses_items[year][rep] }}</td>
+                                        <td>{{ expenses_amounts[year][rep] }}</td>
+                                    </tr>
+                                {% endfor %}
                             {% endfor %}
-                        {% endfor %}
+                        </tbody>
                     </table>
                 
             </div>
@@ -113,7 +121,6 @@
                 {% endif %}
             {% endif %}
         {% endfor %}
-        <hr>
     </div>
 </div>
 <div class="row">
@@ -142,21 +149,25 @@
                     </table>
                     <hr>
                 
-                    <table id="assests" class="table table-striped">
-                        <tr>
-                            <th>Year</th>
-                            <th>Item</th>
-                            <th>Amount</th>
-                        </tr>
-                        {% for year in assets_years %}
-                            {% for rep in range(num_assets_amounts) %}
-                                <tr>
-                                    <td>{{ year }}</td>
-                                    <td>{{ assets_items[year][rep] }}</td>
-                                    <td>{{ assets_amounts[year][rep] }}</td>
-                                </tr>
+                    <table id="assets" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Item</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for year in assets_years %}
+                                {% for rep in range(num_assets_amounts) %}
+                                    <tr>
+                                        <td>{{ year }}</td>
+                                        <td>{{ assets_items[year][rep] }}</td>
+                                        <td>{{ assets_amounts[year][rep] }}</td>
+                                    </tr>
+                                {% endfor %}
                             {% endfor %}
-                        {% endfor %}
+                        </tbody>
                     </table>
                 
             </div>
@@ -188,20 +199,24 @@
                     <hr>
                 
                     <table id="liabilities" class="table table-striped">
-                        <tr>
-                            <th>Year</th>
-                            <th>Item</th>
-                            <th>Amount</th>
-                        </tr>
-                        {% for year in liabilities_years %}
-                            {% for rep in range(num_liabilities_amounts) %}
-                                <tr>
-                                    <td>{{ year }}</td>
-                                    <td>{{ liabilities_items[year][rep] }}</td>
-                                    <td>{{ liabilities_amounts[year][rep] }}</td>
-                                </tr>
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Item</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for year in liabilities_years %}
+                                {% for rep in range(num_liabilities_amounts) %}
+                                    <tr>
+                                        <td>{{ year }}</td>
+                                        <td>{{ liabilities_items[year][rep] }}</td>
+                                        <td>{{ liabilities_amounts[year][rep] }}</td>
+                                    </tr>
+                                {% endfor %}
                             {% endfor %}
-                        {% endfor %}
+                        </tbody>
                     </table>
                 
             </div>
@@ -222,7 +237,6 @@
                 {% endif %}
             {% endif %}
         {% endfor %}
-        <hr>
     </div>
 </div>
 {% endblock %}
@@ -230,10 +244,10 @@
 {% block app_scripts %}
 <script>
     $(document).ready(function() {
-        $('#assets').DataTable();
-        $('#liabilities').DataTable();
         $('#income').DataTable();
         $('#expenses').DataTable();
+        $('#assets').DataTable();
+        $('#liabilities').DataTable();
     });
 </script>
 {% endblock %}
