@@ -116,7 +116,15 @@
                 <div class="row footer">
                     <div class="col-md-12 text-center">
                         <hr>
-                        <small>&copy; Mbeca Ciaku - {{ moment().format('YYYY') }}</small>
+                        <small>&copy; Mbeca Ciaku - {{ moment().format('YYYY') }}</small> | 
+                        <small>
+                            <a href=" https://github.com/GitauHarrison ">
+                                <img style="border: 1px solid #fff; width: 24px; height:24px;" src=" {{ url_for('static', filename='images/github.png') }} " alt="GitHub">
+                            </a> 
+                            <a href=" https://twitter.com/GitauHarrison1 ">
+                                <img style="border: 1px solid #fff; width: 24px; height:24px;" src=" {{ url_for('static', filename='images/twitter.png') }} " alt="GitHub">
+                            </a>
+                        </small>
                     </div>
                 </div>
             {% endblock %}
