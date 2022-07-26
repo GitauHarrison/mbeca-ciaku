@@ -1,0 +1,18 @@
+<p>Dear {{ support.username }},</p>
+<p>
+    Congratulations! You have been registered as a support member. 
+    You will be notified every time a user asks a question. You are tasked to 
+    respond to the question and answer it.
+</p>
+<p>
+    To access your support account, click on the following link:<br>
+    {{  url_for('support.support_dashboard', username=support.username, _external=True) }}
+</p>
+<p>
+    You login credentials are:<br>
+    Username: {{ support.username }}<br>
+    Password: {{ support.username }}<br>
+    You can update the password once you have logged in.
+</p>
+<p>Sincerely,</p>
+<p>The Mbeca Ciaku Admin</p>

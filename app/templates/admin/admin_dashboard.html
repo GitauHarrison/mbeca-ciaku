@@ -18,7 +18,7 @@
                         <p>
                             {{ support.username }} - 
                             <span class="label label-danger">
-                                <a style="color: white; text-decoration: none;" href=" {{ url_for('admin_delete_support_member', username=support.username) }}">Delete</a>
+                                <a style="color: white; text-decoration: none;" href=" {{ url_for('admin.admin_delete_support_member', username=support.username) }}">Delete</a>
                             </span>
                         </p>
                     </li>
@@ -34,9 +34,9 @@
                     Considering two-factor authentication?
                     <span>
                         {% if not admin.two_factor_enabled() %}
-                            <a href=" {{ url_for('admin_enable_2fa', username=admin.username) }} ">Enable 2FA</a>
+                            <a href=" {{ url_for('auth.admin_enable_2fa', username=admin.username) }} ">Enable 2FA</a>
                         {% else %}
-                            <a href=" {{ url_for('admin_disable_2fa', username=admin.username) }} ">Disable 2FA</a>
+                            <a href=" {{ url_for('auth.admin_disable_2fa', username=admin.username) }} ">Disable 2FA</a>
                         {% endif %}
                     </span>
                 </p>

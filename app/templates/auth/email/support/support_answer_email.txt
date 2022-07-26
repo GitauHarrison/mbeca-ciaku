@@ -1,0 +1,9 @@
+Dear {{ user.author.username }},
+
+Congratulations! Your has received an answer. 
+You can view it by clicking on the following link:
+    {{  url_for('main.help',  _anchor='comments', _external=True) }}
+
+Sincerely,
+
+The Mbeca Ciaku Team

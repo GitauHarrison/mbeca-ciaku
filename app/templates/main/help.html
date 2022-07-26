@@ -3,33 +3,36 @@
 
 {% block app_context%}
     <div class="row">
-        <div class="col-12 text-center">
-            <h1 class="text-center">{{ title }}</h1>
-        </div>
-    </div>
-    <div class="row">
         <div class="col-md-3">
-            <h2>Your Profile</h2>
-            <div class="col-md-12">
-                <p>Username: {{ support.username }}</p>
-                <p>Email: {{ support.email }}</p>
-                <p>
-                    Considering two-factor authentication?
-                    <span>
-                        {% if not support.two_factor_enabled() %}
-                            <a href=" {{ url_for('auth.support_enable_2fa', username=support.username) }} ">Enable 2FA</a>
-                        {% else %}
-                            <a href=" {{ url_for('auth.support_disable_2fa', username=support.username) }} ">Disable 2FA</a>
-                        {% endif %}
-                    </span>
-                </p>
-            </div>
+            <h1>Your Profile</h1>
+            <p>Username: {{ user.username }}</p>
+            <p>Email: {{ user.email }}</p>
+            <p>
+                Considering two-factor authentication?
+                <span>
+                    {% if not user.two_factor_enabled() %}
+                        <a href=" {{ url_for('auth.enable_2fa') }} ">Enable 2FA</a>
+                    {% else %}
+                        <a href=" {{ url_for('auth.disable_2fa') }} ">Disable 2FA</a>
+                    {% endif %}
+                </span>
+            </p>
+            <hr>
         </div>
-        <hr>
         <div class="col-md-9">
-            {% for question in all_questions %}
-                {% include 'support/_support_questions.html' %}
-            {% endfor %}
+            <div class="row">
+                <h1 class="text-center">Ask the Support Team</h1>
+                <div class="col-md-12 my-form">
+                    {{ wtf.quick_form(form) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    {% for question in questions %}
+                        {% include 'main/_questions.html' %}
+                    {% endfor %}
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-12">
                    <!-- Pagination of comments -->
@@ -51,5 +54,5 @@
                 </div>
             </div>
         </div>
-    </div>   
+    </div>    
 {% endblock %}

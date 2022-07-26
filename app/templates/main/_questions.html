@@ -1,0 +1,28 @@
+<table class="table table-striped">
+    <tr valign='top'>
+        <td width="30px">
+            <img src=" {{ question.author.avatar(30) }}  ">
+        </td>
+        <td>
+            <span class="question-id label label-default"># {{ question.id }} </span>
+            <span class="label label-success"> {{ question.author.username }} </span>  
+            said {{ moment(question.timestamp).fromNow() }}:
+            <br>
+            <div class="question-body">
+                {% if question.body_html %}
+                    {{ question.body_html | safe }}
+                {% else %}
+                    {{ question.body }}
+                {% endif %}
+            </div>
+            {% if current_user.username == question.author.username %}
+                {% if question.edited == False %}
+                    <a class="btn" id="edit_link" href=" {{ url_for('main.edit_help', id=question.id) }} ">Edit</a>
+                {% elif question.edited == True %}
+                    <a class="btn disabled" id="edit_link" href=" {{ url_for('main.edit_help', id=question.id) }} ">Edited</a>
+                {% endif %}
+            {% endif %}
+            
+        </td>
+    </tr>    
+</table>
