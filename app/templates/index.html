@@ -15,7 +15,7 @@
             </div>
             <div class="panel-body">
                 
-                    <table class="table table-striped">
+                    <table id="income" class="table table-striped">
                         <thead>
                             <tr>
                                 <th>Year</th>
@@ -31,28 +31,6 @@
                             {% endfor %}
                         </tbody>
                     </table>
-                    <hr>
-                
-                    <table id="income" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Year</th>
-                                <th>Item</th>
-                                <th>Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for year in income_years %}
-                                {% for rep in range(num_amounts) %}
-                                    <tr>
-                                        <td>{{ year }}</td>
-                                        <td>{{ income_items[year][rep] }}</td>
-                                        <td>{{ income_amounts[year][rep] }}</td>
-                                    </tr>
-                                {% endfor %}
-                            {% endfor %}
-                        </tbody>
-                    </table>
                 
             </div>
         </div>
@@ -64,7 +42,7 @@
             </div>
             <div class="panel-body">
                 
-                    <table class="table table-striped">
+                    <table id="expenses" class="table table-striped">
                         <thead>
                             <tr>
                                 <th>Year</th>
@@ -80,50 +58,32 @@
                             {% endfor %}
                         </tbody>
                     </table>
-                    <hr>
-                
-                    <table id="expenses" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Year</th>
-                                <th>Item</th>
-                                <th>Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for year in expenses_years %}
-                                {% for rep in range(num_expenses_amounts) %}
-                                    <tr>
-                                        <td>{{ year }}</td>
-                                        <td>{{ expenses_items[year][rep] }}</td>
-                                        <td>{{ expenses_amounts[year][rep] }}</td>
-                                    </tr>
-                                {% endfor %}
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                
+
             </div>
         </div>
     </div>
 </div>
-<div class="row text-center status">
-    <div class="col-md-12">
+<div class="row status">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
         <h3 class="comparison">INCOME - EXPENSES STATUS</h3>
-        {% for year, amount_difference in income_expenses_differences_per_year_dict.items() %}
-            {% if amount_difference < 0 %}
-                <p class="danger">
-                    {{ year }} You are overspending by {{ amount_difference }}
-                </p>
-            {% elif amount_difference > 0 %}
-                <p class="success">
-                    {{ year }} You are underspending by {{ amount_difference }}
-                </p>
-            {% else %}
-                <p class="normal">{{ year }} You are on track</p>
-            {% endif %}
-        {% endfor %}
+        <ul>
+            {% for year, amount_difference in income_expenses_differences_per_year_dict.items() %}
+                {% if amount_difference < 0 %}
+                    <li class="danger">
+                        {{ year }}: You are overspending by {{ amount_difference }}
+                    </li>
+                {% elif amount_difference > 0 %}
+                    <li class="success">
+                        {{ year }}: You are underspending by {{ amount_difference }}
+                    </li>
+                {% else %}
+                    <li class="normal">{{ year }}: You are on track</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
     </div>
+    <div class="col-md-3"></div>
 </div>
 <div class="row">
     <div class="col-md-6">
@@ -133,7 +93,7 @@
             </div>
             <div class="panel-body">
                 
-                    <table class="table table-striped">
+                    <table id="assets" class="table table-striped">
                         <thead>
                             <tr>
                                 <th>Year</th>
@@ -149,29 +109,7 @@
                             {% endfor %}
                         </tbody>
                     </table>
-                    <hr>
-                
-                    <table id="assets" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Year</th>
-                                <th>Item</th>
-                                <th>Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for year in assets_years %}
-                                {% for rep in range(num_assets_amounts) %}
-                                    <tr>
-                                        <td>{{ year }}</td>
-                                        <td>{{ assets_items[year][rep] }}</td>
-                                        <td>{{ assets_amounts[year][rep] }}</td>
-                                    </tr>
-                                {% endfor %}
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                
+
             </div>
         </div>
     </div>
@@ -182,7 +120,7 @@
             </div>
             <div class="panel-body">
                 
-                    <table class="table table-striped">
+                    <table id="liabilities" class="table table-striped">
                         <thead>
                             <tr>
                                 <th>Year</th>
@@ -198,50 +136,32 @@
                             {% endfor %}
                         </tbody>
                     </table>
-                    <hr>
-                
-                    <table id="liabilities" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Year</th>
-                                <th>Item</th>
-                                <th>Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for year in liabilities_years %}
-                                {% for rep in range(num_liabilities_amounts) %}
-                                    <tr>
-                                        <td>{{ year }}</td>
-                                        <td>{{ liabilities_items[year][rep] }}</td>
-                                        <td>{{ liabilities_amounts[year][rep] }}</td>
-                                    </tr>
-                                {% endfor %}
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                
+
             </div>
         </div>
     </div>
 </div>
-<div class="row text-center status">
-    <div class="col-md-12">
-        <h3>ASSETS - LIABILITIES STATUS</h3>
-        {% for year, amount_difference in assets_liabilities_differences_per_year_dict.items() %}
-            {% if amount_difference < 0 %}
-                <p class="danger">
-                    {{ year }} You are overspending by {{ amount_difference }}
-                </p>
-            {% elif amount_difference > 0 %}
-                <p class="success">
-                    {{ year }} You are underspending by {{ amount_difference }}
-                </p>
-            {% else %}
-                <p class="normal">{{ year }} You are on track</p>
-            {% endif %}
-        {% endfor %}
+<div class="row status">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <h3 class="comparison">ASSETS - LIABILITIES STATUS</h3>
+        <ul>
+            {% for year, amount_difference in assets_liabilities_differences_per_year_dict.items() %}
+                {% if amount_difference < 0 %}
+                    <li class="danger">
+                        {{ year }}: You are overspending by {{ amount_difference }}
+                    </li>
+                {% elif amount_difference > 0 %}
+                    <li class="success">
+                        {{ year }}: You are underspending by {{ amount_difference }}
+                    </li>
+                {% else %}
+                    <li class="normal">{{ year }}: You are on track</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
     </div>
+    <div class="col-md-3"></div>
 </div>
 {% endblock %}
 

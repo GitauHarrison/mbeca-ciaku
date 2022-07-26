@@ -49,30 +49,13 @@ def index():
 
     # Income
     user_income_data = income_data(user)
-    income_amounts = user_income_data[1]
-    income_items = user_income_data[2]
     income_total = user_income_data[3]
     income_years = list(user_income_data[0].keys())
 
-    if income_years == []:
-        num_amounts = 0
-    else:
-        for year in income_years:
-            num_amounts = len(income_amounts[year])
-
     # Expenses
     user_expenses_data = expenses_data(user)
-    expenses_amounts = user_expenses_data[1]
-    expenses_items = user_expenses_data[2]
     expenses_total = user_expenses_data[3]
     expenses_years = list(user_expenses_data[0].keys())
-
-    # Catch if expenses_years is empty
-    if income_years == [] or expenses_years == []:
-        num_expenses_amounts = 0
-    else:
-        for year in expenses_years:
-            num_expenses_amounts = len(expenses_amounts[year])
 
     # List differences in income and expenses per year
     income_expenses_differences_per_year = []
@@ -85,27 +68,13 @@ def index():
 
     # Liabilities
     user_liabilities_data = liabilities_data(user)
-    liabilities_amounts = user_liabilities_data[1]
-    liabilities_items = user_liabilities_data[2]
     liabilities_total = user_liabilities_data[3]
     liabilities_years = list(user_liabilities_data[0].keys())
-    if liabilities_years == []:
-        num_liabilities_amounts = 0
-    else:
-        for year in liabilities_years:
-            num_liabilities_amounts = len(liabilities_amounts[year])
 
     # Assets
     user_assests_data = assets_data(user)
-    assets_amounts = user_assests_data[1]
-    assets_items = user_assests_data[2]
     assets_total = user_assests_data[3]
     assets_years = list(user_assests_data[0].keys())
-    if assets_years == [] or liabilities_years == []:
-        num_assets_amounts = 0
-    else:
-        for year in assets_years:
-            num_assets_amounts = len(assets_amounts[year])
 
     # List differences in assets and liabilities per year
     assets_liabilities_differences_per_year = []
@@ -122,32 +91,20 @@ def index():
         user=user,
 
         # Income
-        income_amounts=income_amounts,
-        income_items=income_items,
         income_total=income_total,
         income_years=income_years,
-        num_amounts=num_amounts,
 
         # Liabilities
-        liabilities_amounts=liabilities_amounts,
-        liabilities_items=liabilities_items,
         liabilities_total=liabilities_total,
         liabilities_years=liabilities_years,
-        num_liabilities_amounts=num_liabilities_amounts,
 
         # Expenses
-        expenses_amounts=expenses_amounts,
-        expenses_items=expenses_items,
         expenses_total=expenses_total,
         expenses_years=expenses_years,
-        num_expenses_amounts=num_expenses_amounts,
 
         # Assets
-        assets_amounts=assets_amounts,
-        assets_items=assets_items,
         assets_total=assets_total,
         assets_years=assets_years,
-        num_assets_amounts=num_assets_amounts,
 
         # Comparison
         income_expenses_differences_per_year_dict=income_expenses_differences_per_year_dict,
