@@ -53,6 +53,7 @@ def index():
     income_items = user_income_data[2]
     income_total = user_income_data[3]
     income_years = list(user_income_data[0].keys())
+
     if income_years == []:
         num_amounts = 0
     else:
@@ -69,13 +70,18 @@ def index():
     # Catch if expenses_years is empty
     if income_years == [] or expenses_years == []:
         num_expenses_amounts = 0
-        compare_income_expenses_total = num_expenses_amounts - \
-                num_expenses_amounts
     else:
         for year in expenses_years:
             num_expenses_amounts = len(expenses_amounts[year])
-            compare_income_expenses_total = income_total[year] - \
-                expenses_total[year]
+
+    # List differences in income and expenses per year
+    income_expenses_differences_per_year = []
+    for year in income_years:
+        income_expenses_differences_per_year.append(
+            income_total[year] - expenses_total[year])
+
+    income_expenses_differences_per_year_dict  = dict(
+        zip(income_years, income_expenses_differences_per_year))
 
     # Liabilities
     user_liabilities_data = liabilities_data(user)
@@ -97,13 +103,19 @@ def index():
     assets_years = list(user_assests_data[0].keys())
     if assets_years == [] or liabilities_years == []:
         num_assets_amounts = 0
-        compare_assests_and_liabilities = num_assets_amounts - \
-                num_assets_amounts
     else:
         for year in assets_years:
             num_assets_amounts = len(assets_amounts[year])
-            compare_assests_and_liabilities = assets_total[year] - \
-                liabilities_total[year]
+
+    # List differences in assets and liabilities per year
+    assets_liabilities_differences_per_year = []
+    for year in assets_years:
+        assets_liabilities_differences_per_year.append(
+            assets_total[year] - liabilities_total[year])
+
+    assets_liabilities_differences_per_year_dict = dict(
+        zip(assets_years, assets_liabilities_differences_per_year))
+
     return render_template(
         'index.html',
         title='Income Statement',
@@ -138,8 +150,8 @@ def index():
         num_assets_amounts=num_assets_amounts,
 
         # Comparison
-        compare_income_expenses_total=compare_income_expenses_total,
-        compare_assests_and_liabilities=compare_assests_and_liabilities)
+        income_expenses_differences_per_year_dict=income_expenses_differences_per_year_dict,
+        assets_liabilities_differences_per_year_dict=assets_liabilities_differences_per_year_dict)
 
 
 @app.route('/help', methods=['GET', 'POST'])

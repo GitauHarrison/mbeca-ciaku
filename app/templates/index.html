@@ -110,15 +110,17 @@
 <div class="row text-center status">
     <div class="col-md-12">
         <h3 class="comparison">INCOME - EXPENSES STATUS</h3>
-        {% for year in income_years %}
-            {% if year in expenses_years %}
-                {% if compare_income_expenses_total < 0 %}
-                    <p class="danger">{{ year }}: You are overspending by {{ compare_income_expenses_total }}</p>
-                {% elif compare_income_expenses_total > 0 %}
-                    <p class="success">{{ year }}: HEALTHY by {{ compare_income_expenses_total }}</p>
-                {% else %}
-                    <p class="normal">{{ year }}: You are not overspending or underspending</p>
-                {% endif %}
+        {% for year, amount_difference in income_expenses_differences_per_year_dict.items() %}
+            {% if amount_difference < 0 %}
+                <p class="danger">
+                    {{ year }} You are overspending by {{ amount_difference }}
+                </p>
+            {% elif amount_difference > 0 %}
+                <p class="success">
+                    {{ year }} You are underspending by {{ amount_difference }}
+                </p>
+            {% else %}
+                <p class="normal">{{ year }} You are on track</p>
             {% endif %}
         {% endfor %}
     </div>
@@ -226,15 +228,17 @@
 <div class="row text-center status">
     <div class="col-md-12">
         <h3>ASSETS - LIABILITIES STATUS</h3>
-        {% for year in assets_years or year in liabilities_years %}
-            {% if year in liabilities_years %}
-                {% if compare_assests_and_liabilities < 0 %}
-                    <p class="danger">{{ year }}: DANGEROUS by {{ compare_assests_and_liabilities }}</p>
-                {% elif compare_assests_and_liabilities > 0 %}
-                    <p class="success">{{ year }}: HEALTHY by {{ compare_assests_and_liabilities }}</p>
-                {% else %}
-                    <p class="normal">You are not overspending or underspending</p>
-                {% endif %}
+        {% for year, amount_difference in assets_liabilities_differences_per_year_dict.items() %}
+            {% if amount_difference < 0 %}
+                <p class="danger">
+                    {{ year }} You are overspending by {{ amount_difference }}
+                </p>
+            {% elif amount_difference > 0 %}
+                <p class="success">
+                    {{ year }} You are underspending by {{ amount_difference }}
+                </p>
+            {% else %}
+                <p class="normal">{{ year }} You are on track</p>
             {% endif %}
         {% endfor %}
     </div>
