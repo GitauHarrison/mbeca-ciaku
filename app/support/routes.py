@@ -40,7 +40,7 @@ def support_dashboard(username):
 @login_required
 def answer(username, id):
     support = Support.query.filter_by(username=username).first_or_404()
-    question_id = Help.query.get_or_404(id)
+    question_id = Help.query.filter_by(id=id).first_or_404()
     user = User.query.filter_by(username=question_id.author.username).first_or_404()
     form = HelpForm()
     if form.validate_on_submit():

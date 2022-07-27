@@ -27,9 +27,9 @@
             </div>
             {% if support %}
                 {% if question.answered == False %}
-                <a class="btn" target="_blank" href=" {{ url_for('support.answer', username=support.username, id=question.id) }} ">Answer</a>
+                    <a class="btn" target="_blank" href=" {{ url_for('support.answer', username=support.username, id=question.id) }} ">Answer &#x2197;</a>
                 {% elif question.answered == True %}
-                <a class="btn disabled" href=" #">Answered</a>
+                    <a class="btn disabled" href=" #">Answered</a>
                 {% endif %}
             {% endif %}
         </td>
