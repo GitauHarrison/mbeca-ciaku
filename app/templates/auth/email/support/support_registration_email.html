@@ -9,10 +9,10 @@
     {{  url_for('support.support_dashboard', username=support.username, _external=True) }}
 </p>
 <p>
-    You login credentials are:<br>
+    You login credentials are:<br><br>
     Username: {{ support.username }}<br>
-    Password: {{ support.username }}<br>
-    You can update the password once you have logged in.
+    Password: {{ support.username }}<br><br>
+    You can reset your password <a href="{{ url_for('auth.support_request_password_reset', _external=True) }}">here</a>.
 </p>
 <p>Sincerely,</p>
 <p>The Mbeca Ciaku Admin</p>

@@ -15,7 +15,9 @@ Your login credentials are:
     Username: {{ support.username }}
     Password: {{ support.username }}
 
-You can update the password once you have logged in.
+    You can request to reset your password in the link below:
+
+    {{ url_for('auth.support_request_password_reset', _external=True) }}
 
 Sincerely,
 
