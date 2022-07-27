@@ -7,6 +7,7 @@ import bleach
 from markdown import markdown
 from time import time
 import jwt
+from flask import current_app
 
 
 @login.user_loader
@@ -36,13 +37,13 @@ class Admin(UserMixin, db.Model):
     def get_reset_password_token(self, expires_in=600):
         return jwt.encode(
             {'reset_password': self.id, 'exp': time() + expires_in},
-            app.config['SECRET_KEY'], algorithm='HS256')
+            current_app.config['SECRET_KEY'], algorithm='HS256')
 
     @staticmethod
     def verify_reset_password_token(token):
         try:
             id = jwt.decode(
-                token, app.config['SECRET_KEY'], algorithms=['HS256'])['reset_password']
+                token, current_app.config['SECRET_KEY'], algorithms=['HS256'])['reset_password']
         except:
             return
         return Admin.query.get(id)
@@ -76,13 +77,13 @@ class Support(UserMixin, db.Model):
     def get_reset_password_token(self, expires_in=600):
         return jwt.encode(
             {'reset_password': self.id, 'exp': time() + expires_in},
-            app.config['SECRET_KEY'], algorithm='HS256')
+            current_app.config['SECRET_KEY'], algorithm='HS256')
 
     @staticmethod
     def verify_reset_password_token(token):
         try:
             id = jwt.decode(
-                token, app.config['SECRET_KEY'], algorithms=['HS256'])['reset_password']
+                token, current_app.config['SECRET_KEY'], algorithms=['HS256'])['reset_password']
         except:
             return
         return Admin.query.get(id)
@@ -129,13 +130,13 @@ class User(UserMixin, db.Model):
     def get_reset_password_token(self, expires_in=600):
         return jwt.encode(
             {'reset_password': self.id, 'exp': time() + expires_in},
-            app.config['SECRET_KEY'], algorithm='HS256')
+            current_app.config['SECRET_KEY'], algorithm='HS256')
 
     @staticmethod
     def verify_reset_password_token(token):
         try:
             id = jwt.decode(
-                token, app.config['SECRET_KEY'], algorithms=['HS256'])['reset_password']
+                token, current_app.config['SECRET_KEY'], algorithms=['HS256'])['reset_password']
         except:
             return
         return User.query.get(id)

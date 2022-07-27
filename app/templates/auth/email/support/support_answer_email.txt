@@ -1,8 +1,8 @@
-Dear {{ user.author.username }},
+Dear {{ user.username }},
 
 Congratulations! Your has received an answer. 
 You can view it by clicking on the following link:
-    {{  url_for('main.help',  _anchor='comments', _external=True) }}
+    {{  url_for('main.help', username=user.username,  _anchor='comments', _external=True) }}
 
 Sincerely,
 

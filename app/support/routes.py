@@ -12,13 +12,6 @@ from app.support.email import send_answer_email
 @login_required
 def support_dashboard(username):
     support = Support.query.filter_by(username=username).first_or_404()
-    form = HelpForm()
-    if form.validate_on_submit():
-        answer = Help(body = form.body.data, support=support)
-        db.session.add(answer)
-        db.session.commit()
-        flash('You have successfully answered a question!')
-        return redirect(url_for('support.support_dashboard', username=support.username))
     users = User.query.all()
     # for user in users:
     #     question_author = user.author.username
@@ -42,7 +35,30 @@ def support_dashboard(username):
         'support/support_dashboard.html',
         title='Support Dashboard',
         support=support,
-        form=form,
         all_questions=all_questions.items,
         next_url=next_url,
         prev_url=prev_url)
+
+
+@bp.route('/<username>/answer/question-<int:id>', methods=['GET', 'POST'])
+@login_required
+def answer(username, id):
+    support = Support.query.filter_by(username=username).first_or_404()
+    question_id = Help.query.get_or_404(id)
+    user = User.query.filter_by(username=question_id.author.username).first_or_404()
+    form = HelpForm()
+    if form.validate_on_submit():
+        question_answer = Help(body=form.body.data, support=support)
+        question_answer.answered = True
+        db.session.add(question_answer)
+        db.session.commit()
+        send_answer_email(user)
+        flash('You have successfully answered a question!'
+              'An email has been sent to the user.')
+        return redirect(url_for('support.support_dashboard', username=support.username))
+    return render_template(
+        'support/answer.html',
+        title='Answer',
+        question_id=question_id,
+        form=form,
+        support=support)

@@ -1,7 +1,7 @@
 <table class="table table-striped">
     <tr valign='top'>
         <td width="30px">
-            <img src=" {{ question.author.avatar(30) }}  ">
+            <img src=" {{ question.support.avatar(30) }}  ">
         </td>
         <td>
             <span class="question-id label label-default"># {{ question.id }} </span>
@@ -15,8 +15,12 @@
                     {{ question.body }}
                 {% endif %}
             </div>
-            {% if current_user.username == question.support.username %}
-                <a class="btn" id="edit_link" href=" # ">Edit</a>
+            {% if support %}
+                {% if question.answered == False %}
+                <a class="btn" target="_blank" href=" {{ url_for('support.answer', username=support.username, id=question.id) }} ">Answer</a>
+                {% elif question.answered == True %}
+                <a class="btn disabled" href=" #">Answered</a>
+                {% endif %}
             {% endif %}
         </td>
     </tr>    

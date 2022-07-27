@@ -119,7 +119,7 @@ def help(username):
             send_new_question_email(support)
         flash('An email has been sent to the support team.'
               ' You will receive an email notification when your question is answered.')
-        return redirect(url_for('main.help'))
+        return redirect(url_for('main.help', username=user.username))
     page = request.args.get('page', 1, type=int)
     questions = Help.query.order_by(Help.timestamp.desc()).paginate(
         page, current_app.config['QUESTIONS_PER_PAGE'], False)
@@ -146,13 +146,13 @@ def edit_help(id):
     if form.validate_on_submit():
         if question.body == form.body.data:
             flash('There has been no change in the question, please try again.')
-            return redirect(url_for('main.help'))
+            return redirect(url_for('main.help', username=user.username))
         else:
             question.body = form.body.data
             question.edited = True
             db.session.commit()
             flash('Your question has been updated.')
-            return redirect(url_for('main.help'))
+            return redirect(url_for('main.help', username=user.username))
     form.body.data = question.body
     return render_template(
         'main/edit_help.html', title='Edit Help', form=form, user=user)

@@ -1,8 +1,8 @@
-<p>Dear {{ user.author.username }},</p>
+<p>Dear {{ user.username }},</p>
 <p>
     Congratulations! Your question has received an answer. 
     You can view it by clicking on the following link:<br>
-    {{  url_for('main.help',  _anchor='comments', _external=True) }}
+    {{  url_for('main.help', username=user.username,  _anchor='comments', _external=True) }}
 </p>
 <p>Sincerely,</p>
 <p>The Mbeca Ciaku Team</p>

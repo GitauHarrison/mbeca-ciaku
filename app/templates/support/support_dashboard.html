@@ -25,11 +25,14 @@
                 </p>
             </div>
         </div>
-        <hr>
         <div class="col-md-9">
-            {% for question in all_questions %}
-                {% include 'support/_support_questions.html' %}
-            {% endfor %}
+            <div class="row">
+                <div class="col-md-12">
+                    {% for question in all_questions %}
+                        {% include 'support/_support_questions.html' %}
+                    {% endfor %}
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-12">
                    <!-- Pagination of comments -->
