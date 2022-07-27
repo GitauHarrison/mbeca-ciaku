@@ -1,11 +1,21 @@
 <table class="table table-striped">
     <tr valign='top'>
         <td width="30px">
-            <img src=" {{ question.support.avatar(30) }}  ">
+            {% if question.support.username %}
+                <img src=" {{ question.support.avatar(30) }}  ">
+            {% else %}
+                <img src=" {{ question.author.avatar(30) }}  ">
+            {% endif %}
         </td>
         <td>
             <span class="question-id label label-default"># {{ question.id }} </span>
-            <span class="label label-success"> {{ question.author.username }} </span>  
+            
+            {% if question.support.username %}  
+                <span class="label label-info"> {{ question.support.username }} </span>
+            {% else %}
+                <span class="label label-primary"> {{ question.author.username }} </span>
+            {% endif %}
+
             said {{ moment(question.timestamp).fromNow() }}:
             <br>
             <div class="question-body">

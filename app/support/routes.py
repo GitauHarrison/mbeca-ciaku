@@ -13,11 +13,6 @@ from app.support.email import send_answer_email
 def support_dashboard(username):
     support = Support.query.filter_by(username=username).first_or_404()
     users = User.query.all()
-    # for user in users:
-    #     question_author = user.author.username
-    #     if question_author:
-    #         send_answer_email(user)
-    # flash('You have successfully answered a question! An email has been sent to the user.')
     page = request.args.get('page', 1, type=int)
     all_questions = Help.query.order_by(Help.timestamp.desc()).paginate(
         page, current_app.config['QUESTIONS_PER_PAGE'], False)
@@ -37,7 +32,8 @@ def support_dashboard(username):
         support=support,
         all_questions=all_questions.items,
         next_url=next_url,
-        prev_url=prev_url)
+        prev_url=prev_url,
+        users=users)
 
 
 @bp.route('/<username>/answer/question-<int:id>', methods=['GET', 'POST'])

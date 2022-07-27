@@ -51,11 +51,6 @@ class Admin(UserMixin, db.Model):
     def two_factor_enabled(self):
         return self.verification_phone is not None
 
-    def avatar(self, size):
-        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
-        return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
-            digest, size)
-
 
 class Support(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -78,6 +73,10 @@ class Support(UserMixin, db.Model):
         return jwt.encode(
             {'reset_password': self.id, 'exp': time() + expires_in},
             current_app.config['SECRET_KEY'], algorithm='HS256')
+
+    def avatar(self, size):
+        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
+        return f'https://www.gravatar.com/avatar/{digest}?d=identicon&s={size}'
 
     @staticmethod
     def verify_reset_password_token(token):

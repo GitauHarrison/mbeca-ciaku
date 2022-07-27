@@ -106,7 +106,8 @@ def index():
 @bp.route('/<username>/help', methods=['GET', 'POST'])
 @login_required
 def help(username):
-    user = User.query.filter_by(username=current_user.username).first()
+    user = User.query.filter_by(username=username).first()
+    support = Support.query.all()
     form = HelpForm()
     if form.validate_on_submit():
         question = Help(
@@ -132,6 +133,7 @@ def help(username):
         title='Help',
         form=form,
         user=user,
+        support=support,
         questions=questions.items,
         next_url=next_url,
         prev_url=prev_url)
