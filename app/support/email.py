@@ -14,3 +14,17 @@ def send_answer_email(user):
                html_body=render_template(
                 'auth/email/support/support_answer_email.html',
                 user=user, token=token))
+
+
+def send_delete_account_email(admin, support):
+    send_email('[Mbeca Ciaku] Request to Delete Account',
+               sender=current_app.config['ADMINS'][0],
+               recipients=[admin.email],
+               text_body=render_template(
+                'auth/email/support/support_request_deletion_email.txt',
+                admin=admin,
+                support=support),
+               html_body=render_template(
+                'auth/email/support/support_request_deletion_email.html',
+                admin=admin,
+                support=support))

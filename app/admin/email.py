@@ -14,3 +14,15 @@ def send_registration_email(support):
                html_body=render_template(
                 'auth/email/support/support_registration_email.html',
                 support=support, token=token))
+
+
+def send_account_deletion_email(support):
+    send_email('[Mbeca Ciaku] Account Deletion',
+               sender=current_app.config['ADMINS'][0],
+               recipients=[support.email],
+               text_body=render_template(
+                'auth/email/support/support_deletion_email.txt',
+                support=support),
+               html_body=render_template(
+                'auth/email/support/support_deletion_email.html',
+                support=support))

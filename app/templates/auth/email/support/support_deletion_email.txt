@@ -1,0 +1,10 @@
+Dear {{ support.username }},
+
+Your request to delete your support account has been successfully processed.
+You will no longer be able to access your account.
+
+
+Thank you for your contribution in the Mbeca Ciaku community.
+
+Sincerely,
+The Mbeca Ciaku Admin

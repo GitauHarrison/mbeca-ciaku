@@ -98,3 +98,14 @@ p {
     margin-bottom: 30px;
     background-color: #f2f2f2;
 }
+.delete-account {
+    padding: 2px;
+    border: 1px solid #902e2e;
+    border-radius: 5px;
+    color: #950019;
+}
+.delete-account:hover {
+    background-color: #902e2e;
+    color: white;
+    text-decoration: none;
+}

@@ -3,9 +3,9 @@ from app.support import bp
 from flask import render_template, flash, redirect, url_for, request,\
     current_app
 from app.support.forms import HelpForm
-from app.models import User, Help, Support
+from app.models import User, Help, Support, Admin
 from flask_login import login_required
-from app.support.email import send_answer_email
+from app.support.email import send_answer_email, send_delete_account_email
 
 
 @bp.route('/dashboard/<username>', methods=['GET', 'POST'])
@@ -58,3 +58,19 @@ def answer(username, id):
         question_id=question_id,
         form=form,
         support=support)
+
+
+@bp.route('/<username>/delete/account', methods=['GET', 'POST'])
+@login_required
+def support_delete_account(username):
+    support = Support.query.filter_by(username=username).first_or_404()
+    admins = Admin.query.all()
+    for admin in admins:
+        send_delete_account_email(admin, support)
+    # Update delete_account_status column to True
+    # Support will not be able to request account deletion a second time
+    support.delete_account_status = True
+    db.session.commit()
+    flash('Your request to delete your account has been sent to the admins. '
+          'You will be notified when your account is deleted.')
+    return redirect(url_for('support.support_dashboard', username=support.username))

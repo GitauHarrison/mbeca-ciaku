@@ -171,6 +171,16 @@ def edit_help(id):
         'main/edit_help.html', title='Edit Help', form=form, user=user)
 
 
+@bp.route('/delete/account')
+@login_required
+def delete_account():
+    user = User.query.filter_by(username=current_user.username).first()
+    db.session.delete(user)
+    db.session.commit()
+    flash('Your account has been deleted.')
+    return redirect(url_for('auth.register'))
+
+
 # ===============================================================
 # Get User data
 # ===============================================================

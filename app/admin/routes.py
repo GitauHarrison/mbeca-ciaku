@@ -4,7 +4,7 @@ from app.models import Admin, Support
 from flask import render_template, flash, redirect, url_for
 from app.admin.forms import SupportRegistrationForm
 from flask_login import current_user, login_required
-from app.admin.email import send_registration_email
+from app.admin.email import send_registration_email, send_account_deletion_email
 
 
 @bp.route('/dashboard/<username>', methods=['GET', 'POST'])
@@ -29,10 +29,21 @@ def admin_dashboard(username):
         form=form)
 
 
-@bp.route('/dashboard/support-member/<username>/delete', methods=['GET', 'POST'])
-def admin_delete_support_member(username):
-    support = Support.query.filter_by(username=username).first_or_404()
+@bp.route('/dashboard/<username>/support-member/delete-<int:id>', methods=['GET', 'POST'])
+def admin_delete_support_member(username, id):
+    admin = Admin.query.filter_by(username=username).first_or_404()
+    support = Support.query.filter_by(id=id).first_or_404()
+    send_account_deletion_email(support)
     db.session.delete(support)
     db.session.commit()
     flash(f'You have successfully deleted {support.username} from the support team!')
-    return redirect(url_for('admin.admin_dashboard', username=current_user.username))
+    return redirect(url_for('admin.admin_dashboard', username=admin.username))
+
+
+@bp.route('/dashboard/<username>/delete/account', methods=['GET', 'POST'])
+def admin_delete_account(username):
+    admin = Admin.query.filter_by(username=username).first_or_404()
+    db.session.delete(admin)
+    db.session.commit()
+    flash(f'You have successfully deleted {admin.username} from the admin team!')
+    return redirect(url_for('auth.admin_dashboard_registration'))

@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-md-3">
             <h2>Your Profile</h2>
-            <div class="col-md-12">
+            
                 <p>Username: {{ support.username }}</p>
                 <p>Email: {{ support.email }}</p>
                 <p>
@@ -23,16 +23,24 @@
                         {% endif %}
                     </span>
                 </p>
-            </div>
+                <p>
+                    Want to delete account? 
+                    {% if support.delete_account_status == False %}
+                        <span>
+                            <a class="delete-account" href=" {{ url_for('support.support_delete_account', username=support.username) }} ">Delete Account</a>
+                        </span>
+                    {% else %}
+                        <span>
+                            <a class="btn delete-account disabled" href=" {{ url_for('support.support_delete_account', username=support.username) }} ">Delete Account</a>
+                        </span>
+                    {% endif %}
+                </p>
+            
         </div>
         <div class="col-md-9">
-            <div class="row">
-                <div class="col-md-12">
-                    {% for question in all_questions %}
-                        {% include 'support/_support_questions.html' %}
-                    {% endfor %}
-                </div>
-            </div>
+            {% for question in all_questions %}
+                {% include 'support/_support_questions.html' %}
+            {% endfor %}
             <div class="row">
                 <div class="col-md-12">
                    <!-- Pagination of comments -->

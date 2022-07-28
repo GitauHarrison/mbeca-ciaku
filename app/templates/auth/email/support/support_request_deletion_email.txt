@@ -1,0 +1,13 @@
+Dear {{ admin.username }},
+
+My name is {{ support.username }} and I am a support member. 
+
+I kindly request that you delete my support account. 
+
+I will no longer be using the support system.
+
+
+I hope you will understand my decision.
+
+Sincerely,
+The Mbeca Ciaku Admin

@@ -1,3 +1,4 @@
+from xmlrpc.client import Boolean
 from app import db, login
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -58,6 +59,7 @@ class Support(UserMixin, db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     verification_phone = db.Column(db.String(20))
+    delete_account_status = db.Column(db.Boolean, default=False)
     user_questions = db.relationship('Help', backref='support', lazy='dynamic')
 
     def __repr__(self):

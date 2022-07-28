@@ -6,12 +6,12 @@
 </p>
 <p>
     To access your support account, click on the following link:<br>
-    {{  url_for('support.support_login', _external=True) }}
+    {{  url_for('auth.support_login', _external=True) }}
 </p>
 <p>
     You login credentials are:<br><br>
-    Username: {{ support.username }}<br>
-    Password: support1<br><br>
+    Username: <strong>{{ support.username }}</strong><br>
+    Password: <strong>support1</strong><br><br>
     You can reset your password from the login page.
 </p>
 <p>Sincerely,</p>

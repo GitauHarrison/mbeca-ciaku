@@ -18,8 +18,13 @@
                         <p>
                             {{ support.username }} - 
                             <span class="label label-danger">
-                                <a style="color: white; text-decoration: none;" href=" {{ url_for('admin.admin_delete_support_member', username=support.username) }}">Delete</a>
+                                <a style="color: white; text-decoration: none;" href=" {{ url_for('admin.admin_delete_support_member', username=admin.username, id=support.id) }}">Delete</a>
                             </span>
+                            {% if support.delete_account_status == True %}
+                                <span class="label label-success">
+                                    <a style="color: white; text-decoration: none;" href=" #">Request to Delete Received</a>
+                                </span>
+                            {% endif %}
                         </p>
                     </li>
                 {% endfor %}
@@ -38,6 +43,12 @@
                         {% else %}
                             <a href=" {{ url_for('auth.admin_disable_2fa', username=admin.username) }} ">Disable 2FA</a>
                         {% endif %}
+                    </span>
+                </p>
+                <p>
+                    Want to delete account?
+                    <span>
+                        <a class="delete-account" href=" {{ url_for('admin.admin_delete_account', username=admin.username) }} ">Delete Account</a>
                     </span>
                 </p>
             </div>
