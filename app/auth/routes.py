@@ -464,7 +464,7 @@ def disable_2fa():
         current_user.verification_phone = None
         db.session.commit()
         flash('You have disabled two-factor authentication.')
-        return redirect(url_for('main.help'))
+        return redirect(url_for('main.help', username=current_user.username))
     return render_template(
         'auth/two_factor_auth/disable_2fa.html',
         title='Disable 2FA',
