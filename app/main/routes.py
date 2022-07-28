@@ -22,6 +22,7 @@ from app.main.encrypt_pdf import encrypt_pdf
 from io import BytesIO
 import os
 from app.main.email import send_new_question_email
+import time
 
 # The two functions below allow us to specify what forms
 # are to be submitted in a post request
@@ -614,6 +615,7 @@ def download_income_data():
         buffer.write(open(current_app.config['PDF_FOLDER_PATH'] + \
             'income_data' + session['year'] + '.pdf', 'rb').read())
         buffer.seek(0)
+        time.sleep(3)
         os.remove(current_app.config['PDF_FOLDER_PATH'] + 'income_data' + session['year'] + '.pdf')
         return send_file(
             buffer,
