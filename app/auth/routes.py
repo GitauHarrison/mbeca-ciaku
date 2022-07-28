@@ -221,7 +221,7 @@ def support_logout():
 @bp.route('/support/request-password-reset', methods=['GET', 'POST'])
 def support_request_password_reset():
     if current_user.is_authenticated:
-        return redirect(url_for('support.support_dashboard', username=current_user.username))
+        return redirect(url_for('support.support_dashboard'))
     form = ResetPasswordRequestForm()
     if form.validate_on_submit():
         support = Support.query.filter_by(email=form.email.data).first()
