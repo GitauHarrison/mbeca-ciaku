@@ -128,20 +128,24 @@ User
 
 ## How To Use The Live Application
 
-[Browser 1] Ceate an Admin
+- [Watch on YouTube]()
+
+Alternatively, you can do the following:
+
+[Browser 1 ([Brave](https://brave.com/))] Ceate an Admin
 - [x] [Create a new admin](https://mbecaciaku.herokuapp.com/auth/admin/register)
 - [x] [Login as admin](https://mbecaciaku.herokuapp.com/auth/admin/login). You will be redirected to the admin dashboard.
 - [x] Create a new support team member
 
 
-[Browser 2] Login as Support Team
+[Browser 2 ([Firefox](https://www.mozilla.org/en-US/firefox/new/))] Login as Support Team
 
 - [x] Find the login details to your support account in the email you received.
 - [x] [Login as support team](https://mbecaciaku.herokuapp.com/auth/support/login). You will be redirected to the support dashboard.
 - [x] Click on "Answer" link to respond to a user's question. The user will recieve an email notification.
 
 
-[Browser 3] Register as User
+[Browser 3 ([Chrome](https://www.google.com/chrome/))] Register as User
 
 - [x] [Create a new user](https://mbecaciaku.herokuapp.com/auth/register)
 - [x] [Login as user](https://mbecaciaku.herokuapp.com/auth/login). You will be redirected to the user home page.
