@@ -13,8 +13,9 @@
 
 @media screen and (max-width: 600px) {
     .footer {
-        height: 80px;
+        height: 70px;
         width: 100%;
+        font-size: 10px;
     }
 }
 
@@ -34,10 +35,19 @@
 
 @media screen and (min-width: 900px) and (max-width: 1200px) {
     .footer {
-        height: 65px;
+        height: 85px;
         width: 90%;
+        font-size: 20px;
     }
 }
+@media screen and (min-width: 1200px) {
+    .footer {
+        height: -5px;
+        width: 60%;
+        font-size: 10px;
+    }
+}
+    
 
 /* Question */
 .question-id, .label {
@@ -108,4 +118,149 @@ p {
     background-color: #902e2e;
     color: white;
     text-decoration: none;
+}
+
+/* Landing Page */
+@media screen and (max-width: 600px) {
+    .hero {
+        margin-top: 30px;
+        margin-bottom: 10px;
+        margin-left: 20px;
+        margin-right: 20px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        text-align: center;
+    }
+    .hero p {
+        font-size: 40px;
+    }
+    .hero button {
+        font-size: 1.5rem;
+        padding: 5px;
+        background-color: orange;
+        color: white;
+        border-radius: 30px;
+        margin-bottom: 40px;
+    }
+    .learn-more {
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+    .learn-more p {
+        font-size: 1.0rem;
+    }
+    .learn-more .img {
+        text-align: center;
+    }
+    .learn-more img {
+        width: 95px;
+        height: 95px;
+    }
+}
+@media screen and (min-width: 600px) and (max-width: 900px) {
+    .hero {
+        margin-top: 80px;
+        margin-bottom: 10px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        text-align: center;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .hero p {
+        font-size: 70px;
+    }
+    .hero button {
+        font-size: 2.5rem;
+        padding: 15px;
+        background-color: orange;
+        color: white;
+        border-radius: 50px;
+        margin-bottom: 60px;
+    }
+    .learn-more {
+        margin-bottom: 20px;
+        margin-top: 5px;
+    }
+    .learn-more p {
+        font-size: 1.7rem;
+    }
+    .learn-more .img {
+        text-align: center;
+    }
+    .learn-more img {
+        width: 230px;
+        height: 230px;
+    }
+}
+@media screen and (min-width: 900px) and (max-width: 1200px) {
+    .hero {
+        margin-top: 100px;
+        margin-bottom: 20px;
+        padding-top: 10px;
+        padding-bottom: 0px;
+        text-align: center;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .hero p {
+        font-size: 90px;
+    }
+    .hero button {
+        font-size: 3.0rem;
+        padding: 15px;
+        background-color: orange;
+        color: white;
+        border-radius: 50px;
+        margin-bottom: 60px;
+    }
+    .learn-more {
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+    .learn-more p {
+        font-size: 2.5rem;
+    }
+    .learn-more .img {
+        text-align: center;
+    }
+    .learn-more img {
+        width: 250px;
+        height: 250px;
+    }
+}
+@media screen and (min-width: 1200px) {
+    .hero {
+        margin-top: 150px;
+        margin-bottom: 100px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    .hero p {
+        font-size: 80px;
+    }
+    .hero button {
+        font-size: 2.5rem;
+        padding: 10px;
+        background-color: orange;
+        color: white;
+        border-radius: 30px;
+    }
+    .error {
+        font-size: 1.5rem;
+    }
+    .learn-more {
+        margin-bottom: 40px;
+        margin-top: 20px;
+    }
+    .learn-more p {
+        font-size: 2.5rem;
+    }
+    .learn-more .img {
+        text-align: center;
+    }
+    .learn-more img {
+        width: 300px;
+        height: 300px;
+    }
 }

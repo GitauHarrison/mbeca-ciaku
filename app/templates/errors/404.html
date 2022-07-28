@@ -1,17 +1,13 @@
 {% extends 'base.html' %}
 
 {% block app_context %}
-<div class="row">
-    <div class="col-md-12 text-center">
-        <h1>Page Not Found</h1>
-    </div>  
-</div>
-<div class="row text-center">
+<div class="row text-center error">
     <div class="col-md-4"><!-- Empty col --></div>
     <div class="col-md-4">
+        <h1>Page Not Found</h1>
         <p>
             The page you are looking for does not exist. Kindly check the URL and try again.
-            Else, go to <a href="{{ url_for('auth.login') }}">login page</a>.
+            Otherwise, go to the <a href="{{ url_for('main.about') }}">landing page</a>.
         </p>
     </div>
     <div class="col-md-4"><!-- Empty col --></div>

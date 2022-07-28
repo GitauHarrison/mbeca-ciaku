@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block app_context%}
+    <div class="row hero">
+        <div class="col-md-6">
+            <p>Start Minding Your Own Business</p>
+            <a href=" {{ url_for('main.learn_more') }} ">
+                <button class="btn">Learn More</button>
+            </a>
+        </div>
+        <div class="col-md-6">
+            <img class="img-fluid" style="max-width: 100%; height:auto" src=" {{ url_for('static', filename='images/plan.svg') }} " alt="Plan">
+        </div>
+    </div>
+
+{% endblock %}

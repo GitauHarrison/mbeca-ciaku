@@ -34,8 +34,18 @@ def is_submitted(self):
     return self.form.is_submitted()
 
 
-@bp.route('/<username>')
-@bp.route('/index/<username>')
+@bp.route('/')
+@bp.route('/about')
+def about():
+    return render_template('main/about.html', title='Mbeca Ciaku')
+
+
+@bp.route('/learn-more')
+def learn_more():
+    return render_template('main/learn_more.html', title='Learn More')
+
+
+@bp.route('/home/<username>')
 @login_required
 def index(username):
     user = User.query.filter_by(username=username).first()
