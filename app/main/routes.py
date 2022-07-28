@@ -615,7 +615,7 @@ def download_income_data():
         buffer.write(open(current_app.config['PDF_FOLDER_PATH'] + \
             'income_data' + session['year'] + '.pdf', 'rb').read())
         buffer.seek(0)
-        
+        os.remove(current_app.config['PDF_FOLDER_PATH'] + 'income_data' + session['year'] + '.pdf')
         return send_file(
             buffer,
             attachment_filename='income_data' + session['year'] + '.pdf',
