@@ -98,7 +98,7 @@ Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryptio
 
 ## Deployed Application
 
-- [x] [Mbeca Ciaku](https://mbeca-ciaku.herokuapp.com/) on Heroku
+- [x] [Mbeca Ciaku](https://mbecaciaku.herokuapp.com/) on Heroku
 
 
 ## User Roles
@@ -129,25 +129,25 @@ User
 ## How To Use The Live Application
 
 [Browser 1] Ceate an Admin
-- [x] [Create a new admin](https://mbeca-ciaku.herokuapp.com/auth/admin/register)
-- [x] [Login as admin](https://mbeca-ciaku.herokuapp.com/auth/admin/login). You will be redirected to the admin dashboard.
+- [x] [Create a new admin](https://mbecaciaku.herokuapp.com/auth/admin/register)
+- [x] [Login as admin](https://mbecaciaku.herokuapp.com/auth/admin/login). You will be redirected to the admin dashboard.
 - [x] Create a new support team member
 
 
 [Browser 2] Login as Support Team
 
 - [x] Find the login details to your support account in the email you received.
-- [x] [Login as support team](https://mbeca-ciaku.herokuapp.com/auth/support/login). You will be redirected to the support dashboard.
+- [x] [Login as support team](https://mbecaciaku.herokuapp.com/auth/support/login). You will be redirected to the support dashboard.
 - [x] Click on "Answer" link to respond to a user's question. The user will recieve an email notification.
 
 
 [Browser 3] Register as User
 
-- [x] [Create a new user](https://mbeca-ciaku.herokuapp.com/auth/register)
-- [x] [Login as user](https://mbeca-ciaku.herokuapp.com/auth/login). You will be redirected to the user home page.
-- [x] [Update your financial information](https://mbeca-ciaku.herokuapp.com/update)
+- [x] [Create a new user](https://mbecaciaku.herokuapp.com/auth/register)
+- [x] [Login as user](https://mbecaciaku.herokuapp.com/auth/login). You will be redirected to the user home page.
+- [x] [Update your financial information](https://mbecaciaku.herokuapp.com/update)
 - [x] User can optionally download their data as an encrypted PDF file.
-- [x] Need help? [Contact support team](https://mbeca-ciaku.herokuapp.com/help)
+- [x] Need help? [Contact support team](https://mbecaciaku.herokuapp.com/help)
 
 
 ## Testing The Application Locally
