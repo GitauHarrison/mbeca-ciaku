@@ -206,7 +206,7 @@ def delete_account(username):
     db.session.delete(user)
     db.session.commit()
     flash('Your account, and all its data has been deleted.')
-    return redirect(url_for('auth.login'))
+    return redirect(url_for('main.about'))
 
 
 # ===============================================================
