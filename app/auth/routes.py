@@ -107,7 +107,7 @@ def admin_reset_password(token):
 # Two-factor authentication routes
 
 
-@bp.route('/admin/dashboard/<username>/enable_2fa', methods=['GET', 'POST'])
+@bp.route('/admin/dashboard/<username>/enable-2fa', methods=['GET', 'POST'])
 @login_required
 def admin_enable_2fa(username):
     admin = Admin.query.filter_by(username=username).first_or_404()
@@ -132,7 +132,7 @@ def admin_verify_2fa(username):
         if check_verification_token(phone, form.token.data):
             del session['phone']
             if current_user.is_authenticated:
-                current_user.verification_phone = phone
+                admin.verification_phone = phone
                 db.session.commit()
                 flash('You have enabled two-factor authentication on your account.')
                 return redirect(url_for('admin.admin_dashboard', username=username))
@@ -152,7 +152,7 @@ def admin_verify_2fa(username):
         admin=admin)
 
 
-@bp.route('/admin/dashboard/<username>/disable_2fa', methods=['GET', 'POST'])
+@bp.route('/admin/dashboard/<username>/disable-2fa', methods=['GET', 'POST'])
 @login_required
 def admin_disable_2fa(username):
     admin = Admin.query.filter_by(username=username).first_or_404()
@@ -257,7 +257,7 @@ def support_reset_password(token):
 # Two-factor authentication routes
 
 
-@bp.route('/support/dashboard/<username>/enable_2fa', methods=['GET', 'POST'])
+@bp.route('/support/dashboard/<username>/enable-2fa', methods=['GET', 'POST'])
 @login_required
 def support_enable_2fa(username):
     support = Support.query.filter_by(username=username).first_or_404()
@@ -282,7 +282,7 @@ def support_verify_2fa(username):
         if check_verification_token(phone, form.token.data):
             del session['phone']
             if current_user.is_authenticated:
-                current_user.verification_phone = phone
+                support.verification_phone = phone
                 db.session.commit()
                 flash('You have enabled two-factor authentication on your account.')
                 return redirect(url_for('support.support_dashboard', username=username))
@@ -303,7 +303,7 @@ def support_verify_2fa(username):
         support=support)
 
 
-@bp.route('/support/dashboard/<username>/disable_2fa', methods=['GET', 'POST'])
+@bp.route('/support/dashboard/<username>/disable-2fa', methods=['GET', 'POST'])
 @login_required
 def support_disable_2fa(username):
     support = Support.query.filter_by(username=username).first_or_404()
@@ -441,7 +441,7 @@ def verify_2fa():
                 current_user.verification_phone = phone
                 db.session.commit()
                 flash('You have enabled two-factor authentication.')
-                return redirect(url_for('main.help'))
+                return redirect(url_for('main.help', username=current_user.username))
             else:
                 username = session['username']
                 del session['username']
