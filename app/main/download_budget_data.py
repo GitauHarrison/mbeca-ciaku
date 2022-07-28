@@ -120,13 +120,13 @@ def download_budget_pdf(user):
 class PDF(FPDF):
     def header(self):
         # Logo
-        self.image('app/static/images/money.png', 73, 8, 12, link='http://www.fpdf.org')
+        self.image('app/static/images/money.png', 73, 8, 12, link='https://mbecaciaku.herokuapp.com/')
         # Arial bold 15
         self.set_font('Arial', 'B', 15)
         # Move to the right
         self.cell(50)
         # Title
-        self.cell(50, 10, 'Mbeca Ciaku'.upper(), 0, 0, 'C', link='http://www.fpdf.org')
+        self.cell(50, 10, 'Mbeca Ciaku'.upper(), 0, 0, 'C', link='https://mbecaciaku.herokuapp.com/')
         # Line break
         self.ln(20)
 
