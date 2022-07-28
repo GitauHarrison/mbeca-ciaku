@@ -158,7 +158,7 @@ def admin_disable_2fa(username):
     admin = Admin.query.filter_by(username=username).first_or_404()
     form = DisableForm()
     if form.validate_on_submit():
-        current_user.verification_phone = None
+        admin.verification_phone = None
         db.session.commit()
         flash('You have disabled two-factor authentication on your account.')
         return redirect(url_for('admin.admin_dashboard', username=username))
@@ -309,7 +309,7 @@ def support_disable_2fa(username):
     support = Support.query.filter_by(username=username).first_or_404()
     form = DisableForm()
     if form.validate_on_submit():
-        current_user.verification_phone = None
+        support.verification_phone = None
         db.session.commit()
         flash('You have disabled two-factor authentication on your account.')
         return redirect(url_for('support.support_dashboard', username=username))
