@@ -13,7 +13,7 @@ To access your support account, please click on the link below:
 Your login credentials are:
 
     Username: {{ support.username }}
-    Password: {{ support.username }}
+    Password: support1
 
     You can request to reset your password in the link below:
 

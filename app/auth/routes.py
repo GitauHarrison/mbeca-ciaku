@@ -2,7 +2,7 @@ from app import db
 from app.auth import bp
 from flask import render_template, flash, redirect, url_for, session,\
     request
-from app.auth.forms import LoginForm, PhoneForm, RegistrationForm, PhoneForm, \
+from app.auth.forms import AdminRegistrationForm, LoginForm, PhoneForm, RegistrationForm, PhoneForm,\
     VerifyForm, DisableForm, ResetPasswordRequestForm, ResetPasswordForm
 from app.models import User, Admin, Support
 from flask_login import current_user, login_user, logout_user, login_required
@@ -20,7 +20,7 @@ from app.auth.email import send_password_reset_email, \
 
 @bp.route('/admin/register', methods=['GET', 'POST'])
 def admin_dashboard_registration():
-    form = RegistrationForm()
+    form = AdminRegistrationForm()
     if form.validate_on_submit():
         admin = Admin(username=form.username.data,email=form.email.data)
         admin.set_password(form.password.data)
