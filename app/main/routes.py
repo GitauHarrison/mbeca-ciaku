@@ -74,7 +74,6 @@ def index():
     user_assests_data = assets_data(user)
     assets_total = user_assests_data[3]
     assets_years = list(user_assests_data[0].keys())
-    print(assets_total)
 
     # List differences in assets and liabilities per year
     assets_liabilities_differences_per_year = []
