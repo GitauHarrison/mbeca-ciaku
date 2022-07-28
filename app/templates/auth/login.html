@@ -39,15 +39,15 @@
                             <ul>
                                 <p>
                                     <li>
-                                        <strong>Admin</strong> - Can add/delete support members. 
+                                        <strong>Admin</strong> - Can add/delete members of the support team. 
                                         New? <a href="{{ url_for('auth.admin_dashboard_registration') }}">Register here</a>.
                                         Returning? <a href="{{ url_for('auth.admin_login') }}">Login here</a>.
                                     </li>
                                 </p>
                                 <p>
                                     <li>
-                                        <strong>Support</strong> - Can't register self. Admin will register you and you will receive a link via email. 
-                                        Click <a href="{{ url_for('auth.support_login') }}">here</a> to login.
+                                        <strong>Support</strong> - Can't register self. Admin will register you and you will receive a link to log in via email. 
+                                        Alternatively, to quickly log in, click <a href="{{ url_for('auth.support_login') }}">here</a>.
                                     </li>
                                 </p>
                                 <p>

@@ -8,7 +8,7 @@ respond to the question and answer it.
 
 To access your support account, please click on the link below:
 
-{{  url_for('support.support_dashboard', username=support.username, _external=True) }}
+{{  url_for('support.support_login', _external=True) }}
 
 Your login credentials are:
 

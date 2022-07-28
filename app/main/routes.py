@@ -54,7 +54,13 @@ def index():
     income_expenses_differences_per_year = []
     for year in income_years:
         income_expenses_differences_per_year.append(
-            income_total[year] - expenses_total[year])
+            # If either income or expenses is missing for a year,
+            # then we will use 0 as the difference
+            income_total.get(year, 0) - \
+                # if expenses is empty, set it to 0
+                # otherwise, set it to the value of the key
+                # in the expenses dictionary
+                expenses_total.get(year, 0))
 
     income_expenses_differences_per_year_dict  = dict(
         zip(income_years, income_expenses_differences_per_year))
@@ -68,12 +74,17 @@ def index():
     user_assests_data = assets_data(user)
     assets_total = user_assests_data[3]
     assets_years = list(user_assests_data[0].keys())
+    print(assets_total)
 
     # List differences in assets and liabilities per year
     assets_liabilities_differences_per_year = []
     for year in assets_years:
         assets_liabilities_differences_per_year.append(
-            assets_total[year] - liabilities_total[year])
+            assets_total.get(year, 0) - \
+                # if liabilities is empty, set it to 0
+                # otherwise, set it to the value of the key
+                # in the liabilities dictionary
+                liabilities_total.get(year, 0))
 
     assets_liabilities_differences_per_year_dict = dict(
         zip(assets_years, assets_liabilities_differences_per_year))
