@@ -39,7 +39,9 @@
                             <ul>
                                 <p>
                                     <li>
-                                        <strong>Admin</strong> - Can add/delete support members. <a href="{{ url_for('auth.admin_dashboard_registration') }}">Register here</a>.
+                                        <strong>Admin</strong> - Can add/delete support members. 
+                                        New? <a href="{{ url_for('auth.admin_dashboard_registration') }}">Register here</a>.
+                                        Returning? <a href="{{ url_for('auth.admin_login') }}">Login here</a>.
                                     </li>
                                 </p>
                                 <p>
@@ -51,7 +53,8 @@
                                 <p>
                                     <li>
                                         <strong>User</strong> - Main user. Can register self. 
-                                        Click <a href="{{ url_for('auth.register') }}"> here</a> to register.
+                                        Click <a href="{{ url_for('auth.register') }}"> here</a> to register. 
+                                        Returning? <a href="{{ url_for('auth.login') }}">Login here</a>.
                                     </li>
                                 </p>
                             </ul>
