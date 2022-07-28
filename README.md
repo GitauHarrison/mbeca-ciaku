@@ -73,7 +73,7 @@ Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryptio
 - [x] [Flask-Migrate](https://flask-migrate.readthedocs.io/en/latest/) for database migrations
 - [x] [PyFPDF](https://pyfpdf.readthedocs.io/en/latest/) for PDF generation
 - [x] [PyPDF2](https://pypdf2.readthedocs.io/en/latest/) for PDF encryption
-- [ ] [Unittest](https://docs.python.org/3/library/unittest.html) for unit testing
+- [x] [Unittest](https://docs.python.org/3/library/unittest.html) for unit testing
 - [x] [ChartJS](https://www.chartjs.org/) for data visualization
 - [x] [Twilio Verify API](https://www.twilio.com/docs/verify/api) for SMS verification 
     - To work with Twilio Verify API, you need to have a Twilio account. Learn more about it [here](https://github.com/GitauHarrison/notes/blob/master/two_factor_authentication/twilio_verify_2fa.md).
