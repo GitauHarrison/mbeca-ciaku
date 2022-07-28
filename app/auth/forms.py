@@ -11,7 +11,7 @@ class RegistrationForm(FlaskForm):
     email = StringField(
         'Email',
         validators=[DataRequired(), Email()],
-        render_kw={'placeholder': 'Valid email address'})
+        render_kw={'placeholder': 'Working email address'})
     password = PasswordField(
         'Password',
         validators=[DataRequired(), Length(min=8, max=20),
@@ -42,7 +42,7 @@ class AdminRegistrationForm(FlaskForm):
     email = StringField(
         'Email',
         validators=[DataRequired(), Email()],
-        render_kw={'placeholder': 'Valid email address'})
+        render_kw={'placeholder': 'Working email address'})
     password = PasswordField(
         'Password',
         validators=[DataRequired(), Length(min=8, max=20),
@@ -91,7 +91,10 @@ class PhoneForm(FlaskForm):
 
 
 class VerifyForm(FlaskForm):
-    token = StringField('Token', validators=[DataRequired()])
+    token = StringField(
+        'Token',
+        validators=[DataRequired()],
+        render_kw={'autofocus': True, 'placeholder': 'Enter token'})
     submit = SubmitField('Verify')
 
 
@@ -100,7 +103,10 @@ class DisableForm(FlaskForm):
 
 
 class ResetPasswordRequestForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    email = StringField(
+        'Email',
+        validators=[DataRequired(), Email()],
+        render_kw={'autofocus': True, 'placeholder': 'Working email address'})
     submit = SubmitField('Request Password Reset')
 
 
