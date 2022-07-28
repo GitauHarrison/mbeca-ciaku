@@ -175,10 +175,18 @@ def edit_help(id):
 @login_required
 def delete_account():
     user = User.query.filter_by(username=current_user.username).first()
-    db.session.delete(user)
+    items = user.budget_items.all()
+    user_expenses = user.expenses.all()
+    user_assets = user.assets.all()
+    user_liabilities = user.liabilities.all()
+    user_incomes = user.actual_incomes.all()
+    user_questions = user.questions.all()
+    db.session.delete(
+        user, items, user_expenses, user_assets, 
+        user_liabilities, user_incomes, user_questions)
     db.session.commit()
-    flash('Your account has been deleted.')
-    return redirect(url_for('auth.register'))
+    flash('Your account, and all its data has been deleted.')
+    return redirect(url_for('auth.login'))
 
 
 # ===============================================================
