@@ -150,7 +150,7 @@ Alternatively, you can do the following:
 - [x] [Create a new user](https://mbecaciaku.herokuapp.com/auth/register)
 - [x] [Login as user](https://mbecaciaku.herokuapp.com/auth/login). You will be redirected to the user home page.
 - [x] [Update your financial information](https://mbecaciaku.herokuapp.com/update)
-- [x] User can optionally download their data as an encrypted PDF file.
+- [x] User can optionally download their data as an encrypted PDF file. **The password is user's username**.
 - [x] Need help? [Contact support team](https://mbecaciaku.herokuapp.com/help)
 
 
