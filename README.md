@@ -55,7 +55,7 @@ Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryptio
 - [x] Interactive tables with search, sort and pagination functionality
 - [x] Download of user data as PDF file
 - [x] Encryption of downloaded PDF file
-- [ ] Tests
+- [x] Tests
 - [x] Custom support dashboard
 - [x] Dynamic charts
 - [x] Password reset
@@ -98,7 +98,7 @@ Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryptio
 
 ## Deployed Application
 
-- [ ] [Mbeca Ciaku](https://mbecaciaku.herokuapp.com/) on Heroku
+- [x] [Mbeca Ciaku](https://mbeca-ciaku.herokuapp.com/) on Heroku
 
 
 ## User Roles
@@ -126,28 +126,28 @@ User
 - They can download their data as an encrypted PDF file
 
 
-## How To Use The Application
+## How To Use The Live Application
 
 [Browser 1] Ceate an Admin
-- [x] [Create a new admin](http://127.0.0.1:5000/register)
-- [x] [Login as admin](http://127.0.0.1:5000/login). You will be redirected to the admin dashboard.
+- [x] [Create a new admin](https://mbeca-ciaku.herokuapp.com/auth/admin/register)
+- [x] [Login as admin](https://mbeca-ciaku.herokuapp.com/auth/admin/login). You will be redirected to the admin dashboard.
 - [x] Create a new support team member
 
 
 [Browser 2] Login as Support Team
 
 - [x] Find the login details to your support account in the email you received.
-- [x] [Login as support team](http://127.0.0.1:5000/support/dashboard/login). You will be redirected to the support dashboard.
-- [x] Answer a question and press the "Submit" button. A user will recieve an email notification.
+- [x] [Login as support team](https://mbeca-ciaku.herokuapp.com/auth/support/login). You will be redirected to the support dashboard.
+- [x] Click on "Answer" link to respond to a user's question. The user will recieve an email notification.
 
 
 [Browser 3] Register as User
 
-- [x] [Create a new user](http://127.0.0.1:5000/register)
-- [x] [Login as user](http://127.0.0.1:5000/login). You will be redirected to the user home page.
-- [x] [Update your financial information](http://127.0.0.1:5000/update)
+- [x] [Create a new user](https://mbeca-ciaku.herokuapp.com/auth/register)
+- [x] [Login as user](https://mbeca-ciaku.herokuapp.com/auth/login). You will be redirected to the user home page.
+- [x] [Update your financial information](https://mbeca-ciaku.herokuapp.com/update)
 - [x] User can optionally download their data as an encrypted PDF file.
-- [x] Need help? [Contact support team](http://127.0.0.1:5000/help)
+- [x] Need help? [Contact support team](https://mbeca-ciaku.herokuapp.com/help)
 
 
 ## Testing The Application Locally
