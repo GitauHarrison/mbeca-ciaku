@@ -39,7 +39,7 @@
     <div class="row text-center">
         <div class="col-md-4"></div>
         <div class="col-md-4">
-            <a href="{{ url_for('main.update') }}">
+            <a href="{{ url_for('main.update', username=user.username) }}">
                 <button class="btn"><span>&#8592;</span>  Back</button>
             </a>
         </div>

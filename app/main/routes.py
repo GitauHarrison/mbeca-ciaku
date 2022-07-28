@@ -34,11 +34,11 @@ def is_submitted(self):
     return self.form.is_submitted()
 
 
-@bp.route('/')
-@bp.route('/index')
+@bp.route('/<username>')
+@bp.route('/index/<username>')
 @login_required
-def index():
-    user = User.query.filter_by(username=current_user.username).first()
+def index(username):
+    user = User.query.filter_by(username=username).first()
 
     # Income
     user_income_data = income_data(user)
@@ -150,10 +150,10 @@ def help(username):
         prev_url=prev_url)
 
 
-@bp.route('/edit-help/<int:id>', methods=['GET', 'POST'])
+@bp.route('/<username>/edit-help/<int:id>', methods=['GET', 'POST'])
 @login_required
-def edit_help(id):
-    user = User.query.filter_by(username=current_user.username).first()
+def edit_help(username, id):
+    user = User.query.filter_by(username=username).first()
     question = Help.query.get_or_404(id)
     form = HelpForm()
     if form.validate_on_submit():
@@ -171,19 +171,29 @@ def edit_help(id):
         'main/edit_help.html', title='Edit Help', form=form, user=user)
 
 
-@bp.route('/delete/account')
+@bp.route('/delete/<username>/account')
 @login_required
-def delete_account():
-    user = User.query.filter_by(username=current_user.username).first()
+def delete_account(username):
+    user = User.query.filter_by(username=username).first()
     items = user.budget_items.all()
+    for item in items:
+        db.session.delete(item)
     user_expenses = user.expenses.all()
+    for expense in user_expenses:
+        db.session.delete(expense)
     user_assets = user.assets.all()
+    for asset in user_assets:
+        db.session.delete(asset)
     user_liabilities = user.liabilities.all()
+    for liability in user_liabilities:
+        db.session.delete(liability)
     user_incomes = user.actual_incomes.all()
+    for income in user_incomes:
+        db.session.delete(income)
     user_questions = user.questions.all()
-    db.session.delete(
-        user, items, user_expenses, user_assets, 
-        user_liabilities, user_incomes, user_questions)
+    for question in user_questions:
+        db.session.delete(question)
+    db.session.delete(user)
     db.session.commit()
     flash('Your account, and all its data has been deleted.')
     return redirect(url_for('auth.login'))
@@ -193,10 +203,10 @@ def delete_account():
 # Get User data
 # ===============================================================
 
-@bp.route('/update', methods=['GET', 'POST'])
+@bp.route('/update/<username>', methods=['GET', 'POST'])
 @login_required
-def update():
-    user = User.query.filter_by(username=current_user.username).first()
+def update(username):
+    user = User.query.filter_by(username=username).first()
 
     # ==========================================================
     # USER BUDGET
@@ -213,7 +223,7 @@ def update():
         db.session.add(budget_item)
         db.session.commit()
         flash(budget_item.name + ' has been added to your budget items')
-        return redirect(url_for('main.update', anchor='budget'))
+        return redirect(url_for('main.update', username=user.username, anchor='budget'))
     budget_items = user.budget_items.all()
     user_budget_data = budget_data(user)
 
@@ -240,7 +250,7 @@ def update():
         db.session.add(asset_item)
         db.session.commit()
         flash(asset_item.name + ' has been added to your assets')
-        return redirect(url_for('main.update', anchor='assets'))
+        return redirect(url_for('main.update', username=user.username, anchor='assets'))
     assets = user.assets.all()
     user_assets_data = assets_data(user)
 
@@ -268,7 +278,7 @@ def update():
         db.session.add(liability_item)
         db.session.commit()
         flash(liability_item.name + ' has been added to your liabilities')
-        return redirect(url_for('main.update', anchor='liabilities'))
+        return redirect(url_for('main.update', username=user.username, anchor='liabilities'))
     liabilities = user.liabilities.all()
     user_liabilities_data = liabilities_data(user)
 
@@ -297,7 +307,7 @@ def update():
         db.session.add(actual_income)
         db.session.commit()
         flash(str(actual_income.amount) + ' has been added to your income')
-        return redirect(url_for('main.update', anchor='income-sources'))
+        return redirect(url_for('main.update', username=user.username, anchor='income-sources'))
     actual_incomes = user.actual_incomes.all()
     user_income_data = income_data(user)
 
@@ -326,7 +336,7 @@ def update():
         db.session.add(actual_expense)
         db.session.commit()
         flash(str(actual_expense.amount) + ' has been added to your expenses')
-        return redirect(url_for('main.update', anchor='expenses'))
+        return redirect(url_for('main.update', username=user.username, anchor='expenses'))
     actual_expenses = user.expenses.all()
     user_expenses_data = expenses_data(user)
 
@@ -408,49 +418,54 @@ def update():
 # ===============================================================
 
 
-@bp.route('/delete/budget-item-<int:id>')
-def budget_item_delete(id):
+@bp.route('/<username>/delete/budget-item-<int:id>')
+def budget_item_delete(username, id):
+    user = User.query.filter_by(username=username).first_or_404()
     budget_item = BudgetItem.query.get_or_404(id)
     db.session.delete(budget_item)
     db.session.commit()
     flash(budget_item.name + ' has been deleted from budget items')
-    return redirect(url_for('main.update', anchor='budget'))
+    return redirect(url_for('main.update', username=user.username, anchor='budget'))
 
 
-@bp.route('/delete/income-source-<int:id>')
-def actual_expense_delete(id):
+@bp.route('/<username>/delete/expense-<int:id>')
+def actual_expense_delete(username, id):
+    user = User.query.filter_by(username=username).first_or_404()
     actual_expense = Expenses.query.get_or_404(id)
     db.session.delete(actual_expense)
     db.session.commit()
     flash(actual_expense.name + ' has been deleted from your expenses')
-    return redirect(url_for('main.update', anchor='expenses'))
+    return redirect(url_for('main.update', username=user.username, anchor='expenses'))
 
 
-@bp.route('/delete/asset-<int:id>')
-def asset_delete(id):
+@bp.route('/<username>/delete/asset-<int:id>')
+def asset_delete(username, id):
+    user = User.query.filter_by(username=username).first_or_404()
     asset = Asset.query.get_or_404(id)
     db.session.delete(asset)
     db.session.commit()
     flash(asset.name + ' has been deleted from asset items')
-    return redirect(url_for('main.update', anchor='assets'))
+    return redirect(url_for('main.update', username=user.username, anchor='assets'))
 
 
-@bp.route('/delete/liability-<int:id>')
-def liability_delete(id):
+@bp.route('/<username>/delete/liability-<int:id>')
+def liability_delete(username, id):
+    user = User.query.filter_by(username=username).first_or_404()
     liability = Liability.query.get_or_404(id)
     db.session.delete(liability)
     db.session.commit()
     flash(liability.name + ' has been deleted from liability items')
-    return redirect(url_for('main.update', anchor='liabilities'))
+    return redirect(url_for('main.update', username=user.username, anchor='liabilities'))
 
 
-@bp.route('/delete/income-<int:id>')
-def actual_income_delete(id):
+@bp.route('/<username>/delete/income-<int:id>')
+def actual_income_delete(username, id):
+    user = User.query.filter_by(username=username).first_or_404()
     actual_income = ActualIncome.query.get_or_404(id)
     db.session.delete(actual_income)
     db.session.commit()
     flash(str(actual_income.amount) + ' has been deleted from actual income')
-    return redirect(url_for('main.update', anchor='income-sources'))
+    return redirect(url_for('main.update', username=user.username, anchor='income-sources'))
 
 # ===============================================================
 # End of Delete User data
@@ -461,11 +476,11 @@ def actual_income_delete(id):
 # ===============================================================
 
 
-@bp.route('/download-budget-data', methods=['GET', 'POST'])
+@bp.route('/<username>/download-budget-data', methods=['GET', 'POST'])
 @login_required
-def download_budget_data():
+def download_budget_data(username):
     """Download budget data as pdf"""
-    user = User.query.filter_by(username=current_user.username).first()
+    user = User.query.filter_by(username=username).first()
     user_budget_data = budget_data(user)
 
     # Get keys and values from user_budget_data[0]
@@ -506,11 +521,11 @@ def download_budget_data():
         user=user)
 
 
-@bp.route('/download-asset-data', methods=['GET', 'POST'])
+@bp.route('/<username>/download-asset-data', methods=['GET', 'POST'])
 @login_required
-def download_asset_data():
+def download_asset_data(username):
     """Download asset data as pdf"""
-    user = User.query.filter_by(username=current_user.username).first()
+    user = User.query.filter_by(username=username).first()
     user_assets_data = assets_data(user)
 
     # Get keys and values from user_assets_data[0]
@@ -543,11 +558,11 @@ def download_asset_data():
         user=user)
 
 
-@bp.route('/download-liabilities-data', methods=['GET', 'POST'])
+@bp.route('/<username>/download-liabilities-data', methods=['GET', 'POST'])
 @login_required
-def download_liabilities_data():
+def download_liabilities_data(username):
     """Download liabilities data as pdf"""
-    user = User.query.filter_by(username=current_user.username).first()
+    user = User.query.filter_by(username=username).first()
     user_liabilities_data = liabilities_data(user)
 
     # Get keys and values from user_liabilities_data[0]
@@ -581,11 +596,11 @@ def download_liabilities_data():
         user=user)
 
 
-@bp.route('/download-expenses-data', methods=['GET', 'POST'])
+@bp.route('/<username>/download-expenses-data', methods=['GET', 'POST'])
 @login_required
-def download_expenses_data():
+def download_expenses_data(username):
     """Download expenses data as pdf"""
-    user = User.query.filter_by(username=current_user.username).first()
+    user = User.query.filter_by(username=username).first()
     user_expenses_data = expenses_data(user)
 
     # Get keys and values from user_expenses_data[0]
@@ -619,11 +634,11 @@ def download_expenses_data():
         user=user)
 
 
-@bp.route('/download-income-data', methods=['GET', 'POST'])
+@bp.route('/<username>/download-income-data', methods=['GET', 'POST'])
 @login_required
-def download_income_data():
+def download_income_data(username):
     """Download income data as pdf"""
-    user = User.query.filter_by(username=current_user.username).first()
+    user = User.query.filter_by(username=username).first()
     user_income_data = income_data(user)
 
     # Get keys and values from user_income_data[0]

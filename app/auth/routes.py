@@ -332,7 +332,7 @@ def support_disable_2fa(username):
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('main.index'))
+        return redirect(url_for('main.index', username=current_user.username))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -341,7 +341,7 @@ def login():
             return redirect(url_for('auth.login'))
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('main.index')
+            next_page = url_for('main.index', username=user.username)
         if user.two_factor_enabled():
             request_verification_token(user.verification_phone)
             session['username'] = user.username
@@ -398,7 +398,7 @@ def reset_password(token):
         return redirect(url_for('main.index'))
     user = User.verify_reset_password_token(token)
     if not user:
-        return redirect(url_for('main.index'))
+        return redirect(url_for('main.index', username=user.username))
     form = ResetPasswordForm()
     if form.validate_on_submit():
         user.set_password(form.password.data)
@@ -450,7 +450,7 @@ def verify_2fa():
                 remember = request.args.get('remember', '0') == '1'
                 login_user(user, remember=remember)
                 flash('Welcome back ' + user.username)
-                return redirect(next_page or url_for('main.index'))
+                return redirect(next_page or url_for('main.index', username=user.username))
         form.token.errors.append('Invalid token.')
     return render_template('auth/two_factor_auth/verify_2fa.html', title='Verify 2FA', form=form)
 

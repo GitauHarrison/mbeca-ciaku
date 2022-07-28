@@ -27,9 +27,9 @@
             </div>
             {% if current_user.username == question.author.username %}
                 {% if question.edited == False %}
-                    <a class="btn" href=" {{ url_for('main.edit_help', id=question.id) }} ">Edit</a>
+                    <a class="btn" href=" {{ url_for('main.edit_help', username=user.username, id=question.id) }} ">Edit</a>
                 {% elif question.edited == True %}
-                    <a class="btn disabled" id="edit_link" href=" {{ url_for('main.edit_help', id=question.id) }} ">Edited</a>
+                    <a class="btn disabled" id="edit_link" href=" {{ url_for('main.edit_help' username=user.username, id=question.id) }} ">Edited</a>
                 {% endif %}
             {% endif %}
             

@@ -35,7 +35,9 @@ def admin_delete_support_member(username, id):
     support = Support.query.filter_by(id=id).first_or_404()
     send_account_deletion_email(support)
     answers = support.user_questions.all()
-    db.session.delete(support, answers)
+    for answer in answers:
+        db.session.delete(answer)
+    db.session.delete(support)
     db.session.commit()
     flash(f'You have successfully deleted {support.username} from the support team!')
     return redirect(url_for('admin.admin_dashboard', username=admin.username))

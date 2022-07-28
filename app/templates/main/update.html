@@ -49,7 +49,7 @@
                                                     <td>{{ budget_item.date }}</td>
                                                     <td>{{ budget_item.amount }}</td>
                                                     <td>
-                                                        <a href="{{ url_for('main.budget_item_delete', id=budget_item.id) }}" class="btn btn-danger btn-xs">Delete</a>
+                                                        <a href="{{ url_for('main.budget_item_delete', username=user.username, id=budget_item.id) }}" class="btn btn-danger btn-xs">Delete</a>
                                                     </td>
                                                 </tr>
                                             {% endfor %}
@@ -100,7 +100,7 @@
                             <div class="panel-body">
                                 <div>
                                     Want to download your budget data? 
-                                    <a href=" {{ url_for('main.download_budget_data') }} ">Click here</a>.
+                                    <a href=" {{ url_for('main.download_budget_data', username=user.username) }} ">Click here</a>.
                                 </div>
                             </div>
                         </div>
@@ -139,7 +139,7 @@
                                                     <td>{{ item.date }}</td>
                                                     <td>{{ item.amount }}</td>
                                                     <td>
-                                                        <a href="{{ url_for('main.actual_income_delete', id=item.id) }}" class="btn btn-danger btn-xs">Delete</a>
+                                                        <a href="{{ url_for('main.actual_income_delete', username=user.username, id=item.id) }}" class="btn btn-danger btn-xs">Delete</a>
                                                     </td>
                                                 </tr>
                                             {% endfor %}
@@ -190,7 +190,7 @@
                             <div class="panel-body">
                                 <div>
                                     Want to download your income data? 
-                                    <a href=" {{ url_for('main.download_income_data') }} ">Click here</a>.
+                                    <a href=" {{ url_for('main.download_income_data', username=user.username) }} ">Click here</a>.
                                 </div>
                             </div>
                         </div>
@@ -229,7 +229,7 @@
                                                     <td>{{ expense.date }}</td>
                                                     <td>{{ expense.amount }}</td>
                                                     <td>
-                                                        <a class="label label-danger" href="{{ url_for('main.actual_expense_delete', id=expense.id) }}">Delete</a>
+                                                        <a class="label label-danger" href="{{ url_for('main.actual_expense_delete', username=user.username, id=expense.id) }}">Delete</a>
                                                     </td>
                                                 </tr>
                                             {% endfor %}
@@ -280,7 +280,7 @@
                             <div class="panel-body">
                                 <div>
                                     Want to download your expenses data? 
-                                    <a href=" {{ url_for('main.download_expenses_data') }} ">Click here</a>.
+                                    <a href=" {{ url_for('main.download_expenses_data', username=user.username,) }} ">Click here</a>.
                                 </div>
                             </div>
                         </div>
@@ -319,7 +319,7 @@
                                                     <td>{{ asset.date }}</td>
                                                     <td>{{ asset.amount }}</td>
                                                     <td>
-                                                        <a class="label label-danger" href="{{ url_for('main.asset_delete', id=asset.id) }}">Delete</a>
+                                                        <a class="label label-danger" href="{{ url_for('main.asset_delete', username=user.username, id=asset.id) }}">Delete</a>
                                                     </td>
                                                 </tr>
                                             {% endfor %}
@@ -370,7 +370,7 @@
                             <div class="panel-body">
                                 <div>
                                     Want to download your assets data? 
-                                    <a href=" {{ url_for('main.download_asset_data') }} ">Click here</a>.
+                                    <a href=" {{ url_for('main.download_asset_data', username=user.username,) }} ">Click here</a>.
                                 </div>
                             </div>
                         </div>
@@ -409,7 +409,7 @@
                                                     <td>{{ actual_liability.date }}</td>
                                                     <td>{{ actual_liability.amount }}</td>
                                                     <td>
-                                                        <a class="label label-danger" href="{{ url_for('main.liability_delete', id=actual_liability.id) }}">Delete</a>
+                                                        <a class="label label-danger" href="{{ url_for('main.liability_delete', username=user.username, id=actual_liability.id) }}">Delete</a>
                                                     </td>
                                                 </tr>
                                             {% endfor %}
@@ -460,7 +460,7 @@
                             <div class="panel-body">
                                 <div>
                                     Want to download your liabilities data? 
-                                    <a href=" {{ url_for('main.download_liabilities_data') }} ">Click here</a>.
+                                    <a href=" {{ url_for('main.download_liabilities_data', username=user.username,) }} ">Click here</a>.
                                 </div>
                             </div>
                         </div>

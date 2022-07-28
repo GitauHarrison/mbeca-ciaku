@@ -20,7 +20,7 @@
             <p>
                 Want to delete account? 
                 <span>
-                    <a class="delete-account" href=" {{ url_for('main.delete_account') }} ">Delete Account</a>
+                    <a class="delete-account" href=" {{ url_for('main.delete_account', username=user.username) }} ">Delete Account</a>
                 </span>
             </p>
             <hr>
