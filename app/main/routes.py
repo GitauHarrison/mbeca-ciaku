@@ -608,6 +608,7 @@ def download_income_data():
         session['year'] = download_data_form.year.data
         download_income_pdf(user)
         flash('Save popup should have been triggered.')
+        time.sleep(5)
         encrypt_pdf(
             input_pdf=current_app.config['PDF_FOLDER_PATH'] + 'income_data' + \
                 session['year'] + '.pdf',password=user.username)
@@ -615,7 +616,6 @@ def download_income_data():
         buffer.write(open(current_app.config['PDF_FOLDER_PATH'] + \
             'income_data' + session['year'] + '.pdf', 'rb').read())
         buffer.seek(0)
-        time.sleep(3)
         os.remove(current_app.config['PDF_FOLDER_PATH'] + 'income_data' + session['year'] + '.pdf')
         return send_file(
             buffer,
