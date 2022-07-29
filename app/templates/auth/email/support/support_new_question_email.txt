@@ -2,8 +2,8 @@
 
 Dear {{ support.username }},
 
-You have a new question. You can review it by clicking on the following link:
-{{  url_for('support.support_dashboard', username=support.username, _external=True) }}
+You have a new question. Log in by clicking the link below to review to it:
+{{  url_for('auth.support_login', _external=True) }}
 
 Click on the "Answer" link to respond to the question.
 
