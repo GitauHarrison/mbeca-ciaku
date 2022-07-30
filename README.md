@@ -16,6 +16,8 @@ Mbeca (pronounced as 'besha') means "money" and Ciaku (pronounced as 'shiaku') m
 - [How To Use The Application](#how-to-use-the-application)
 - [Testing The Application Locally](#testing-the-application-locally)
 - [Areas of improvement](#areas-of-improvement)
+- [Known Issues](#known-issues)
+- [Future Plans to Solve the Issues](#future-plans-to-solve-the-issues)
 
 ## Overview
 
@@ -128,7 +130,7 @@ User
 
 ## How To Use The Live Application
 
-- [Watch on YouTube]()
+- [Watch on YouTube](https://www.youtube.com/watch?v=qzvHaOdsNsU)
 
 Alternatively, you can do the following:
 
@@ -251,5 +253,17 @@ Alternatively, you can do the following:
 ## Areas of Improvement
 
 - [ ] User interface design
-- [ ] Proper display of multiple graphs on specific charts (based on the month an item is keyed in)
 - [ ] Scheduled email notifications to remind users to update their data at the end of a day
+
+
+## Known Issues
+
+
+- [ ] All users are loaded from the database on every page load. In the event event a user, a support and an admin are all logged in, and one out of the three does not log out, the application will still load the current user in the session. Trying to access the anonymous _about_ and _learn more_ pages will not load the session-bound navbar.
+- [ ] The chart currently displays all the data from the point (0, 0). This may not be accurate if a user updates their data at various stages of the year. Technically if, say, an income was added in July, then the graph should begin from July, not January.
+- [ ] If a user adds data, say income data, from the month of May when today is July, then the graph should update the user data to include the data from May as May not as July.
+
+## Future Plans to Solve the Issues
+
+
+- [ ] Use of data visualization tools such as [Seaborn](https://seaborn.pydata.org/), [plotly.express](https://plotly.com/python/plotly-express/) and [Matplotlib](https://matplotlib.org/) instead of Chart.js to create charts.
