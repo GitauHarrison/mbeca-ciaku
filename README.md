@@ -259,7 +259,7 @@ Alternatively, you can do the following:
 ## Known Issues
 
 
-- [ ] All users are loaded from the database on every page load. In the event event a user, a support and an admin are all logged in, and one out of the three does not log out, the application will still load the current user in the session. Trying to access the anonymous _about_ and _learn more_ pages will not load the session-bound navbar.
+- [ ] All users are loaded from the database on every page load. In the event a user, a support and an admin are all logged in, and one out of the three does not log out, the application will still load the current user in the session. Trying to access the anonymous _about_ and _learn more_ pages will not load the session-bound navbar.
 - [ ] The chart currently displays all the data from the point (0, 0). This may not be accurate if a user updates their data at various stages of the year. Technically if, say, an income was added in July, then the graph should begin from July, not January.
 - [ ] If a user adds data, say income data, from the month of May when today is July, then the graph should update the user data to include the data from May as May not as July.
 
