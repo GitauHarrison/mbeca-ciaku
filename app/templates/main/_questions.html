@@ -14,6 +14,7 @@
                 <span class="label label-primary"> {{ question.author.username }} </span>  
             {% else %}
                 <span class="label label-info"> {{ question.support.username }} </span>
+                <span class="label label-default">Support</span>
             {% endif %}
 
             said {{ moment(question.timestamp).fromNow() }}:
