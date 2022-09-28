@@ -17,7 +17,7 @@ class Config:
     PDF_FOLDER_PATH = os.environ.get('PDF_FOLDER_PATH') or os.path.join(basedir, 'pdf')
 
     # Questions per page
-    QUESTIONS_PER_PAGE = int(os.environ.get('QUESTIONS_PER_PAGE')) or 10
+    QUESTIONS_PER_PAGE = int(os.environ.get('QUESTIONS_PER_PAGE') or 10)
 
     # Twilio Verify
     TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
