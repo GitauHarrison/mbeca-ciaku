@@ -101,6 +101,7 @@ Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryptio
 ## Deployed Application
 
 - [x] [Mbeca Ciaku](https://mbecaciaku.herokuapp.com/) on Heroku
+- [x] [Mbeca Ciaku](https://mbeca-ciaku.onrender.com) on Render (main)
 
 
 ## User Roles
