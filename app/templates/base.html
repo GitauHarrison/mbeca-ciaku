@@ -1,166 +1,249 @@
-{% extends 'bootstrap/base.html' %}
-
-<!-- Link all style files here -->
-{% block head %}
-    {{  super() }}
-    {{ pagedown.html_head() }}
-    <!-- Add icon -->
-    <link rel="icon" href="{{ url_for('static', filename='images/money.png') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/16.0.4/css/intlTelInput.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
-{% endblock %}
-
-<!-- The title of our application is defined here -->
-{% block title %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Data Visualization, Flask, Python, Web Development, Money, Personal Finance">
     {% if title %}
-        {{ title }} - Mbeca Ciaku
+        <title> {{ title }} </title>
     {% else %}
-        Mbeca Ciaku
+        <title>Folks Sacco</title>
     {% endif %}
-{% endblock %}
+    <!-- ============================================== -->
+    <!-- Anonymous user -->
+    <!-- ============================================== -->
 
-<!-- This is the navbar -->
-{% block navbar %}
+    {% if current_user.is_anonymous %}        
+        <!-- Bootstrap CSS-->
+        <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
+        <!-- Ionicons CSS-->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/ionicons.min.css') }}">
+        <!-- Device mockups CSS-->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/device-mockups.css') }}">
+        <!-- Google fonts - Source Sans Pro-->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+        <!-- theme stylesheet-->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.default.css') }}" id="theme-stylesheet">
+        <!-- Custom stylesheet - for your changes-->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+        <!-- Favicon-->
+        <link rel="shortcut icon" href="{{ url_for('static', filename='images/money.png') }}">
+    {% endif %}   
+    <!--==================================================  -->
+    <!-- End of anonymous user -->
+    <!-- ================================================= -->
+
+
+    <!--==================================================  -->
+    <!-- Authenticated user -->
+    <!-- ================================================= -->
+
     {% if current_user.is_authenticated %}
-    <nav class="navbar navbar-default">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                {% if user %}
-                    <a class="navbar-brand" href=" {{ url_for('main.index',username=user.username) }} ">Mbeca Ciaku</a>
-                {% elif admin %}
-                    <a class="navbar-brand" href=" {{ url_for('admin.admin_dashboard', username=admin.username) }} ">Mbeca Ciaku</a>
-                {% elif support %}
-                    <a class="navbar-brand" href=" {{ url_for('support.support_dashboard', username=support.username) }} ">Mbeca Ciaku</a>
-                {% endif %}
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">            
-                <ul class="nav navbar-nav navbar-right">
-                    {% if user %}
-                        <li><a href="{{ url_for('main.update', username=user.username) }}">Update</a></li>
-                        <li><a href=" {{ url_for('main.help', username=user.username) }} ">Need Help?</a></li>
-                        <li>
-                            <a href="{{ url_for('auth.logout') }}">
-                            {{ user.username }} 
-                                <img class="img-fluid" style="height: 20px; width: 20px;" src=" {{ url_for('static', filename='images/logout.png') }} " alt="Logout">
-                            </a>
-                        </li>
-                    {% elif support %}
-                    <li>
-                        <a href="{{ url_for('auth.support_logout') }}">
-                        {{ support.username }} 
-                            <img class="img-fluid" style="height: 20px; width: 20px;" src=" {{ url_for('static', filename='images/logout.png') }} " alt="Logout">
-                        </a>
-                    </li>
-                    {% elif admin %}
-                    <li>
-                        <a href="{{ url_for('auth.admin_logout') }}">
-                        {{ admin.username }} 
-                            <img class="img-fluid" style="height: 20px; width: 20px;" src=" {{ url_for('static', filename='images/logout.png') }} " alt="Logout">
-                        </a>
-                    </li>
-                    {% endif %}
-                </ul>                      
-            </div>
-        </div>
-    </nav>
-    {% else %}
-    <nav class="navbar navbar-default">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href=" {{ url_for('main.about') }} ">Mbeca Ciaku</a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">            
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href=" {{ url_for('auth.login') }} ">Login</a></li>
-                </ul>                      
-            </div>
-        </div>
-    </nav>
+        {{  super() }}
+        {{ pagedown.html_head() }}
+        <!-- Add icon -->
+        <link rel="icon" href="{{ url_for('static', filename='images/money.png') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/16.0.4/css/intlTelInput.css">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     {% endif %}
-{% endblock %}
 
-<!-- Contents of all our pages will go here -->
-{% block content %}
-    <div class="container">
+    <!--==================================================  -->
+    <!-- End of authenticated user -->
+    <!-- ================================================= -->
 
-        <!-- Flash message -->
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert alert-success">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-        <!-- End of flash message -->
-        {% block app_context %}{% endblock %}
+</head>
+<body>
+    <!-- ============================================== -->
+    <!-- Anonymous user -->
+    <!-- ============================================== -->
+    {% if current_user.is_anonymous %}        
 
-        {% if current_user.is_anonymous %}
-            {% block footer %}    
-                <div class="row footer">
-                    <div class="col-md-12 text-center">
-                        <hr>
-                        <small>&copy; Mbeca Ciaku - {{ moment().format('YYYY') }}</small> | 
-                        <small>
-                            <a href=" https://github.com/GitauHarrison/mbeca-ciaku ">
-                                <img style="border: 1px solid #fff; width: 24px; height:24px;" src=" {{ url_for('static', filename='images/github.png') }} " alt="GitHub">
-                            </a> 
-                            <a href=" https://twitter.com/GitauHarrison1 ">
-                                <img style="border: 1px solid #fff; width: 24px; height:24px;" src=" {{ url_for('static', filename='images/twitter.png') }} " alt="GitHub">
-                            </a>
-                        </small>
-                    </div>
+        <!-- navbar-->
+        <header class="header">
+            <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <!-- Navbar brand--><a href="{{ url_for('main.about') }}" class="navbar-brand font-weight-bold"><h4><span style="color: black;">Mbeca</span>Ciaku</h4></a>
+                <!-- Navbar toggler button-->
+                <button type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler navbar-toggler-right">Menu<i class="icon ion-md-list ml-2"></i></button>
+                <div id="navbarSupportedContent" class="collapse navbar-collapse">
+                    <ul class=" ml-auto"></ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a href="# " data-toggle="modal" data-target="#login" class="nav-link font-weight-bold mr-3">Login</a></li>
+                        <li class="nav-item"><a href="#" data-toggle="modal" data-target="#register" class="navbar-btn btn btn-primary">Register</a></li>
+                    </ul>
                 </div>
-            {% endblock %}
-        {% endif %}
-    </div>
-{% endblock %}
+            </div>
+            </nav>
+        </header>
+        <!-- Login Modal-->
+        <div id="login" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade bd-example-modal-lg">
+            <div role="document" class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body p-4 p-lg-5">
+                    <form action="{{ url_for('auth.login') }}" class="login-form text-left">
+                        <legend style="text-decoration: underline purple 5px;" class="text-center mb-4">Login</legend>
+                        <div class="form-group mb-4">
+                            <label>Username</label>
+                            <input type="text" name="username" placeholder="Muthoni" class="form-control" required>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label>Password</label>
+                            <input 
+                                type="password" 
+                                name="password" 
+                                placeholder="Hard2Gue3" 
+                                class="form-control" 
+                                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
+                                title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" 
+                                required>
+                        </div>                        
+                        <div class="form-group">
+                            <input type="submit" value="Login" class="btn btn-primary">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            </div>
+        </div>
+        <!-- Register Modal-->
+        <div id="register" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade bd-example-modal-lg">
+            <div role="document" class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body p-4 p-lg-5">
+                    <form action="{{ url_for('auth.register') }}" class="login-form text-left">
+                        <legend style="text-decoration: underline purple 5px;" class="text-center mb-4">Register</legend>
+                        <div class="form-group mb-4">
+                            <label>Username</label>
+                            <input type="tect" name="username" placeholder="Muthoni" class="form-control" required>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label>Password</label>
+                            <input 
+                                type="password" 
+                                name="password" 
+                                placeholder="Hard2Gue3" 
+                                class="form-control" 
+                                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
+                                title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" 
+                                required>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label>Confirm Password</label>
+                            <input 
+                                type="password" 
+                                name="password" 
+                                placeholder="Hard2Gue3" 
+                                class="form-control" 
+                                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
+                                title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" 
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Register" class="btn btn-primary">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            </div>
+        </div>
 
-<!-- All scripts will go here -->
-{% block scripts %}
-    {{  super() }}
-    {{ moment.include_moment() }}
-    <!-- ChartJS -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <!-- Other pages -->
+        {% block anonymous_content %}
+        
+        <div class="containter">
+            <!-- Flash message -->
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <!-- End of flash message -->
+        </div>
+        {% endblock %}
+        <!-- End of other pages -->
 
-    <!-- DatatableJS -->
-    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container text-center">
+            <!-- Copyrights-->
+            <div class="copyrights">
+                <!-- Social menu-->
+                <ul class="social list-inline-item">
+                    <li class="list-inline-item"><a href=" https://twitter.com/GitauHarrison1 " target="_blank" class="social-link"><i class="icon ion-logo-twitter"></i></a></li>
+                    <li class="list-inline-item"><a href=" https://github.com/GitauHarrison/mbeca-ciaku " target="_blank" class="social-link"><i class="icon ion-logo-github"></i></a></li>
+                    <li class="list-inline-item"><a href=" https://www.youtube.com/watch?v=qzvHaOdsNsU&ab_channel=GitauHarrison " target="_blank" class="social-link"><i class="icon ion-logo-youtube"></i></a></li>                    
+                </ul>
+                <p class="copyrights-text mb-0">&copy; {{ moment().format('YYYY') }} — Mbeca Ciaku</p>
+            </div>
+            </div>
+        </footer>
+        <!-- End of footer -->
 
-    <!-- Phone verification field -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/16.0.4/js/intlTelInput-jquery.min.js"></script>
-    
-    <script>
-        $("#verification_phone").css({position: 'absolute', top: '-9999px', left: '-9999px'});
-        $("#verification_phone").parent().append('<div><input type="tel" id="_verification_phone"></div>');
-        $("#_verification_phone").intlTelInput({
-            separateDialCode: true,
-            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/16.0.4/js/utils.js",
-        });
-        $("#_verification_phone").intlTelInput("setNumber", $('#verification_phone').val());
-        $('#_verification_phone').blur(function() {
-            $('#verification_phone').val($('#_verification_phone').intlTelInput("getNumber"));
-        });
-    </script>
+        <!-- JavaScript files-->
+        <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js') }}"></script>
 
-    <!-- Custom scripts -->
-    {% block app_scripts %}{% endblock %}
-    
-{% endblock %}
+        <!-- MomentJS -->
+        {{ moment.include_moment() }}
+
+        
+    {% endif %}
+    <!--==================================================  -->
+    <!-- End of anonymous user -->
+    <!-- ================================================= -->
+
+
+    <!--==================================================  -->
+    <!-- Authenticated user -->
+    <!-- ================================================= -->
+
+    {% if current_user.is_authenticated %}
+        {{  super() }}
+        {{ moment.include_moment() }}
+        <!-- ChartJS -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <!-- DatatableJS -->
+        <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+
+        <!-- Phone verification field -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/16.0.4/js/intlTelInput-jquery.min.js"></script>
+        
+        <script>
+            $("#verification_phone").css({position: 'absolute', top: '-9999px', left: '-9999px'});
+            $("#verification_phone").parent().append('<div><input type="tel" id="_verification_phone"></div>');
+            $("#_verification_phone").intlTelInput({
+                separateDialCode: true,
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/16.0.4/js/utils.js",
+            });
+            $("#_verification_phone").intlTelInput("setNumber", $('#verification_phone').val());
+            $('#_verification_phone').blur(function() {
+                $('#verification_phone').val($('#_verification_phone').intlTelInput("getNumber"));
+            });
+        </script>
+
+        <!-- Custom scripts -->
+        {% block app_scripts %}{% endblock %}
+    {% endif %}
+    <!--==================================================  -->
+    <!-- End of authenticated user -->
+    <!-- ================================================= -->
+
+</body>
+</html>
