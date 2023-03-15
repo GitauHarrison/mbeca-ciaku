@@ -1,3 +1,6 @@
+// =====================================
+// PASSWORD VALIDATION
+// =====================================
 var myInput = document.getElementById("password");
 var letter = document.getElementById("letter");
 var capital = document.getElementById("capital");
@@ -165,3 +168,43 @@ myInputRegisterConfirmPassword.onkeyup = function() {
       length_register_confirm_password.classList.add("invalid");
     }
 }
+
+// =====================================
+// END OF PASSWORD VALIDATION
+// =====================================
+
+
+
+
+// =====================================
+// SHOW PASSWORD
+// =====================================
+
+function myFunction() {
+    var login_password = document.getElementById("password");
+    if (login_password.type === "password") {
+        login_password.type = "text";
+    } else {
+        login_password.type = "password";
+    }
+  }
+  function myPasswordFunction() {
+    var register_password = document.getElementById("register_password");
+    if (register_password.type === "password") {
+        register_password.type = "text";
+    } else {
+        register_password.type = "password";
+    }
+  }
+function myConfirmPasswordFunction() {
+    var register_confirm_password = document.getElementById("register_confirm_password");
+    if (register_confirm_password.type === "password") {
+        register_confirm_password.type = "text";
+    } else {
+        register_confirm_password.type = "password";
+    }
+ }
+
+// =====================================
+// END OF SHOW PASSWORD
+// =====================================

@@ -93,7 +93,7 @@
                             <label>Username</label>
                             <input type="text" name="username" placeholder="Muthoni" class="form-control" required>
                         </div>
-                        <div class="form-group mb-4">
+                        <div class="form-group mb-2">
                             <label>Password</label>
                             <input 
                                 id="password"
@@ -103,8 +103,11 @@
                                 class="form-control" 
                                 pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
                                 title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" 
-                                required>
-                        </div>                        
+                                required>                            
+                        </div>  
+                        <div class="form-group mb-4">
+                            <input type="checkbox" onclick="myFunction()"> Show Password
+                        </div>                      
                         <div class="form-group">
                             <input type="submit" value="Login" class="btn btn-primary">
                         </div>
@@ -135,7 +138,7 @@
                             <label>Username</label>
                             <input type="tect" name="username" placeholder="Muthoni" class="form-control" required>
                         </div>
-                        <div class="form-group mb-4">
+                        <div class="form-group mb-2">
                             <label>Password</label>
                             <input 
                                 type="password" 
@@ -145,8 +148,11 @@
                                 class="form-control" 
                                 pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
                                 title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" 
-                                required>
+                                required>                            
                         </div>
+                        <div class="form-group mb-4">
+                            <input type="checkbox" onclick="myPasswordFunction()"> Show Password
+                        </div> 
                         <!-- Password message -->
                         <div id="register_password_message">
                             <h5>Password must contain the following:</h5>
@@ -155,7 +161,7 @@
                             <p id="number_register_password" class="invalid">A <b>number</b></p>
                             <p id="length_register_password" class="invalid">Minimum <b>8 characters</b></p>
                         </div>
-                        <div class="form-group mb-4">
+                        <div class="form-group mb-2">
                             <label>Confirm Password</label>
                             <input 
                                 type="password" 
@@ -167,6 +173,9 @@
                                 title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" 
                                 required>
                         </div>
+                        <div class="form-group mb-4">
+                            <input type="checkbox" onclick="myConfirmPasswordFunction()"> Show Password
+                        </div> 
                         <!-- Password message -->
                         <div id="register_confirm_password_message">
                             <h5>Password must contain the following:</h5>
