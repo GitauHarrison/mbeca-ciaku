@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block authenticated_content%}
+    <!-- Statistics Section-->
+    <section class="py-5">
+        <div class="container-fluid">
+          <div class="row align-items-stretch gy-4">
+            <div class="col-lg-3">
+              <!-- Income-->
+              <div class="card text-center h-100 mb-0">
+                <div class="card-body">
+                  <svg class="svg-icon svg-icon-big svg-icon-light mb-4 text-muted">
+                    <use xlink:href="#sales-up-1"> </use>
+                  </svg>
+                  <p class="text-gray-700 display-6">126,418</p>
+                  <p class="text-primary h2 fw-bold">
+                    <a href="#">All Income</a>
+                  </p>
+                  <p class="text-xs text-gray-600 mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3">
+                <!-- Expenses-->
+                <div class="card text-center h-100 mb-0">
+                  <div class="card-body">
+                    <svg class="svg-icon svg-icon-big svg-icon-light mb-4 text-muted">
+                      <use xlink:href="#sales-up-1"> </use>
+                    </svg>
+                    <p class="text-gray-700 display-6">126,418</p>
+                    <p class="text-primary h2 fw-bold">
+                        <a href="">All Expenses</a>
+                    </p>
+                    <p class="text-xs text-gray-600 mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3">
+                <!-- Liabilities-->
+                <div class="card text-center h-100 mb-0">
+                  <div class="card-body">
+                    <svg class="svg-icon svg-icon-big svg-icon-light mb-4 text-muted">
+                      <use xlink:href="#sales-up-1"> </use>
+                    </svg>
+                    <p class="text-gray-700 display-6">126,418</p>
+                    <p class="text-primary h2 fw-bold">
+                        <a href="#">All Liabilities</a>
+                    </p>
+                    <p class="text-xs text-gray-600 mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3">
+                <!-- Assets-->
+                <div class="card text-center h-100 mb-0">
+                  <div class="card-body">
+                    <svg class="svg-icon svg-icon-big svg-icon-light mb-4 text-muted">
+                      <use xlink:href="#sales-up-1"> </use>
+                    </svg>
+                    <p class="text-gray-700 display-6">126,418</p>
+                    <p class="text-primary h2 fw-bold">
+                        <a href="#">All Assets</a>
+                    </p>
+                    <p class="text-xs text-gray-600 mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do.</p>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </section>
+      <!-- Header Section-->
+      <section class="bg-white py-5">
+        <div class="container-fluid">
+          <div class="row d-flex align-items-md-stretch">
+            <!-- Line Chart -->
+            <div class="col-lg-6 col-md-12">
+              <div class="card shadow-0">
+                <h2 class="h3 fw-normal">Income</h2>
+                <p class="text-sm text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor amet officiis</p>
+                <canvas id="income"></canvas>
+              </div>
+            </div>
+            <!-- Expenses -->
+            <div class="col-lg-6 col-md-12">
+                <div class="card shadow-0">
+                  <h2 class="h3 fw-normal">Expenses</h2>
+                  <p class="text-sm text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor amet officiis</p>
+                  <canvas id="expenses"></canvas>
+                </div>
+              </div>
+          </div>
+          <div class="row d-flex align-items-md-stretch">
+            <!-- Line Chart -->
+            <div class="col-lg-6 col-md-12">
+              <div class="card shadow-0">
+                <h2 class="h3 fw-normal">Liabilities</h2>
+                <p class="text-sm text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor amet officiis</p>
+                <canvas id="liabilities"></canvas>
+              </div>
+            </div>
+            <!-- Expenses -->
+            <div class="col-lg-6 col-md-12">
+                <div class="card shadow-0">
+                  <h2 class="h3 fw-normal">Assets</h2>
+                  <p class="text-sm text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor amet officiis</p>
+                  <canvas id="assets"></canvas>
+                </div>
+              </div>
+          </div>
+        </div>
+      </section>
+{% endblock %}
