@@ -28,12 +28,12 @@ def register():
             user.set_password(request.form['password'])
         else:
             flash('Your passwords do not match. Try again')
-            return redirect(url_for('register_user'))
+            return redirect(url_for('main.about'))
         db.session.add(user)
         db.session.commit()
         flash('You have been registered successfully. Login to continue.')
-        return redirect(url_for('auth.login'))
-    return redirect(url_for('main.about'))
+        return redirect(url_for('main.about'))
+    return render_template('main/about.html', title='Mbeca Ciaku')
 
 
 @bp.route('/login', methods=['GET', 'POST'])
@@ -44,7 +44,7 @@ def login():
         user = User.query.filter_by(username=request.form['username']).first()
         if user is None or not user.check_password(request.form['password']):
             flash('Invalid username or password')
-            return redirect(url_for('auth.login'))
+            return redirect(url_for('main.about'))
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('user.dashboard')
@@ -60,7 +60,7 @@ def login():
         login_user(user)
         flash(f'Welcome back, {user.username}')
         return redirect(next_page)
-    return redirect(url_for('main.about'))
+    return render_template('main/about.html', title='Mbeca Ciaku')
 
 
 @bp.route('/logout')
