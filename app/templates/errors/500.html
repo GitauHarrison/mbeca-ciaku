@@ -1,16 +1,35 @@
 {% extends 'base.html' %}
 
-{% block app_context %}
-<div class="row text-center error">
-    <div class="col-md-4"><!-- Empty col --></div>
-    <div class="col-md-4">
-        <h1>Unexpected Error</h1>
-        <p>
-            There has been an unexpected error. The administrator has been notified.
-            Sorry for the inconvinience. Please try again later or go to the 
-            <a href="{{ url_for('main.about') }}">landing page</a>.
-        </p>
+{% if current_user.is_anonymous %}
+    {% block anonymous_content %}
+    <div class="row text-center error">
+        <div class="col-md-4"><!-- Empty col --></div>
+        <div class="col-md-4">
+            <h1>Unexpected Error</h1>
+            <p>
+                There has been an unexpected error. The administrator has been notified.
+                Sorry for the inconvinience. Please try again later or go back to the 
+                <a href="{{ url_for('main.about') }}">home page</a>.
+            </p>
+        </div>
+        <div class="col-md-4"><!-- Empty col --></div>
     </div>
-    <div class="col-md-4"><!-- Empty col --></div>
-</div>
-{% endblock %}
+    {% endblock %}
+{% endif %}
+
+{% if current_user.is_authenticated %}
+    {% block authenticated_content %}
+    <div class="row text-center error">
+        <div class="col-md-4"><!-- Empty col --></div>
+        <div class="col-md-4">
+            <h1>Unexpected Error</h1>
+            <p>
+                There has been an unexpected error. The administrator has been notified.
+                Sorry for the inconvinience. Please try again later or go back to the 
+                <a href="{{ url_for('user.dashboard') }}">home page</a>.
+            </p>
+        </div>
+        <div class="col-md-4"><!-- Empty col --></div>
+    </div>
+    {% endblock %}
+{% endif %}
