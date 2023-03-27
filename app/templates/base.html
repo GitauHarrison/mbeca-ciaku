@@ -172,7 +172,7 @@
                                 id="register_confirm_password" 
                                 name="confirm_password"
                                 placeholder="Hard2Gue3" 
-                                class="form-control" 
+                              class="form-control" 
                                 pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
                                 title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" 
                                 required>
@@ -198,9 +198,9 @@
         </div>
 
         <!-- Other pages -->
-        {% block anonymous_content %}
+        {% block app_content %}
         
-        <div class="containter">
+        <div class="containter text-center mb-0 pb-0">
             <!-- Flash message -->
             {% with messages = get_flashed_messages() %}
                 {% if messages %}
@@ -213,6 +213,9 @@
             {% endwith %}
             <!-- End of flash message -->
         </div>
+
+        {% block anonymous_content %}{% endblock %}
+
         {% endblock %}
         <!-- End of other pages -->
 
@@ -233,7 +236,7 @@
         </footer>
         <!-- End of footer -->
 
-        <!-- JavaScript files-->
+        <!-- JavaScript files-->        
         <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
         <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js') }}"></script>
         <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
@@ -340,21 +343,23 @@
           </nav>
         </header>
 
-        {% block authenticated_content %}
-        
-         <!-- Flash message -->
-         {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert alert-success">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-        <!-- End of flash message -->
+       {% block dashboard %}      
+          <div class="text-center">
+            <!-- Flash message -->
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                  {% for message in messages %}
+                      <div class="alert alert-success">
+                          {{ message }}
+                      </div>
+                  {% endfor %}
+              {% endif %}
+            {% endwith %}
+            <!-- End of flash message -->
+          </div>
 
-        {% endblock %}        
+          {% block authenticated_content %}{% endblock %}  
+       {% endblock %}
 
         <!-- Footer -->
         <footer class="main-footer w-100 position-absolute bottom-0 start-0 py-2" style="background: #222">
