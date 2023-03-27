@@ -69,7 +69,7 @@ def create_app(config_class=Config):
                 secure = ()
             mail_handler = SMTPHandler(
                 mailhost=(app.config['MAIL_SERVER'], app.config['MAIL_PORT']),
-                fromaddr='noreply@' + app.config['MAIL_SERVER'],
+                fromaddr=app.config['MAIL_DEFAULT_SENDER'],
                 toaddrs=app.config['ADMINS'],
                 subject='Mbeca Ciaku Failure',
                 credentials=auth, secure=secure)
