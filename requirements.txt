@@ -24,7 +24,7 @@ importlib-metadata==4.11.2
 importlib-resources==5.4.0
 itsdangerous==2.1.0
 Jinja2==3.0.3
-Mako==1.1.6
+Mako==1.2.2
 Markdown==3.4.1
 MarkupSafe==2.1.0
 phonenumbers==8.12.51
