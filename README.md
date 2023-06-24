@@ -1,5 +1,7 @@
 # Mbeca Ciaku
 
+_This application is currently under development for Version2. You may find a lot of the parts are broken. Onc everything has been modified and fixed, I will make a note of it here._
+
 Mbeca (pronounced as 'besha') means "money" and Ciaku (pronounced as 'shiaku') means "mine" in Kikuyu, one of the venacular languages in Kenya. Put together, you get "My money". This project is aimed at helping a user to visualize his money.
 
 ![Project image here](/app/static/images/mbeca_ciaku.gif)
@@ -100,7 +102,7 @@ Inspired by [MPesa](https://en.wikipedia.org/wiki/M-Pesa), I found the encryptio
 
 ## Deployed Application
 
-- [x] [Mbeca Ciaku](https://mbecaciaku.herokuapp.com/) on Heroku
+- [x] ~~[Mbeca Ciaku](https://mbecaciaku.herokuapp.com/) on Heroku~~ (no longer working)
 - [x] [Mbeca Ciaku](https://mbeca-ciaku.onrender.com) on Render (main)
 
 
